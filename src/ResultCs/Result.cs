@@ -4,5 +4,6 @@ public interface Result<T, E>
 {
   ResultKind Kind { get; }
   T Unwrap();
-  Option<E> Err { get; }
+  Option<E> ErrOption();
+  Option<T> OkOption();
 }
