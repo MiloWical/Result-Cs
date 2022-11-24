@@ -1,8 +1,10 @@
-﻿// https://doc.rust-lang.org/std/option/enum.Option.html#
+﻿namespace WicalWare.Components.ResultCs;
+
+// https://doc.rust-lang.org/std/option/enum.Option.html
 public class Option<T>
 {
   // Imp Test Sig
-  // ✓        Option<U> And<U>(Option<U> optB)
+  // ✓        Option<U> And<U>(Option<U> optB) <-- Still need to write mismatched type test
   //          Option<U> AndThen<U>(Func<Option<U>> f)
   //          T Expect(string message)
   //          Option<T> Filter(Func<T, bool> predicate)
