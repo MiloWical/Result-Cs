@@ -62,6 +62,38 @@ public class Option<T>
     };
   }
 
+  public override bool Equals(object? other)
+  {
+    if(other == null) ArgumentNullException.ThrowIfNull(other);
+
+    var otherOption = (Option<T>) other;
+
+    if(this.Kind != otherOption.Kind)
+      return false;
+
+    if(this.IsNone() && otherOption.IsNone())
+      return true;
+
+    if(_value == null)
+    {
+      if(otherOption.Unwrap() == null)
+        return true;
+
+      return false;
+    }
+
+    if(_value.Equals(otherOption.Unwrap()))
+      return true;
+
+    return false;
+  }
+
+  public static bool operator == (Option<T> opt1, Option<T> opt2) => opt1.Equals(opt2);
+
+  public static bool operator != (Option<T> opt1, Option<T> opt2) => !(opt1.Equals(opt2));
+
+  public override int GetHashCode() => ((object) this).GetHashCode();
+
   public T Unwrap()
   {
     if (IsNone()) throw new UnwrapException();
@@ -198,6 +230,25 @@ public class Option<T>
 #if TEST
 public class OptionTests
 {
+  private static Option<int> ToOption(int? val)
+  {
+    return val == null ? Option<int>.None() : Option<int>.Some(val.Value);
+  }
+
+  [Theory]
+  [InlineData(null, null, true)]
+  [InlineData(1, 1, true)]
+  [InlineData(null, 1, false)]
+  [InlineData(1, null, false)]
+  [InlineData(1, 2, false)]
+  public void EqualsTest(int? val1, int? val2, bool expectedResult)
+  {
+    var x = ToOption(val1);
+    var y = ToOption(val2);
+    
+    Assert.Equal(expectedResult, x.Equals(y));
+  }
+
   [Fact]
   public void SomeKindReturnValue()
   {
@@ -255,6 +306,20 @@ public class OptionTests
 
     Assert.True(option.IsNone());
     Assert.False(option.IsSome());
+  }
+
+  [Theory]
+  [InlineData(null, null, null)]
+  [InlineData(2, null, null)]
+  [InlineData(null, 2, null)]
+  [InlineData(1, 2, 2)]
+  public void AndTests(int? val1, int? val2, int? expectedValue)
+  {
+    var x = val1 == null ? Option<int>.None() : Option<int>.Some(val1.Value);
+    var y = val2 == null ? Option<int>.None() : Option<int>.Some(val2.Value);
+    var expectedResult = expectedValue == null ? Option<int>.None() : Option<int>.Some(expectedValue.Value);
+
+    Assert.Equal(expectedResult, x.And(y));
   }
 }
 #endif
