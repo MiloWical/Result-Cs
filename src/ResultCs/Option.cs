@@ -15,10 +15,10 @@ public class Option<T>
   // ✓   ✓    bool IsNone()
   // ✓   ✓    bool IsSome()
   //          bool IsSomeAnd(Func<T, bool> f)
-  //          IEnumerable<T> Iter()
+  //          IEnumerable<Option<T>> Iter()
   //          Option<U> Map<U>(Func<T, U> f)
-  //          U MapOr<U>(U default, Func<T, U> f)
-  //          U MapOrElse<U>(Func<U> default, Func<T, U> f)
+  //          U MapOr<U>(U def, Func<T, U> f)
+  //          U MapOrElse<U>(Func<U> def, Func<T, U> f)
   //          Result<T, E> OkOr<E>(E err)
   //          Result<T, E> OkOrElse<E>(Func<E> err)
   //          Option<T> Or(Option<T> optB)
@@ -27,7 +27,7 @@ public class Option<T>
   //          Option<T> Take()
   //          Result<Option<T>, E> Transpose<E>()
   // ✓   ✓    T Unwrap()
-  //          T UnwrapOr(T default)
+  //          T UnwrapOr(T def)
   //          T UnwrapOrDefault()
   //          T UnwrapOrElse(Func<T> f)
   //          Option<T> Xor(Option<T> optB)
@@ -163,7 +163,7 @@ public class Option<T>
     throw new NotImplementedException();
   }
 
-  public IEnumerable<T> Iter()
+  public IEnumerable<Option<T>> Iter()
   {
     throw new NotImplementedException();
   }
@@ -183,12 +183,12 @@ public class Option<T>
     throw new NotImplementedException();
   }
 
-  public Result<T, E> OkOr<E>(E err)
+  public Result<T, E> OkOr<E>(E err) where E : Exception
   {
     throw new NotImplementedException();
   }
 
-  public Result<T, E> OkOrElse<E>(Func<E> err)
+  public Result<T, E> OkOrElse<E>(Func<E> err) where E : Exception
   {
     throw new NotImplementedException();
   }
@@ -213,7 +213,7 @@ public class Option<T>
     throw new NotImplementedException();
   }
 
-  public Result<Option<T>, E> Transpose<E>()
+  public Result<Option<T>, E> Transpose<E>() where E : Exception
   {
     throw new NotImplementedException();
   }
