@@ -1,7 +1,7 @@
 namespace WicalWare.Components.ResultCs;
 
 // https://doc.rust-lang.org/std/result/enum.Result.html
-public class Result<T, E> where E: Exception
+public class Result<T, E>
 {
   // Imp Test Sig
   //          Result<U, E> And<U>(Result<U, E> optB)
@@ -143,7 +143,7 @@ public class Result<T, E> where E: Exception
     throw new NotImplementedException();
   }
   
-  public Result<T, F> MapErr<F>(Func<E, F> op) where F : Exception
+  public Result<T, F> MapErr<F>(Func<E, F> op)
   {
     throw new NotImplementedException();
   }
@@ -163,12 +163,12 @@ public class Result<T, E> where E: Exception
     throw new NotImplementedException();
   }
   
-  public Result<T, F> Or<F>(Result<T, F> res) where F : Exception
+  public Result<T, F> Or<F>(Result<T, F> res)
   {
     throw new NotImplementedException();
   }
   
-  public Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) where F : Exception
+  public Result<T, F> OrElse<F>(Func<E, Result<T, F>> op)
   {
     throw new NotImplementedException();
   }

@@ -183,12 +183,12 @@ public class Option<T>
     throw new NotImplementedException();
   }
 
-  public Result<T, E> OkOr<E>(E err) where E : Exception
+  public Result<T, E> OkOr<E>(E err)
   {
     throw new NotImplementedException();
   }
 
-  public Result<T, E> OkOrElse<E>(Func<E> err) where E : Exception
+  public Result<T, E> OkOrElse<E>(Func<E> err)
   {
     throw new NotImplementedException();
   }
@@ -213,7 +213,7 @@ public class Option<T>
     throw new NotImplementedException();
   }
 
-  public Result<Option<T>, E> Transpose<E>() where E : Exception
+  public Result<Option<T>, E> Transpose<E>()
   {
     throw new NotImplementedException();
   }
