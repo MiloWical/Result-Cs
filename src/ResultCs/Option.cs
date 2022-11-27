@@ -4,7 +4,7 @@
 public class Option<T>
 {
   // Comment Imp Test Sig
-  // ✓       ✓        Option<U> And<U>(Option<U> optB) <-- Still need to write mismatched type test
+  // ✓       ✓   ✓    Option<U> And<U>(Option<U> optB)
   // ✓                Option<U> AndThen<U>(Func<T, Option<U>> f)
   //                  T Expect(string message)
   //                  Option<T> Filter(Func<T, bool> predicate)
@@ -968,13 +968,26 @@ public class OptionTests
   [InlineData(2, null, null)]
   [InlineData(null, 2, null)]
   [InlineData(1, 2, 2)]
-  public void AndTests(int? val1, int? val2, int? expectedValue)
+  [InlineData("foo", 2, 2)]
+  [InlineData(2, "bar", "bar")]
+  [InlineData("foo", null, null)]
+  public void AndTests(object? val1, object? val2, object? expectedValue)
   {
-    var x = ToOption<int?>(val1);
-    var y = ToOption<int?>(val2);
-    var expectedResult = ToOption<int?>(expectedValue);
+    var x = ToOption<object?>(val1);
+    var y = ToOption<object?>(val2);
+    var expectedResult = ToOption<object?>(expectedValue);
 
     Assert.Equal(expectedResult, x.And(y));
+  }
+
+  [Fact]
+  public void AndMistmatchedTypeTest()
+  {
+    var x = Option<int>.Some(2);
+    var y = Option<string>.Some("foo");
+
+    Assert.IsType<string>(x.And<string>(y).Unwrap());
+    Assert.IsType<int>(y.And<int>(x).Unwrap());
   }
 }
 #endif
