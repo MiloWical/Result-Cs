@@ -5,7 +5,7 @@ public class Option<T>
 {
   // Comment Imp Test Sig
   // ✓       ✓   ✓    Option<U> And<U>(Option<U> optB)
-  // ✓                Option<U> AndThen<U>(Func<T, Option<U>> f)
+  //                  Option<U> AndThen<U>(Func<T, Option<U>> f)
   //                  T Expect(string message)
   //                  Option<T> Filter(Func<T, bool> predicate)
   //                  Option<T> Flatten()
@@ -105,21 +105,21 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let x = Some(2);
-  /// let y: Option<&str> = None;
-  /// assert_eq!(x.and(y), None);
+  /// var x = Option<int>.Some(2);
+  /// var y = Option<string>.None();
+  /// Assert.True(x.And<string>(y).IsNone());
   ///
-  /// let x: Option<u32> = None;
-  /// let y = Some("foo");
-  /// assert_eq!(x.and(y), None);
+  /// var x = Option<int>.None();
+  /// var y = Option<string>.Some("foo");
+  /// Assert.True(x.And<string>(y).IsNone());
   ///
-  /// let x = Some(2);
-  /// let y = Some("foo");
-  /// assert_eq!(x.and(y), Some("foo"));
+  /// var x = Option<int>.Some(2);
+  /// var y = Option<string>.Some("foo");
+  /// Assert.Equal(x.And<string>(y), Option<string>.Some("foo"));
   ///
-  /// let x: Option<u32> = None;
-  /// let y: Option<&str> = None;
-  /// assert_eq!(x.and(y), None);
+  /// var x = Option<int>.None();
+  /// var y = Option<string>.None();
+  /// Assert.True(x.And<string>(y).IsNone());
   /// </code>
   /// </example>
   /// </summary>
@@ -985,9 +985,15 @@ public class OptionTests
   {
     var x = Option<int>.Some(2);
     var y = Option<string>.Some("foo");
+    var z = Option<bool>.None();
 
     Assert.IsType<string>(x.And<string>(y).Unwrap());
     Assert.IsType<int>(y.And<int>(x).Unwrap());
+
+    Assert.True(x.And<bool>(z).IsNone());
+    Assert.True(y.And<bool>(z).IsNone());
+    Assert.True(z.And<int>(x).IsNone());
+    Assert.True(z.And<string>(y).IsNone());
   }
 }
 #endif
