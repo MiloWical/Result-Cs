@@ -6,39 +6,39 @@ namespace WicalWare.Components.ResultCs;
 // https://doc.rust-lang.org/std/result/enum.Result.html
 public class Result<T, E>
 {
-  // Imp Test Sig
-  //          Result<U, E> And<U>(Result<U, E> optB)
-  //          Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
-  //          Option<E> Err()
-  //          T Expect(string msg)
-  //          E ExpectErr(string msg)
-  //          bool IsErr()
-  //          bool IsOk()
-  //          IEnumerable<Option<T>> Iter()
-  //          Result<U, E> Map<U>(Func<T, U> op)
-  //          Result<T, F> MapErr<F>(Func<E, F> op)
-  //          U MapOr<U>(U def, Func<T, U> f)
-  //          U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
-  //          Option<T> Ok()
-  //          Result<T, F> Or<F>(Result<T, F> res)
-  //          Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
-  //          Option<Result<T, E>> Transpose()
-  //          T Unwrap()
-  //          E UnwrapErr()
-  //          T UnwrapOr(T def)
-  //          T UnwrapOrDefault()
-  //          T UnwrapOrElse(Func<E, T> op)
+  // Comment Imp Test Sig
+  // ✓                Result<U, E> And<U>(Result<U, E> optB)
+  //                  Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
+  //                  Option<E> Err()
+  //                  T Expect(string msg)
+  //                  E ExpectErr(string msg)
+  //                  bool IsErr()
+  //                  bool IsOk()
+  //                  IEnumerable<Option<T>> Iter()
+  //                  Result<U, E> Map<U>(Func<T, U> op)
+  //                  Result<T, F> MapErr<F>(Func<E, F> op)
+  //                  U MapOr<U>(U def, Func<T, U> f)
+  //                  U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
+  //                  Option<T> Ok()
+  //                  Result<T, F> Or<F>(Result<T, F> res)
+  //                  Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
+  //                  Option<Result<T, E>> Transpose()
+  //                  T Unwrap()
+  //                  E UnwrapErr()
+  //                  T UnwrapOr(T def)
+  //                  T UnwrapOrDefault()
+  //                  T UnwrapOrElse(Func<E, T> op)
   //
   // Experimental signatures (not implemented)
-  //          bool Contains<U>(U x)
-  //          bool ContainsErr<F>(F f)
-  //          Result<T, E> Flatten()
-  //          Result<T, E> Inspect(Action<T> f)
-  //          Result<T, E> InspectErr(Action<E> f)
-  //          E IntoErr()
-  //          T IntoOk()
-  //          bool IsErrAnd(Func<E, bool> f)
-  //          bool IsOkAnd(Func<T, bool> f)
+  //                  bool Contains<U>(U x)
+  //                  bool ContainsErr<F>(F f)
+  //                  Result<T, E> Flatten()
+  //                  Result<T, E> Inspect(Action<T> f)
+  //                  Result<T, E> InspectErr(Action<E> f)
+  //                  E IntoErr()
+  //                  T IntoOk()
+  //                  bool IsErrAnd(Func<E, bool> f)
+  //                  bool IsOkAnd(Func<T, bool> f)
 
   public ResultKind Kind { get; private set; }
   private T? _value;
@@ -101,175 +101,182 @@ public class Result<T, E>
   // public override int GetHashCode() => ((object) this).GetHashCode(); 
 
   /// <summary>
-  /// Returns [`None`] if the option is [`None`], otherwise returns `optb`.
+  /// Asserts whether a result is <c>Ok</c> and returns values accordingly.
+  /// 
+  /// Arguments passed to <c>And</c> are eagerly evaluated; if you are passing the
+  /// result of a function call, it is recommended to use 
+  /// <see cref="AndThen"><c>AndThen</c></see>, which is lazily evaluated.
   ///
-  /// Arguments passed to `and` are eagerly evaluated; if you are passing the
-  /// result of a function call, it is recommended to use [`and_then`], which is
-  /// lazily evaluated.
+  /// <example>
+  /// Examples
   ///
-  /// [`and_then`]: Option::and_then
+  /// Basic usage:
   ///
-  /// # Examples
+  /// <code>
+  /// let x: Result<u32, &str> = Ok(2);
+  /// let y: Result<&str, &str> = Err("late error");
+  /// assert_eq!(x.and(y), Err("late error"));
   ///
-  /// ```
-  /// let x = Some(2);
-  /// let y: Option<&str> = None;
-  /// assert_eq!(x.and(y), None);
+  /// let x: Result<u32, &str> = Err("early error");
+  /// let y: Result<&str, &str> = Ok("foo");
+  /// assert_eq!(x.and(y), Err("early error"));
   ///
-  /// let x: Option<u32> = None;
-  /// let y = Some("foo");
-  /// assert_eq!(x.and(y), None);
+  /// let x: Result<u32, &str> = Err("not a 2");
+  /// let y: Result<&str, &str> = Err("late error");
+  /// assert_eq!(x.and(y), Err("not a 2"));
   ///
-  /// let x = Some(2);
-  /// let y = Some("foo");
-  /// assert_eq!(x.and(y), Some("foo"));
-  ///
-  /// let x: Option<u32> = None;
-  /// let y: Option<&str> = None;
-  /// assert_eq!(x.and(y), None);
-  /// ```
+  /// let x: Result<u32, &str> = Ok(2);
+  /// let y: Result<&str, &str> = Ok("different result type");
+  /// assert_eq!(x.and(y), Ok("different result type"));
+  /// </code>
   /// </summary>
-  /// <param name="optB"></param>
-  /// <typeparam name="U"></typeparam>
-  /// <returns></returns>
-  public Result<U, E> And<U>(Result<U, E> optB)
+  /// <param name="res">The option to return if the current option is <c>Ok</c></param>
+  /// <typeparam name="U">The underlying type of <c>res</c></typeparam>
+  /// <returns>Returns <c>res</c> if the result is <c>Ok</c>, 
+  /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
+  public Result<U, E> And<U>(Result<U, E> res)
   {
     throw new NotImplementedException();
   }
 
   /// <summary>
-  /// Returns [`None`] if the option is [`None`], otherwise calls `f` with the
-  /// wrapped value and returns the result.
+  /// Calls <c>op</c> if the result is <c>Ok</c>, 
+  /// otherwise returns the <c>Err</c> value of <c>self</c>.
   ///
-  /// Some languages call this operation flatmap.
+  /// This function can be used for control flow based on <c>Result</c> values.
   ///
-  /// # Examples
+  /// <example>
+  /// Examples
   ///
-  /// ```
-  /// fn sq_then_to_string(x: u32) -> Option<String> {
-  ///     x.checked_mul(x).map(|sq| sq.to_string())
+  /// <code>
+  /// fn sq_then_to_string(x: u32) -> Result<String, &'static str> {
+  ///     x.checked_mul(x).map(|sq| sq.to_string()).ok_or("overflowed")
   /// }
   ///
-  /// assert_eq!(Some(2).and_then(sq_then_to_string), Some(4.to_string()));
-  /// assert_eq!(Some(1_000_000).and_then(sq_then_to_string), None); // overflowed!
-  /// assert_eq!(None.and_then(sq_then_to_string), None);
-  /// ```
+  /// assert_eq!(Ok(2).and_then(sq_then_to_string), Ok(4.to_string()));
+  /// assert_eq!(Ok(1_000_000).and_then(sq_then_to_string), Err("overflowed"));
+  /// assert_eq!(Err("not a number").and_then(sq_then_to_string), Err("not a number"));
+  /// <code>
   ///
-  /// Often used to chain fallible operations that may return [`None`].
+  /// Often used to chain fallible operations that may return <c>Err</c>.
   ///
-  /// ```
-  /// let arr_2d = [["A0", "A1"], ["B0", "B1"]];
+  /// <code>
+  /// use std::{io::ErrorKind, path::Path};
   ///
-  /// let item_0_1 = arr_2d.get(0).and_then(|row| row.get(1));
-  /// assert_eq!(item_0_1, Some(&"A1"));
+  /// // Note: on Windows "/" maps to "C:\"
+  /// let root_modified_time = Path::new("/").metadata().and_then(|md| md.modified());
+  /// assert!(root_modified_time.is_ok());
   ///
-  /// let item_2_0 = arr_2d.get(2).and_then(|row| row.get(0));
-  /// assert_eq!(item_2_0, None);
-  /// ```
+  /// let should_fail = Path::new("/bad/path").metadata().and_then(|md| md.modified());
+  /// assert!(should_fail.is_err());
+  /// assert_eq!(should_fail.unwrap_err().kind(), ErrorKind::NotFound);
+  /// </code>
+  /// </example>
   /// </summary>
-  /// <param name="f"></param>
-  /// <typeparam name="U"></typeparam>
-  /// <returns></returns>
+  /// <param name="f">The function to call to evaluate the current <c>Result</c></param>
+  /// <typeparam name="U">The underlying type of the result of calling <c>f</c></typeparam>
+  /// <returns>The result of calling <c>f</c>, 
+  /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
   public Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
   {
     throw new NotImplementedException();
   }
 
   /// <summary>
-  /// Converts from `Result<T, E>` to [`Option<E>`].
+  /// Converts from <c>Result<T, E></c> to <c>Option<E></c>.
   ///
-  /// Converts `self` into an [`Option<E>`], consuming `self`,
+  /// Converts <c>self</c> into an <c>Option<E></c>, consuming <c>self</c>,
   /// and discarding the success value, if any.
   ///
-  /// # Examples
+  /// <example>
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// let x: Result<u32, &str> = Ok(2);
   /// assert_eq!(x.err(), None);
   ///
   /// let x: Result<u32, &str> = Err("Nothing here");
   /// assert_eq!(x.err(), Some("Nothing here"));
-  /// ```
+  /// </code>
+  /// <example>
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The <c>Err</c> value of <c>self</c>, wrapped in 
+  /// and <c>Option<E></c></returns>
   public Option<E> Err()
   {
     throw new NotImplementedException();
   }
 
   /// <summary>
-  /// Returns the contained [`Ok`] value, consuming the `self` value.
+  /// Obtains the underlying value of <c>Ok</c>, throwing <c>Err</c> as
+  /// an exception (panicking) if <c>self</c> is not <c>Ok</c>.
   ///
   /// Because this function may panic, its use is generally discouraged.
-  /// Instead, prefer to use pattern matching and handle the [`Err`]
-  /// case explicitly, or call [`unwrap_or`], [`unwrap_or_else`], or
-  /// [`unwrap_or_default`].
+  /// Instead, prefer to use pattern matching and handle the <c>Err</c>
+  /// case explicitly, or call <c><see cref="UnwrapOr"/></c>, 
+  /// <c><see cref="UnwrapOrElse"/></c>, or <c><see cref="UnwrapOrDefault"/></c>
   ///
-  /// [`unwrap_or`]: Result::unwrap_or
-  /// [`unwrap_or_else`]: Result::unwrap_or_else
-  /// [`unwrap_or_default`]: Result::unwrap_or_default
+  /// Panics
   ///
-  /// # Panics
+  /// Panics if the value is an <c>Err</c>, with a panic message including the
+  /// passed message, and the content of the <c>Err</c>.
   ///
-  /// Panics if the value is an [`Err`], with a panic message including the
-  /// passed message, and the content of the [`Err`].
-  ///
-  ///
-  /// # Examples
+  /// <example>
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```should_panic
+  /// <code>
   /// let x: Result<u32, &str> = Err("emergency failure");
-  /// x.expect("Testing expect"); // panics with `Testing expect: emergency failure`
-  /// ```
+  /// x.expect("Testing expect"); // panics with <c>Testing expect: emergency failure<c>
+  /// </code>
+  /// </example>
   ///
-  /// # Recommended Message Style
+  /// Recommended Message Style
   ///
-  /// We recommend that `expect` messages are used to describe the reason you
-  /// _expect_ the `Result` should be `Ok`.
+  /// We recommend that <c>expect</c> messages are used to describe the reason you
+  /// <i>expect</i> the <c>Result</c> should be <c>Ok</c>.
   ///
-  /// ```should_panic
+  /// <code>
   /// let path = std::env::var("IMPORTANT_PATH")
-  ///     .expect("env variable `IMPORTANT_PATH` should be set by `wrapper_script.sh`");
-  /// ```
+  ///     .expect("env variable <c>IMPORTANT_PATH<c> should be set by <c>wrapper_script.sh<c>");
+  /// </code>
   ///
-  /// **Hint**: If you're having trouble remembering how to phrase expect
+  /// <b>>Hint</b>: If you're having trouble remembering how to phrase expect
   /// error messages remember to focus on the word "should" as in "env
   /// variable should be set by blah" or "the given binary should be available
   /// and executable by the current user".
   ///
   /// For more detail on expect message styles and the reasoning behind our recommendation please
-  /// refer to the section on ["Common Message
-  /// Styles"](../../std/error/index.html#common-message-styles) in the
-  /// [`std::error`](../../std/error/index.html) module docs.
+  /// refer to the section on <see href="https://doc.rust-lang.org/std/error/index.html#common-message-styles">Common Message
+  /// Styles</see>.
   /// </summary>
-  /// <param name="msg"></param>
-  /// <returns></returns>
+  /// <param name="msg">The message to panic with.</param>
+  /// <returns>The unwrapped value of <c>self</c></returns>
   public T Expect(string msg)
   {
     throw new NotImplementedException();
   }
 
   /// <summary>
-  /// Returns the contained [`Err`] value, consuming the `self` value.
+  /// Returns the contained <c>Err</c> value, consuming the <c>self<c> value.
   ///
   /// # Panics
   ///
-  /// Panics if the value is an [`Ok`], with a panic message including the
-  /// passed message, and the content of the [`Ok`].
+  /// Panics if the value is an <c>Ok</c>, with a panic message including the
+  /// passed message, and the content of the <c>Ok</c>.
   ///
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```should_panic
+  /// <code>should_panic
   /// let x: Result<u32, &str> = Ok(10);
-  /// x.expect_err("Testing expect_err"); // panics with `Testing expect_err: 10`
-  /// ```
+  /// x.expect_err("Testing expect_err"); // panics with <c>Testing expect_err: 10<c>
+  /// <code>
   /// </summary>
   /// <param name="msg"></param>
   /// <returns></returns>
@@ -279,19 +286,19 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns `true` if the result is [`Err`].
+  /// Returns <c>true<c> if the result is <c>Err</c>.
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// let x: Result<i32, &str> = Ok(-3);
   /// assert_eq!(x.is_err(), false);
   ///
   /// let x: Result<i32, &str> = Err("Some error message");
   /// assert_eq!(x.is_err(), true);
-  /// ```
+  /// <code>
   /// </summary>
   /// <returns></returns>
   public bool IsErr()
@@ -300,19 +307,19 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns `true` if the result is [`Ok`].
+  /// Returns <c>true<c> if the result is <c>Ok</c>.
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// let x: Result<i32, &str> = Ok(-3);
   /// assert_eq!(x.is_ok(), true);
   ///
   /// let x: Result<i32, &str> = Err("Some error message");
   /// assert_eq!(x.is_ok(), false);
-  /// ```
+  /// <code>
   /// </summary>
   /// <returns></returns>
   public bool IsOk()
@@ -323,19 +330,19 @@ public class Result<T, E>
   /// <summary>
   /// Returns an iterator over the possibly contained value.
   ///
-  /// The iterator yields one value if the result is [`Result::Ok`], otherwise none.
+  /// The iterator yields one value if the result is <c>Result::Ok</c>, otherwise none.
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// let x: Result<u32, &str> = Ok(7);
   /// assert_eq!(x.iter().next(), Some(&7));
   ///
   /// let x: Result<u32, &str> = Err("nothing!");
   /// assert_eq!(x.iter().next(), None);
-  /// ```
+  /// <code>
   /// </summary>
   /// <returns></returns>
   public IEnumerable<Option<T>> Iter()
@@ -344,16 +351,16 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Maps a `Result<T, E>` to `Result<U, E>` by applying a function to a
-  /// contained [`Ok`] value, leaving an [`Err`] value untouched.
+  /// Maps a <c>Result<T, E><c> to <c>Result<U, E><c> by applying a function to a
+  /// contained <c>Ok</c> value, leaving an <c>Err</c> value untouched.
   ///
   /// This function can be used to compose the results of two functions.
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Print the numbers on each line of a string multiplied by two.
   ///
-  /// ```
+  /// <code>
   /// let line = "1\n2\n3\n4\n";
   ///
   /// for num in line.lines() {
@@ -362,7 +369,7 @@ public class Result<T, E>
   ///         Err(..) => {}
   ///     }
   /// }
-  /// ```
+  /// <code>
   /// </summary>
   /// <param name="op"></param>
   /// <typeparam name="U"></typeparam>
@@ -373,18 +380,18 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Maps a `Result<T, E>` to `Result<T, F>` by applying a function to a
-  /// contained [`Err`] value, leaving an [`Ok`] value untouched.
+  /// Maps a <c>Result<T, E><c> to <c>Result<T, F><c> by applying a function to a
+  /// contained <c>Err</c> value, leaving an <c>Ok</c> value untouched.
   ///
   /// This function can be used to pass through a successful result while handling
   /// an error.
   ///
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// fn stringify(x: u32) -> String { format!("error code: {x}") }
   ///
   /// let x: Result<u32, u32> = Ok(2);
@@ -392,7 +399,7 @@ public class Result<T, E>
   ///
   /// let x: Result<u32, u32> = Err(13);
   /// assert_eq!(x.map_err(stringify), Err("error code: 13".to_string()));
-  /// ```
+  /// <code>
   /// </summary>
   /// <param name="op"></param>
   /// <typeparam name="F"></typeparam>
@@ -403,24 +410,24 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns the provided default (if [`Err`]), or
-  /// applies a function to the contained value (if [`Ok`]),
+  /// Returns the provided default (if <c>Err</c>), or
+  /// applies a function to the contained value (if <c>Ok</c>),
   ///
-  /// Arguments passed to `map_or` are eagerly evaluated; if you are passing
-  /// the result of a function call, it is recommended to use [`map_or_else`],
+  /// Arguments passed to <c>map_or<c> are eagerly evaluated; if you are passing
+  /// the result of a function call, it is recommended to use <c>map_or_else</c>,
   /// which is lazily evaluated.
   ///
-  /// [`map_or_else`]: Result::map_or_else
+  /// <c>map_or_else</c>: Result::map_or_else
   ///
-  /// # Examples
+  /// Examples
   ///
-  /// ```
+  /// <code>
   /// let x: Result<_, &str> = Ok("foo");
   /// assert_eq!(x.map_or(42, |v| v.len()), 3);
   ///
   /// let x: Result<&str, _> = Err("bar");
   /// assert_eq!(x.map_or(42, |v| v.len()), 42);
-  /// ```
+  /// <code>
   /// </summary>
   /// <param name="def"></param>
   /// <param name="f"></param>
@@ -432,18 +439,18 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Maps a `Result<T, E>` to `U` by applying fallback function `default` to
-  /// a contained [`Err`] value, or function `f` to a contained [`Ok`] value.
+  /// Maps a <c>Result<T, E><c> to <c>U<c> by applying fallback function <c>default<c> to
+  /// a contained <c>Err</c> value, or function <c>f<c> to a contained <c>Ok</c> value.
   ///
   /// This function can be used to unpack a successful result
   /// while handling an error.
   ///
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// let k = 21;
   ///
   /// let x : Result<_, &str> = Ok("foo");
@@ -451,7 +458,7 @@ public class Result<T, E>
   ///
   /// let x : Result<&str, _> = Err("bar");
   /// assert_eq!(x.map_or_else(|e| k * 2, |v| v.len()), 42);
-  /// ```
+  /// <code>
   /// </summary>
   /// <param name="def"></param>
   /// <param name="f"></param>
@@ -463,22 +470,22 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Converts from `Result<T, E>` to [`Option<T>`].
+  /// Converts from <c>Result<T, E><c> to <c>Option<T></c>.
   ///
-  /// Converts `self` into an [`Option<T>`], consuming `self`,
+  /// Converts <c>self<c> into an <c>Option<T></c>, consuming <c>self<c>,
   /// and discarding the error, if any.
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// let x: Result<u32, &str> = Ok(2);
   /// assert_eq!(x.ok(), Some(2));
   ///
   /// let x: Result<u32, &str> = Err("Nothing here");
   /// assert_eq!(x.ok(), None);
-  /// ```
+  /// <code>
   /// </summary>
   /// <returns></returns>
   public Option<T> Ok()
@@ -487,19 +494,19 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns `res` if the result is [`Err`], otherwise returns the [`Ok`] value of `self`.
+  /// Returns <c>res<c> if the result is <c>Err</c>, otherwise returns the <c>Ok</c> value of <c>self<c>.
   ///
-  /// Arguments passed to `or` are eagerly evaluated; if you are passing the
-  /// result of a function call, it is recommended to use [`or_else`], which is
+  /// Arguments passed to <c>or<c> are eagerly evaluated; if you are passing the
+  /// result of a function call, it is recommended to use <c>or_else</c>, which is
   /// lazily evaluated.
   ///
-  /// [`or_else`]: Result::or_else
+  /// <c>or_else</c>: Result::or_else
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// let x: Result<u32, &str> = Ok(2);
   /// let y: Result<u32, &str> = Err("late error");
   /// assert_eq!(x.or(y), Ok(2));
@@ -515,7 +522,7 @@ public class Result<T, E>
   /// let x: Result<u32, &str> = Ok(2);
   /// let y: Result<u32, &str> = Ok(100);
   /// assert_eq!(x.or(y), Ok(2));
-  /// ```
+  /// <code>
   /// </summary>
   /// <param name="res"></param>
   /// <typeparam name="F"></typeparam>
@@ -526,16 +533,16 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Calls `op` if the result is [`Err`], otherwise returns the [`Ok`] value of `self`.
+  /// Calls <c>op<c> if the result is <c>Err</c>, otherwise returns the <c>Ok</c> value of <c>self<c>.
   ///
   /// This function can be used for control flow based on result values.
   ///
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// fn sq(x: u32) -> Result<u32, u32> { Ok(x * x) }
   /// fn err(x: u32) -> Result<u32, u32> { Err(x) }
   ///
@@ -543,7 +550,7 @@ public class Result<T, E>
   /// assert_eq!(Ok(2).or_else(err).or_else(sq), Ok(2));
   /// assert_eq!(Err(3).or_else(sq).or_else(err), Ok(9));
   /// assert_eq!(Err(3).or_else(err).or_else(err), Err(3));
-  /// ```
+  /// <code>
   /// </summary>
   /// <param name="op"></param>
   /// <typeparam name="F"></typeparam>
@@ -554,21 +561,21 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Transposes a `Result` of an `Option` into an `Option` of a `Result`.
+  /// Transposes a <c>Result<c> of an <c>Option<c> into an <c>Option<c> of a <c>Result<c>.
   ///
-  /// `Ok(None)` will be mapped to `None`.
-  /// `Ok(Some(_))` and `Err(_)` will be mapped to `Some(Ok(_))` and `Some(Err(_))`.
+  /// <c>Ok(None)<c> will be mapped to <c>None<c>.
+  /// <c>Ok(Some(_))<c> and <c>Err(_)<c> will be mapped to <c>Some(Ok(_))<c> and <c>Some(Err(_))<c>.
   ///
-  /// # Examples
+  /// Examples
   ///
-  /// ```
+  /// <code>
   /// #[derive(Debug, Eq, PartialEq)]
   /// struct SomeErr;
   ///
   /// let x: Result<Option<i32>, SomeErr> = Ok(Some(5));
   /// let y: Option<Result<i32, SomeErr>> = Some(Ok(5));
   /// assert_eq!(x.transpose(), y);
-  /// ```
+  /// <code>
   /// </summary>
   /// <returns></returns>
   public Option<Result<T, E>> Transpose()
@@ -577,36 +584,36 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns the contained [`Ok`] value, consuming the `self` value.
+  /// Returns the contained <c>Ok</c> value, consuming the <c>self<c> value.
   ///
   /// Because this function may panic, its use is generally discouraged.
-  /// Instead, prefer to use pattern matching and handle the [`Err`]
-  /// case explicitly, or call [`unwrap_or`], [`unwrap_or_else`], or
-  /// [`unwrap_or_default`].
+  /// Instead, prefer to use pattern matching and handle the <c>Err</c>
+  /// case explicitly, or call <c>unwrap_or</c>, <c>unwrap_or_else</c>, or
+  /// <c>unwrap_or_default</c>.
   ///
-  /// [`unwrap_or`]: Result::unwrap_or
-  /// [`unwrap_or_else`]: Result::unwrap_or_else
-  /// [`unwrap_or_default`]: Result::unwrap_or_default
+  /// <c>unwrap_or</c>: Result::unwrap_or
+  /// <c>unwrap_or_else</c>: Result::unwrap_or_else
+  /// <c>unwrap_or_default</c>: Result::unwrap_or_default
   ///
   /// # Panics
   ///
-  /// Panics if the value is an [`Err`], with a panic message provided by the
-  /// [`Err`]'s value.
+  /// Panics if the value is an <c>Err</c>, with a panic message provided by the
+  /// <c>Err</c>'s value.
   ///
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// let x: Result<u32, &str> = Ok(2);
   /// assert_eq!(x.unwrap(), 2);
-  /// ```
+  /// <code>
   ///
-  /// ```should_panic
+  /// <code>should_panic
   /// let x: Result<u32, &str> = Err("emergency failure");
-  /// x.unwrap(); // panics with `emergency failure`
-  /// ```
+  /// x.unwrap(); // panics with <c>emergency failure<c>
+  /// <code>
   /// </summary>
   /// <returns></returns>
   public T Unwrap()
@@ -615,24 +622,24 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns the contained [`Err`] value, consuming the `self` value.
+  /// Returns the contained <c>Err</c> value, consuming the <c>self<c> value.
   ///
   /// # Panics
   ///
-  /// Panics if the value is an [`Ok`], with a custom panic message provided
-  /// by the [`Ok`]'s value.
+  /// Panics if the value is an <c>Ok</c>, with a custom panic message provided
+  /// by the <c>Ok</c>'s value.
   ///
-  /// # Examples
+  /// Examples
   ///
-  /// ```should_panic
+  /// <code>should_panic
   /// let x: Result<u32, &str> = Ok(2);
-  /// x.unwrap_err(); // panics with `2`
-  /// ```
+  /// x.unwrap_err(); // panics with <c>2<c>
+  /// <code>
   ///
-  /// ```
+  /// <code>
   /// let x: Result<u32, &str> = Err("emergency failure");
   /// assert_eq!(x.unwrap_err(), "emergency failure");
-  /// ```
+  /// <code>
   /// </summary>
   /// <returns></returns>
   public E UnwrapErr()
@@ -641,26 +648,26 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns the contained [`Ok`] value or a provided default.
+  /// Returns the contained <c>Ok</c> value or a provided default.
   ///
-  /// Arguments passed to `unwrap_or` are eagerly evaluated; if you are passing
-  /// the result of a function call, it is recommended to use [`unwrap_or_else`],
+  /// Arguments passed to <c>unwrap_or<c> are eagerly evaluated; if you are passing
+  /// the result of a function call, it is recommended to use <c>unwrap_or_else</c>,
   /// which is lazily evaluated.
   ///
-  /// [`unwrap_or_else`]: Result::unwrap_or_else
+  /// <c>unwrap_or_else</c>: Result::unwrap_or_else
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// let default = 2;
   /// let x: Result<u32, &str> = Ok(9);
   /// assert_eq!(x.unwrap_or(default), 9);
   ///
   /// let x: Result<u32, &str> = Err("error");
   /// assert_eq!(x.unwrap_or(default), default);
-  /// ```
+  /// <code>
   /// </summary>
   /// <param name="def"></param>
   /// <returns></returns>
@@ -670,20 +677,20 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns the contained [`Ok`] value or a default
+  /// Returns the contained <c>Ok</c> value or a default
   ///
-  /// Consumes the `self` argument then, if [`Ok`], returns the contained
-  /// value, otherwise if [`Err`], returns the default value for that
+  /// Consumes the <c>self<c> argument then, if <c>Ok</c>, returns the contained
+  /// value, otherwise if <c>Err</c>, returns the default value for that
   /// type.
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Converts a string to an integer, turning poorly-formed strings
-  /// into 0 (the default value for integers). [`parse`] converts
-  /// a string to any other type that implements [`FromStr`], returning an
-  /// [`Err`] on error.
+  /// into 0 (the default value for integers). <c>parse</c> converts
+  /// a string to any other type that implements <c>FromStr</c>, returning an
+  /// <c>Err</c> on error.
   ///
-  /// ```
+  /// <code>
   /// let good_year_from_input = "1909";
   /// let bad_year_from_input = "190blarg";
   /// let good_year = good_year_from_input.parse().unwrap_or_default();
@@ -691,7 +698,7 @@ public class Result<T, E>
   ///
   /// assert_eq!(1909, good_year);
   /// assert_eq!(0, bad_year);
-  /// ```
+  /// <code>
   /// </summary>
   /// <returns></returns>
   public T UnwrapOrDefault()
@@ -700,19 +707,19 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns the contained [`Ok`] value or computes it from a closure.
+  /// Returns the contained <c>Ok</c> value or computes it from a closure.
   ///
   ///
-  /// # Examples
+  /// Examples
   ///
   /// Basic usage:
   ///
-  /// ```
+  /// <code>
   /// fn count(x: &str) -> usize { x.len() }
   ///
   /// assert_eq!(Ok(2).unwrap_or_else(count), 2);
   /// assert_eq!(Err("foo").unwrap_or_else(count), 3);
-  /// ```
+  /// <code>
   /// </summary>
   /// <param name="op"></param>
   /// <returns></returns>
