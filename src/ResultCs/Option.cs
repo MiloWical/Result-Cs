@@ -13,7 +13,7 @@ public class Option<T>
   //                  T GetOrInsertWith(Func<T> f)
   //                  T Insert(T value)
   //         ✓   ✓    bool IsNone()
-  //         ✓   ✓    bool IsSome()
+  // ✓       ✓   ✓    bool IsSome()
   //                  bool IsSomeAnd(Func<T, bool> f)
   //                  IEnumerable<Option<T>> Iter()
   //                  Option<U> Map<U>(Func<T, U> f)
@@ -393,14 +393,15 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let x: Option<u32> = Some(2);
-  /// assert_eq!(x.is_some(), true);
+  /// Option<int> x = Option.Some(2);
+  /// Assert.True(x.IsSome());
   ///
-  /// let x: Option<u32> = None;
-  /// assert_eq!(x.is_some(), false);
+  /// Option<int> x = Option.None();
+  /// Assert.False(x.IsSome());
   /// <code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns><c>true</c> if self is <c>Some</c>, <c>false</c> 
+  /// if self is <c>None</c>.</returns>
   public bool IsSome() => Kind == OptionKind.Some;
 
   /// <summary>
