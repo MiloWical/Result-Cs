@@ -144,18 +144,22 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// fn sq_then_to_string(x: u32) -> Option<String> {
-  ///     x.checked_mul(x).map(|sq| sq.to_string())
+  /// public Option<string> SqThenToString(int x)
+  /// {
+  ///   return Option.Some<string>(Math.Pow(x, 2).ToString());
   /// }
   ///
-  /// assert_eq!(Some(2).and_then(sq_then_to_string), Some(4.to_string()));
-  /// assert_eq!(Some(1_000_000).and_then(sq_then_to_string), None); // overflowed!
-  /// assert_eq!(None.and_then(sq_then_to_string), None);
+  /// Assert.Equal(Option.Some(2.ToString()).AndThen(SqThenToString), Option.Some(4.ToString())
+  /// 
+  /// TODO: Pick up here!
+  /// Assert.Equal(Option.Some<int>(1_000_000).AndThen(SqThenToString), Option.None<int>()); //TODO: Assert thrown exception
+  /// Assert.Equal(Option.None<int>().AndThen(SqThenToString), Option.None<int>());
   /// </code>
   ///
   /// Often used to chain fallible operations that may return <c>None</c>.
   ///
   /// <code>
+  /// TODO: Pick up here!
   /// let arr_2d = [["A0", "A1"], ["B0", "B1"]];
   ///
   /// let item_0_1 = arr_2d.get(0).and_then(|row| row.get(1));
