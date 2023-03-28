@@ -7,7 +7,7 @@ namespace WicalWare.Components.ResultCs;
 public class Result<T, E>
 {
   // Comment Imp Test Signature
-  // ✓       ✓        Result<U, E> And<U>(Result<U, E> optB)
+  // ✓       ✓   ✓    Result<U, E> And<U>(Result<U, E> optB)
   //                  Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
   //                  Option<E> Err()
   //                  T Expect(string msg)
@@ -68,35 +68,35 @@ public class Result<T, E>
 
   public override bool Equals(object? other)
   {
-    if(other == null) ArgumentNullException.ThrowIfNull(other);
+    if (other == null) ArgumentNullException.ThrowIfNull(other);
 
-    var otherResult = (Result<T, E>) other;
+    var otherResult = (Result<T, E>)other;
 
-    if(this.Kind != otherResult.Kind)
+    if (this.Kind != otherResult.Kind)
       return false;
 
-    if(this.IsErr() && otherResult.IsErr())
+    if (this.IsErr() && otherResult.IsErr())
       return true;
 
-    if(_value == null)
+    if (_value == null)
     {
-      if(otherResult.Unwrap() == null)
+      if (otherResult.Unwrap() == null)
         return true;
 
       return false;
     }
 
-    if(_value.Equals(otherResult.Unwrap()))
+    if (_value.Equals(otherResult.Unwrap()))
       return true;
 
     return false;
   }
 
-  public static bool operator == (Result<T, E> res1, Result<T, E> res2) => res1.Equals(res2);
+  public static bool operator ==(Result<T, E> res1, Result<T, E> res2) => res1.Equals(res2);
 
-  public static bool operator != (Result<T, E> res1, Result<T, E> res2) => !(res1.Equals(res2));
+  public static bool operator !=(Result<T, E> res1, Result<T, E> res2) => !(res1.Equals(res2));
 
-  public override int GetHashCode() => ((object) this).GetHashCode(); 
+  public override int GetHashCode() => ((object)this).GetHashCode();
 
   /// <summary>
   /// Asserts whether a result is <c>Ok</c> and returns values accordingly.
@@ -134,10 +134,10 @@ public class Result<T, E>
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
   public Result<U, E> And<U>(Result<U, E> res)
   {
-    if(Kind == ResultKind.Err)
+    if (Kind == ResultKind.Err)
       return Result<U, E>.Err(_err!);
 
-    if(res.Kind == ResultKind.Err)
+    if (res.Kind == ResultKind.Err)
       return res.Err();
 
     return res;
@@ -622,7 +622,7 @@ public class Result<T, E>
   /// <returns></returns>
   public T Unwrap()
   {
-    throw new NotImplementedException();
+    return _value!;
   }
 
   /// <summary>
@@ -736,12 +736,16 @@ public class Result<T, E>
 #if TEST
 public class ResultTests
 {
+  #region And
   [Fact]
-  public void DummyTest()
+  public void AndOkTest()
   {
-    Assert.True(true);
-  }
+    var x = Result<int, string>.Ok(5);
+    var y = Result<int, string>.Ok(2);
 
+    Assert.Equal(x.And<int>(y), Result<int, string>.Ok(2));
+  }
+  
   [Fact]
   public void AndEarlyErrorTest()
   {
@@ -757,5 +761,22 @@ public class ResultTests
     var y = Result<string, string>.Err("late error");
     Assert.Equal(x.And<string>(y), Result<string, string>.Err("late error"));
   }
+
+  [Fact]
+  public void AndDoubleErrorTest()
+  {
+    var x = Result<int, string>.Err("not a 2");
+    var y = Result<string, string>.Err("late error");
+    Assert.Equal(x.And<string>(y), Result<string, string>.Err("not a 2"));
+  }
+
+  [Fact]
+  public void AndDifferentReturnTypesTest()
+  {
+    var x = Result<int, string>.Ok(2);
+    var y = Result<string, string>.Ok("different result type");
+    Assert.Equal(x.And<string>(y), Result<string, string>.Ok("different result type"));
+  }
+  #endregion
 }
 #endif
