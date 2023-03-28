@@ -6,8 +6,8 @@ namespace WicalWare.Components.ResultCs;
 // https://doc.rust-lang.org/std/result/enum.Result.html
 public class Result<T, E>
 {
-  // Comment Imp Test Sig
-  // ✓                Result<U, E> And<U>(Result<U, E> optB)
+  // Comment Imp Test Signature
+  // ✓       ✓        Result<U, E> And<U>(Result<U, E> optB)
   //                  Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
   //                  Option<E> Err()
   //                  T Expect(string msg)
@@ -113,21 +113,21 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Result<u32, &str> = Ok(2);
-  /// let y: Result<&str, &str> = Err("late error");
-  /// assert_eq!(x.and(y), Err("late error"));
+  /// var x = Result<int, string>.Ok(2);
+  /// var y = Result<string, string>.Err("late error");
+  /// Assert.Equal(x.And<string>(y), Result<string, string>.Err("late error"));
   ///
-  /// let x: Result<u32, &str> = Err("early error");
-  /// let y: Result<&str, &str> = Ok("foo");
-  /// assert_eq!(x.and(y), Err("early error"));
+  /// var x = Result<int, string>.Err("early error");
+  /// var y = Result<string, string>.Ok("foo");
+  /// Assert.Equal(x.And<string>(y), Result<string, string>.Err("early error"));
   ///
-  /// let x: Result<u32, &str> = Err("not a 2");
-  /// let y: Result<&str, &str> = Err("late error");
-  /// assert_eq!(x.and(y), Err("not a 2"));
+  /// var x = Result<int, string>.Err("not a 2");
+  /// var y = Result<string, string>.Err("late error");
+  /// Assert.Equal(x.And<string>(y), Result<string, string>.Err("not a 2"));
   ///
-  /// let x: Result<u32, &str> = Ok(2);
-  /// let y: Result<&str, &str> = Ok("different result type");
-  /// assert_eq!(x.and(y), Ok("different result type"));
+  /// var x = Result<int, string>.Ok(2);
+  /// var y = Result<string, string>.Ok("different result type");
+  /// Assert.Equal(x.And<string>(y), Result<string, string>.Ok("different result type"));
   /// </code>
   /// </summary>
   /// <param name="res">The option to return if the current option is <c>Ok</c></param>
@@ -136,7 +136,13 @@ public class Result<T, E>
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
   public Result<U, E> And<U>(Result<U, E> res)
   {
-    throw new NotImplementedException();
+    if(Kind == ResultKind.Err)
+      return Result<U, E>.Err(_err!);
+
+    if(res.Kind == ResultKind.Err)
+      return res.Err();
+
+    return res;
   }
 
   /// <summary>
@@ -204,9 +210,9 @@ public class Result<T, E>
   /// </summary>
   /// <returns>The <c>Err</c> value of <c>self</c>, wrapped in 
   /// and <c>Option<E></c></returns>
-  public Option<E> Err()
+  public Result<T, E> Err()
   {
-    throw new NotImplementedException();
+    return Result<T, E>.Err(_err!);
   }
 
   /// <summary>
@@ -488,9 +494,9 @@ public class Result<T, E>
   /// <code>
   /// </summary>
   /// <returns></returns>
-  public Option<T> Ok()
+  public Result<T, E> Ok()
   {
-    throw new NotImplementedException();
+    return Result<T, E>.Ok(_value!);
   }
 
   /// <summary>
@@ -736,6 +742,22 @@ public class ResultTests
   public void DummyTest()
   {
     Assert.True(true);
+  }
+
+  [Fact]
+  public void AndEarlyErrorTest()
+  {
+    var x = Result<int, string>.Err("early error");
+    var y = Result<string, string>.Ok("foo");
+    Assert.Equal(x.And<string>(y), Result<string, string>.Err("early error"));
+  }
+
+  [Fact]
+  public void AndLateErrorTest()
+  {
+    var x = Result<int, string>.Ok(2);
+    var y = Result<string, string>.Err("late error");
+    Assert.Equal(x.And<string>(y), Result<string, string>.Err("late error"));
   }
 }
 #endif
