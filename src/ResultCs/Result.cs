@@ -66,39 +66,37 @@ public class Result<T, E>
     return result;
   }
 
-  // TODO: Fix this up for this type!
+  public override bool Equals(object? other)
+  {
+    if(other == null) ArgumentNullException.ThrowIfNull(other);
 
-  // public override bool Equals(object? other)
-  // {
-  //   if(other == null) ArgumentNullException.ThrowIfNull(other);
+    var otherResult = (Result<T, E>) other;
 
-  //   var otherOption = (Option<T>) other;
+    if(this.Kind != otherResult.Kind)
+      return false;
 
-  //   if(this.Kind != otherOption.Kind)
-  //     return false;
+    if(this.IsErr() && otherResult.IsErr())
+      return true;
 
-  //   if(this.IsNone() && otherOption.IsNone())
-  //     return true;
+    if(_value == null)
+    {
+      if(otherResult.Unwrap() == null)
+        return true;
 
-  //   if(_value == null)
-  //   {
-  //     if(otherOption.Unwrap() == null)
-  //       return true;
+      return false;
+    }
 
-  //     return false;
-  //   }
+    if(_value.Equals(otherResult.Unwrap()))
+      return true;
 
-  //   if(_value.Equals(otherOption.Unwrap()))
-  //     return true;
+    return false;
+  }
 
-  //   return false;
-  // }
+  public static bool operator == (Result<T, E> res1, Result<T, E> res2) => res1.Equals(res2);
 
-  // public static bool operator == (Option<T> opt1, Option<T> opt2) => opt1.Equals(opt2);
+  public static bool operator != (Result<T, E> res1, Result<T, E> res2) => !(res1.Equals(res2));
 
-  // public static bool operator != (Option<T> opt1, Option<T> opt2) => !(opt1.Equals(opt2));
-
-  // public override int GetHashCode() => ((object) this).GetHashCode(); 
+  public override int GetHashCode() => ((object) this).GetHashCode(); 
 
   /// <summary>
   /// Asserts whether a result is <c>Ok</c> and returns values accordingly.
@@ -309,7 +307,7 @@ public class Result<T, E>
   /// <returns></returns>
   public bool IsErr()
   {
-    throw new NotImplementedException();
+    return this.Kind == ResultKind.Err;
   }
 
   /// <summary>
@@ -330,7 +328,7 @@ public class Result<T, E>
   /// <returns></returns>
   public bool IsOk()
   {
-    throw new NotImplementedException();
+    return this.Kind == ResultKind.Ok;
   }
 
   /// <summary>
