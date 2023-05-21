@@ -17,8 +17,7 @@ public class ResultAndThenTests
   [Fact]
   public void AndThenErrTest()
   {
-    // TODO
-    //Assert.Equal(Result<int, string>.Err("not a number").AndThen(SquareThenToString), Result<string, string>.Err("not a number"));
+    Assert.Equal(Result<int, string>.Err("not a number").AndThen(SquareThenToString), Result<string, string>.Err("not a number"));
   }
 
   private Result<string, string> SquareThenToString(int x)

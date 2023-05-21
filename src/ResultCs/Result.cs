@@ -198,6 +198,10 @@ public class Result<T, E>
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
   public Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
   {
+    if (this.IsErr())
+    {
+      return Result<U, E>.Err(this.UnwrapErr());
+    }
     return f.Invoke(this.Unwrap());
   }
 
@@ -663,7 +667,8 @@ public class Result<T, E>
   /// <returns></returns>
   public E UnwrapErr()
   {
-    throw new NotImplementedException();
+    // TODO: Throw an unwrap exception if this is Ok.
+    return _err!;
   }
 
   /// <summary>
