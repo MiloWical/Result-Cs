@@ -9,7 +9,7 @@ public class Result<T, E>
   // Comment Imp Test Signature
   // ✓       ✓   ✓    Result<U, E> And<U>(Result<U, E> optB)
   // ✓       ✓   ✓    Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
-  //                  Option<E> Err()
+  // ✓       ✓   ✓    Option<E> Err()
   //                  T Expect(string msg)
   //                  E ExpectErr(string msg)
   //                  bool IsErr()
@@ -138,7 +138,7 @@ public class Result<T, E>
       return Result<U, E>.Err(_err!);
 
     if (res.Kind == ResultKind.Err)
-      return res.Err();
+      return Result<U, E>.Err(res.UnwrapErr());
 
     return res;
   }
@@ -218,19 +218,22 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Result<u32, &str> = Ok(2);
-  /// assert_eq!(x.err(), None);
+  /// var x = Result<int, string>.Ok(2);
+  /// Assert.Equal(x.Err(), Option<string>.None());
   ///
-  /// let x: Result<u32, &str> = Err("Nothing here");
-  /// assert_eq!(x.err(), Some("Nothing here"));
+  /// var x = Result<int, string>.Err("Nothing here");
+  /// Assert.Equal(x.Err(), Option<string>.Some("Nothing here"));
   /// </code>
   /// <example>
   /// </summary>
   /// <returns>The <c>Err</c> value of <c>self</c>, wrapped in 
   /// and <c>Option<E></c></returns>
-  public Result<T, E> Err()
+  public Option<E> Err()
   {
-    return Result<T, E>.Err(_err!);
+    if(this.IsErr())
+      return Option<E>.Some(_err!);
+
+    return Option<E>.None();
   }
 
   /// <summary>
