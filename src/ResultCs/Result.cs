@@ -8,7 +8,7 @@ public class Result<T, E>
 {
   // Comment Imp Test Signature
   // ✓       ✓   ✓    Result<U, E> And<U>(Result<U, E> optB)
-  //                  Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
+  // ✓       ✓   ✓    Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
   //                  Option<E> Err()
   //                  T Expect(string msg)
   //                  E ExpectErr(string msg)
@@ -153,27 +153,42 @@ public class Result<T, E>
   /// Examples
   ///
   /// <code>
-  /// fn sq_then_to_string(x: u32) -> Result<String, &'static str> {
-  ///     x.checked_mul(x).map(|sq| sq.to_string()).ok_or("overflowed")
+  /// public Result<string, string> SquareThenToString(int x)
+  /// {
+  ///   try
+  ///   {
+  ///     int product;
+  ///     
+  ///     checked 
+  ///     {
+  ///       product = x*x;
+  ///     }
+  ///     
+  ///     return Result<string, string>.Ok(product.ToString());
+  ///   }
+  ///   catch(OverflowException oe)
+  ///   {
+  ///     return Result<string, string>.Err("overflowed");
+  ///   }
   /// }
-  ///
-  /// assert_eq!(Ok(2).and_then(sq_then_to_string), Ok(4.to_string()));
-  /// assert_eq!(Ok(1_000_000).and_then(sq_then_to_string), Err("overflowed"));
-  /// assert_eq!(Err("not a number").and_then(sq_then_to_string), Err("not a number"));
+  /// 
+  /// Assert.Equal(Result<int, string>.Ok(2).AndThen(SquareThenToString), Result<string, string>.Ok(4.ToString()));
+  /// Assert.Equal(Result<int, string>.Ok(int.MaxValue).AndThen(SquareThenToString), Result<string, string>.Err("overflowed"));
+  /// Assert.Equal(Result<int, string>.Err("not a number").AndThen(SquareThenToString), Result<string, string>.Err("not a number"));
   /// <code>
   ///
   /// Often used to chain fallible operations that may return <c>Err</c>.
   ///
   /// <code>
-  /// use std::{io::ErrorKind, path::Path};
+  /// using System.IO;
   ///
-  /// // Note: on Windows "/" maps to "C:\"
-  /// let root_modified_time = Path::new("/").metadata().and_then(|md| md.modified());
-  /// assert!(root_modified_time.is_ok());
+  /// &#8725;&#8725;Note: on Windows "/" maps to "C:\"
+  /// var rootModifiedTime = Result<DirectoryInfo, string>.Ok(new DirectoryInfo("/")).AndThen(di => Result<DateTime, string>.Ok(di.LastWriteTime));
+  /// Assert.True(rootModifiedTime.IsOk());
   ///
-  /// let should_fail = Path::new("/bad/path").metadata().and_then(|md| md.modified());
-  /// assert!(should_fail.is_err());
-  /// assert_eq!(should_fail.unwrap_err().kind(), ErrorKind::NotFound);
+  /// var shouldFail = Result<DirectoryInfo, string>.Ok(new DirectoryInfo("/bad/path")).AndThen(di => Result<DateTime, string>.Ok(di.LastWriteTime));
+  /// Assert.True(shouldFail.IsErr());
+  /// Assert.TypeOf<Exception>(shouldFail.UnwrapErr());
   /// </code>
   /// </example>
   /// </summary>
@@ -183,7 +198,12 @@ public class Result<T, E>
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
   public Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
   {
-    throw new NotImplementedException();
+    if (this.IsErr())
+    {
+      return Result<U, E>.Err(this.UnwrapErr());
+    }
+    
+    return f.Invoke(this.Unwrap());
   }
 
   /// <summary>
@@ -648,7 +668,8 @@ public class Result<T, E>
   /// <returns></returns>
   public E UnwrapErr()
   {
-    throw new NotImplementedException();
+    // TODO: Throw an unwrap exception if this is Ok.
+    return _err!;
   }
 
   /// <summary>
