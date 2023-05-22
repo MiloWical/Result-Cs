@@ -8,7 +8,7 @@ public class Result<T, E>
 {
   // Comment Imp Test Signature
   // ✓       ✓   ✓    Result<U, E> And<U>(Result<U, E> optB)
-  // ✓                Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
+  // ✓       ✓   ✓    Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
   //                  Option<E> Err()
   //                  T Expect(string msg)
   //                  E ExpectErr(string msg)
