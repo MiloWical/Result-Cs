@@ -70,6 +70,9 @@ public class Result<T, E>
   {
     if (other == null) ArgumentNullException.ThrowIfNull(other);
 
+    if (other is not Result<T, E>)
+      return false;
+
     var otherResult = (Result<T, E>)other;
 
     if (this.Kind != otherResult.Kind)
@@ -78,15 +81,7 @@ public class Result<T, E>
     if (this.IsErr() && otherResult.IsErr())
       return true;
 
-    if (_value == null)
-    {
-      if (otherResult.Unwrap() == null)
-        return true;
-
-      return false;
-    }
-
-    if (_value.Equals(otherResult.Unwrap()))
+    if (_value!.Equals(otherResult.Unwrap()))
       return true;
 
     return false;

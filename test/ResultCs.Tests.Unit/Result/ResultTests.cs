@@ -62,4 +62,66 @@ public class ResultTests
 
     Assert.NotEqual(x, y);
   }
+
+  [Fact]
+  public void IncompatibleTypesTest()
+  {
+    var x = Result<int, string>.Ok(1);
+
+    Assert.NotEqual(x, (object)1);
+  }
+
+  [Fact]
+  public void NullEqualsTest()
+  {
+    var x = Result<int, string>.Ok(1);
+
+    Assert.Throws<ArgumentNullException>(() => x.Equals(null));
+  }
+
+  [Fact]
+  public void OkEqualityOperatorsTest()
+  {
+    var x = Result<int, string>.Ok(1);
+    var y = Result<int, string>.Ok(1);
+    var z = Result<int, string>.Ok(2);
+
+    Assert.True(x == y);
+    Assert.True(x != z);
+    Assert.True(y != z);
+  }
+
+  [Fact]
+  public void ErrEqualityOperatorsTest()
+  {
+    var x = Result<int, string>.Err(string.Empty);
+    var y = Result<int, string>.Err(string.Empty);
+    var z = Result<int, string>.Err("Hello, world!");
+
+    Assert.True(x == y);
+    Assert.True(x == z);
+    Assert.True(y == z);
+  }
+
+  [Fact]
+  public void OkHashCodeTest()
+  {
+    var x = Result<int, string>.Ok(1);
+    var y = Result<int, string>.Ok(1);
+
+    Assert.Equal(x.GetHashCode(), x.GetHashCode());
+    Assert.Equal(y.GetHashCode(), y.GetHashCode());
+    Assert.NotEqual(x.GetHashCode(), y.GetHashCode());
+  }
+
+  [Fact]
+  public void ErrHashCodeTest()
+  {
+    var x = Result<int, string>.Err(string.Empty);
+    var y = Result<int, string>.Err(string.Empty);
+
+    Assert.Equal(x.GetHashCode(), x.GetHashCode());
+    Assert.Equal(y.GetHashCode(), y.GetHashCode());
+    Assert.NotEqual(x.GetHashCode(), y.GetHashCode());
+  }
 }
