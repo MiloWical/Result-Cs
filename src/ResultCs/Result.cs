@@ -11,7 +11,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
   // ✓       ✓   ✓    Option<E> Err()
   // ✓       ✓   ✓    T Expect(string msg)
-  //                  E ExpectErr(string msg)
+  // ✓       ✓   ✓    E ExpectErr(string msg)
   //                  bool IsErr()
   //                  bool IsOk()
   //                  IEnumerable<Option<T>> Iter()
@@ -307,15 +307,18 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>should_panic
-  /// let x: Result<u32, &str> = Ok(10);
-  /// x.expect_err("Testing expect_err"); // panics with <c>Testing expect_err: 10<c>
+  /// var x = Result<int, string>.Ok(10);
+  /// x.ExpectErr("Testing ExpectErr"); // panics with <c>Testing ExpectErr: 10<c>
   /// <code>
   /// </summary>
-  /// <param name="msg"></param>
-  /// <returns></returns>
+  /// <param name="msg">The message to panic with.</param>
+  /// <returns>The unwrapped value of <c>self</c></returns>
   public E ExpectErr(string msg)
   {
-    throw new NotImplementedException();
+    if(this.IsErr())
+      return this.UnwrapErr();
+
+    throw new PanicException($"{msg}: {this.Unwrap()!.ToString()}");
   }
 
   /// <summary>
