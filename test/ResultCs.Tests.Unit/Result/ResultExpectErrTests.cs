@@ -7,7 +7,7 @@ public class ResultExpectErrTests
   const string panicMessage = "Something wrong";
 
   [Fact]
-  public void ExpectErrWithErr()
+  public void ExpectErrWithErrTest()
   {
     var output = Result<int, string>.Err(errMessage).ExpectErr(panicMessage);
 
@@ -15,7 +15,7 @@ public class ResultExpectErrTests
   }
 
   [Fact]
-  public void ExpectErrWithOk()
+  public void ExpectErrWithOkTest()
   {
     var output = Assert.Throws<PanicException>(() => Result<int, string>.Ok(okValue).ExpectErr(panicMessage));
 
