@@ -13,7 +13,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    T Expect(string msg)
   // ✓       ✓   ✓    E ExpectErr(string msg)
   // ✓       ✓   ✓    bool IsErr()
-  //                  bool IsOk()
+  // ✓       ✓   ✓    bool IsOk()
   //                  IEnumerable<Option<T>> Iter()
   //                  Result<U, E> Map<U>(Func<T, U> op)
   //                  Result<T, F> MapErr<F>(Func<E, F> op)
@@ -336,7 +336,7 @@ public class Result<T, E>
   /// Assert.True(x.IsErr());
   /// <code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns><c>true<c> if the result is <c>Err</c></returns>
   public bool IsErr()
   {
     return this.Kind == ResultKind.Err;
@@ -350,14 +350,14 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Result<i32, &str> = Ok(-3);
-  /// assert_eq!(x.is_ok(), true);
+  /// var x = Result<int, string>.Ok(-3);
+  /// Assert.True(x.IsOk());
   ///
-  /// let x: Result<i32, &str> = Err("Some error message");
-  /// assert_eq!(x.is_ok(), false);
+  /// var x = Result<int, string>.Err("Some error message");
+  /// Assert.False(x.IsOk());
   /// <code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns><c>true<c> if the result is <c>Ok</c></returns>
   public bool IsOk()
   {
     return this.Kind == ResultKind.Ok;
