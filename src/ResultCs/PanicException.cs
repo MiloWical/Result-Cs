@@ -9,4 +9,10 @@ public class PanicException : Exception
   {
     _message = errMessage;
   }
+
+  internal PanicException(string errMessage, Exception innerException)
+    : base(errMessage, innerException)
+  {
+    _message = $"{errMessage}: {innerException.Message}";
+  }
 }
