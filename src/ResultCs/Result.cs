@@ -10,7 +10,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    Result<U, E> And<U>(Result<U, E> optB)
   // ✓       ✓   ✓    Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
   // ✓       ✓   ✓    Option<E> Err()
-  //                  T Expect(string msg)
+  // ✓       ✓   ✓    T Expect(string msg)
   //                  E ExpectErr(string msg)
   //                  bool IsErr()
   //                  bool IsOk()
@@ -256,8 +256,8 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Result<u32, &str> = Err("emergency failure");
-  /// x.expect("Testing expect"); // panics with <c>Testing expect: emergency failure<c>
+  /// var x = Result<int, string>.Err("emergency failure");
+  /// Assert.Throws<PanicException>(() => x.Expect("Testing expect")); // panics with <c>Testing expect: emergency failure<c>
   /// </code>
   /// </example>
   ///
@@ -267,8 +267,8 @@ public class Result<T, E>
   /// <i>expect</i> the <c>Result</c> should be <c>Ok</c>.
   ///
   /// <code>
-  /// let path = std::env::var("IMPORTANT_PATH")
-  ///     .expect("env variable <c>IMPORTANT_PATH<c> should be set by <c>wrapper_script.sh<c>");
+  /// var path = Environment.GetEnvironmentVariable("IMPORTANT_PATH")
+  ///     .Expect("env variable <c>IMPORTANT_PATH<c> should be set by <c>wrapper_script.sh<c>");
   /// </code>
   ///
   /// <b>>Hint</b>: If you're having trouble remembering how to phrase expect
@@ -284,7 +284,13 @@ public class Result<T, E>
   /// <returns>The unwrapped value of <c>self</c></returns>
   public T Expect(string msg)
   {
-    throw new NotImplementedException();
+    if(this.IsOk())
+      return this.Unwrap();
+
+    if(_err is Exception)
+      throw new PanicException(msg, (_err as Exception)!);
+
+    throw new PanicException($"{msg}: {this.UnwrapErr()!.ToString()}");
   }
 
   /// <summary>
