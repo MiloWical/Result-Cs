@@ -12,7 +12,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    Option<E> Err()
   // ✓       ✓   ✓    T Expect(string msg)
   // ✓       ✓   ✓    E ExpectErr(string msg)
-  //                  bool IsErr()
+  // ✓       ✓   ✓    bool IsErr()
   //                  bool IsOk()
   //                  IEnumerable<Option<T>> Iter()
   //                  Result<U, E> Map<U>(Func<T, U> op)
@@ -329,11 +329,11 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Result<i32, &str> = Ok(-3);
-  /// assert_eq!(x.is_err(), false);
+  /// var x = Result<int, string>.Ok(-3);
+  /// Assert.False(x.IsErr());
   ///
-  /// let x: Result<i32, &str> = Err("Some error message");
-  /// assert_eq!(x.is_err(), true);
+  /// var x = Result<int, string>.Err("Some error message");
+  /// Assert.True(x.IsErr());
   /// <code>
   /// </summary>
   /// <returns></returns>
