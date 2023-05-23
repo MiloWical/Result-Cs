@@ -70,6 +70,9 @@ public class Result<T, E>
   {
     if (other == null) ArgumentNullException.ThrowIfNull(other);
 
+    if (other is not Result<T, E>)
+      return false;
+
     var otherResult = (Result<T, E>)other;
 
     if (this.Kind != otherResult.Kind)
@@ -78,15 +81,7 @@ public class Result<T, E>
     if (this.IsErr() && otherResult.IsErr())
       return true;
 
-    if (_value == null)
-    {
-      if (otherResult.Unwrap() == null)
-        return true;
-
-      return false;
-    }
-
-    if (_value.Equals(otherResult.Unwrap()))
+    if (_value!.Equals(otherResult.Unwrap()))
       return true;
 
     return false;
@@ -96,7 +91,7 @@ public class Result<T, E>
 
   public static bool operator !=(Result<T, E> res1, Result<T, E> res2) => !(res1.Equals(res2));
 
-  public override int GetHashCode() => ((object)this).GetHashCode();
+  public override int GetHashCode() => base.GetHashCode();
 
   /// <summary>
   /// Asserts whether a result is <c>Ok</c> and returns values accordingly.
