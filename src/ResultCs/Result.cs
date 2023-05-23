@@ -91,7 +91,7 @@ public class Result<T, E>
 
   public static bool operator !=(Result<T, E> res1, Result<T, E> res2) => !(res1.Equals(res2));
 
-  public override int GetHashCode() => ((object)this).GetHashCode();
+  public override int GetHashCode() => base.GetHashCode();
 
   /// <summary>
   /// Asserts whether a result is <c>Ok</c> and returns values accordingly.
