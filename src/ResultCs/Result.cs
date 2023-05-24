@@ -15,7 +15,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    bool IsErr()
   // ✓       ✓   ✓    bool IsOk()
   // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
-  //                  Result<U, E> Map<U>(Func<T, U> op)
+  // ✓       ✓   ✓    Result<U, E> Map<U>(Func<T, U> op)
   //                  Result<T, F> MapErr<F>(Func<E, F> op)
   //                  U MapOr<U>(U def, Func<T, U> f)
   //                  U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
@@ -44,7 +44,7 @@ public class Result<T, E>
   /// The <see cref="ResultKind"/> of the current <c>Result</c>.
   /// </summary>
   public ResultKind Kind { get; private set; }
-  
+
   // If this Result is Ok, the value wrapped by the response.
   private T? _value;
 
@@ -219,7 +219,7 @@ public class Result<T, E>
   /// Assert.Equal(Result<int, string>.Ok(2).AndThen(SquareThenToString), Result<string, string>.Ok(4.ToString()));
   /// Assert.Equal(Result<int, string>.Ok(int.MaxValue).AndThen(SquareThenToString), Result<string, string>.Err("overflowed"));
   /// Assert.Equal(Result<int, string>.Err("not a number").AndThen(SquareThenToString), Result<string, string>.Err("not a number"));
-  /// <code>
+  /// </code>
   ///
   /// Often used to chain fallible operations that may return <c>Err</c>.
   ///
@@ -246,7 +246,7 @@ public class Result<T, E>
     {
       return Result<U, E>.Err(this.UnwrapErr());
     }
-    
+
     return f.Invoke(this.Unwrap());
   }
 
@@ -274,7 +274,7 @@ public class Result<T, E>
   /// and <c>Option<E></c></returns>
   public Option<E> Err()
   {
-    if(this.IsErr())
+    if (this.IsErr())
       return Option<E>.Some(_err!);
 
     return Option<E>.None();
@@ -310,7 +310,7 @@ public class Result<T, E>
   /// We recommend that <c>expect</c> messages are used to describe the reason you
   /// <i>expect</i> the <c>Result</c> should be <c>Ok</c>.
   ///
-  /// <code>
+  /// </code>
   /// var path = Environment.GetEnvironmentVariable("IMPORTANT_PATH")
   ///     .Expect("env variable <c>IMPORTANT_PATH<c> should be set by <c>wrapper_script.sh<c>");
   /// </code>
@@ -328,10 +328,10 @@ public class Result<T, E>
   /// <returns>The unwrapped value of <c>self</c></returns>
   public T Expect(string msg)
   {
-    if(this.IsOk())
+    if (this.IsOk())
       return this.Unwrap();
 
-    if(_err is Exception)
+    if (_err is Exception)
       throw new PanicException(msg, (_err as Exception)!);
 
     throw new PanicException($"{msg}: {this.UnwrapErr()!.ToString()}");
@@ -353,13 +353,13 @@ public class Result<T, E>
   /// <code>should_panic
   /// var x = Result<int, string>.Ok(10);
   /// x.ExpectErr("Testing ExpectErr"); // panics with <c>Testing ExpectErr: 10<c>
-  /// <code>
+  /// </code>
   /// </summary>
   /// <param name="msg">The message to panic with.</param>
   /// <returns>The unwrapped value of <c>self</c></returns>
   public E ExpectErr(string msg)
   {
-    if(this.IsErr())
+    if (this.IsErr())
       return this.UnwrapErr();
 
     throw new PanicException($"{msg}: {this.Unwrap()!.ToString()}");
@@ -378,7 +378,7 @@ public class Result<T, E>
   ///
   /// var x = Result<int, string>.Err("Some error message");
   /// Assert.True(x.IsErr());
-  /// <code>
+  /// </code>
   /// </summary>
   /// <returns><c>true<c> if the result is <c>Err</c></returns>
   public bool IsErr()
@@ -399,7 +399,7 @@ public class Result<T, E>
   ///
   /// var x = Result<int, string>.Err("Some error message");
   /// Assert.False(x.IsOk());
-  /// <code>
+  /// </code>
   /// </summary>
   /// <returns><c>true<c> if the result is <c>Ok</c></returns>
   public bool IsOk()
@@ -430,7 +430,7 @@ public class Result<T, E>
   /// Assert.True(iter.MoveNext());
   /// Assert.Equal(iter.Current, Option<int>.None());
   /// Assert.False(iter.MoveNext());
-  /// <code>
+  /// </code>
   /// </summary>
   /// <returns>An <c>IEnumerable<Option<T>></c> containing a single value. 
   /// <ul>
@@ -439,7 +439,7 @@ public class Result<T, E>
   /// </ul></returns>
   public IEnumerable<Option<T>> Iter()
   {
-    if(this.IsOk())
+    if (this.IsOk())
       return new List<Option<T>> { Option<T>.Some(this.Unwrap()) };
 
     return new List<Option<T>> { Option<T>.None() };
@@ -456,22 +456,35 @@ public class Result<T, E>
   /// Print the numbers on each line of a string multiplied by two.
   ///
   /// <code>
-  /// let line = "1\n2\n3\n4\n";
+  /// var lines = "1\n2\n3\n4\nbad_num";
   ///
-  /// for num in line.lines() {
-  ///     match num.parse::<i32>().map(|i| i * 2) {
-  ///         Ok(n) => println!("{n}"),
-  ///         Err(..) => {}
-  ///     }
-  /// }
-  /// <code>
+  /// foreach(var line in lines.Split('\n'))
+  /// {
+  ///   var result = int.TryParse(line, out var num) ? Result<int, string>.Ok(num) : Result<int, string>.Err($"Could not parse: {line}");
+  ///   
+  ///   var mapped = result.Map(i => i * 2);
+  /// 
+  ///   switch (mapped.Kind)
+  ///   {
+  ///    case ResultKind.Ok:
+  ///       Assert.Equal(num * 2, mapped.Unwrap());
+  ///       break;
+  ///     case ResultKind.Err:
+  ///       Assert.Contains(line, mapped.UnwrapErr());
+  ///       break;
+  ///   };
+  /// }  
+  /// </code>
   /// </summary>
-  /// <param name="op"></param>
-  /// <typeparam name="U"></typeparam>
-  /// <returns></returns>
-  public Result<U, E> Map<U>(Func<T, U> op)
+  /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
+  /// <typeparam name="U">The output type of <c>op</c>.</typeparam>
+  /// <returns>A <c>Result</c> that's the output of applying <c>op</op> to the current <c>Result</c>'s <c>Ok</c> value.</returns>
+public Result<U, E> Map<U>(Func<T, U> op)
   {
-    throw new NotImplementedException();
+    if (this.IsErr())
+      return Result<U, E>.Err(this.UnwrapErr());
+
+    return Result<U, E>.Ok(op.Invoke(this.Unwrap()));
   }
 
   /// <summary>
@@ -494,7 +507,7 @@ public class Result<T, E>
   ///
   /// let x: Result<u32, u32> = Err(13);
   /// assert_eq!(x.map_err(stringify), Err("error code: 13".to_string()));
-  /// <code>
+  /// </code>
   /// </summary>
   /// <param name="op"></param>
   /// <typeparam name="F"></typeparam>
@@ -522,7 +535,7 @@ public class Result<T, E>
   ///
   /// let x: Result<&str, _> = Err("bar");
   /// assert_eq!(x.map_or(42, |v| v.len()), 42);
-  /// <code>
+  /// </code>
   /// </summary>
   /// <param name="def"></param>
   /// <param name="f"></param>
@@ -553,7 +566,7 @@ public class Result<T, E>
   ///
   /// let x : Result<&str, _> = Err("bar");
   /// assert_eq!(x.map_or_else(|e| k * 2, |v| v.len()), 42);
-  /// <code>
+  /// </code>
   /// </summary>
   /// <param name="def"></param>
   /// <param name="f"></param>
@@ -580,7 +593,7 @@ public class Result<T, E>
   ///
   /// let x: Result<u32, &str> = Err("Nothing here");
   /// assert_eq!(x.ok(), None);
-  /// <code>
+  /// </code>
   /// </summary>
   /// <returns></returns>
   public Result<T, E> Ok()
@@ -617,7 +630,7 @@ public class Result<T, E>
   /// let x: Result<u32, &str> = Ok(2);
   /// let y: Result<u32, &str> = Ok(100);
   /// assert_eq!(x.or(y), Ok(2));
-  /// <code>
+  /// </code>
   /// </summary>
   /// <param name="res"></param>
   /// <typeparam name="F"></typeparam>
@@ -645,7 +658,7 @@ public class Result<T, E>
   /// assert_eq!(Ok(2).or_else(err).or_else(sq), Ok(2));
   /// assert_eq!(Err(3).or_else(sq).or_else(err), Ok(9));
   /// assert_eq!(Err(3).or_else(err).or_else(err), Err(3));
-  /// <code>
+  /// </code>
   /// </summary>
   /// <param name="op"></param>
   /// <typeparam name="F"></typeparam>
@@ -670,7 +683,7 @@ public class Result<T, E>
   /// let x: Result<Option<i32>, SomeErr> = Ok(Some(5));
   /// let y: Option<Result<i32, SomeErr>> = Some(Ok(5));
   /// assert_eq!(x.transpose(), y);
-  /// <code>
+  /// </code>
   /// </summary>
   /// <returns></returns>
   public Option<Result<T, E>> Transpose()
@@ -703,12 +716,12 @@ public class Result<T, E>
   /// <code>
   /// let x: Result<u32, &str> = Ok(2);
   /// assert_eq!(x.unwrap(), 2);
-  /// <code>
+  /// </code>
   ///
   /// <code>should_panic
   /// let x: Result<u32, &str> = Err("emergency failure");
   /// x.unwrap(); // panics with <c>emergency failure<c>
-  /// <code>
+  /// </code>
   /// </summary>
   /// <returns></returns>
   public T Unwrap()
@@ -729,12 +742,12 @@ public class Result<T, E>
   /// <code>should_panic
   /// let x: Result<u32, &str> = Ok(2);
   /// x.unwrap_err(); // panics with <c>2<c>
-  /// <code>
+  /// </code>
   ///
   /// <code>
   /// let x: Result<u32, &str> = Err("emergency failure");
   /// assert_eq!(x.unwrap_err(), "emergency failure");
-  /// <code>
+  /// </code>
   /// </summary>
   /// <returns></returns>
   public E UnwrapErr()
@@ -763,7 +776,7 @@ public class Result<T, E>
   ///
   /// let x: Result<u32, &str> = Err("error");
   /// assert_eq!(x.unwrap_or(default), default);
-  /// <code>
+  /// </code>
   /// </summary>
   /// <param name="def"></param>
   /// <returns></returns>
@@ -794,7 +807,7 @@ public class Result<T, E>
   ///
   /// assert_eq!(1909, good_year);
   /// assert_eq!(0, bad_year);
-  /// <code>
+  /// </code>
   /// </summary>
   /// <returns></returns>
   public T UnwrapOrDefault()
@@ -815,7 +828,7 @@ public class Result<T, E>
   ///
   /// assert_eq!(Ok(2).unwrap_or_else(count), 2);
   /// assert_eq!(Err("foo").unwrap_or_else(count), 3);
-  /// <code>
+  /// </code>
   /// </summary>
   /// <param name="op"></param>
   /// <returns></returns>
