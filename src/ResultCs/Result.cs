@@ -14,7 +14,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    E ExpectErr(string msg)
   // ✓       ✓   ✓    bool IsErr()
   // ✓       ✓   ✓    bool IsOk()
-  //                  IEnumerable<Option<T>> Iter()
+  // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
   //                  Result<U, E> Map<U>(Func<T, U> op)
   //                  Result<T, F> MapErr<F>(Func<E, F> op)
   //                  U MapOr<U>(U def, Func<T, U> f)
