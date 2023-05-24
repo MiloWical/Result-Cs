@@ -408,26 +408,41 @@ public class Result<T, E>
   }
 
   /// <summary>
-  /// Returns an iterator over the possibly contained value.
+  /// Returns an enumerable over the possibly contained value.
   ///
-  /// The iterator yields one value if the result is <c>Result::Ok</c>, otherwise none.
+  /// The iterator yields one value if the result is <see cref="ResultKind.Ok"/>, otherwise none.
   ///
   /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Result<u32, &str> = Ok(7);
-  /// assert_eq!(x.iter().next(), Some(&7));
+  /// var x = Result<int, string>.Ok(7);
+  /// var iter = x.Iter().GetEnumerator();
   ///
-  /// let x: Result<u32, &str> = Err("nothing!");
-  /// assert_eq!(x.iter().next(), None);
+  /// Assert.True(iter.MoveNext());
+  /// Assert.Equal(iter.Current, Option<int>.Some(7));
+  /// Assert.False(iter.MoveNext());
+  ///
+  /// var x = Result<int, string>.Err("nothing!");
+  /// var iter = x.Iter().GetEnumerator();
+  ///
+  /// Assert.True(iter.MoveNext());
+  /// Assert.Equal(iter.Current, Option<int>.None());
+  /// Assert.False(iter.MoveNext());
   /// <code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns>An <c>IEnumerable<Option<T>></c> containing a single value. 
+  /// <ul>
+  /// <li>If <c>this</c> is <c>ResultKind.Ok</c>, the value is an <c>OptionKind.Some</c> with the unwrapped value of <c>this</c>
+  /// <li>If <c>this</c> is <c>ResultKind.Ok</c>, the value is an <c>OptionKind.None</c>
+  /// </ul></returns>
   public IEnumerable<Option<T>> Iter()
   {
-    throw new NotImplementedException();
+    if(this.IsOk())
+      return new List<Option<T>> { Option<T>.Some(this.Unwrap()) };
+
+    return new List<Option<T>> { Option<T>.None() };
   }
 
   /// <summary>
