@@ -40,10 +40,24 @@ public class Result<T, E>
   //                  bool IsErrAnd(Func<E, bool> f)
   //                  bool IsOkAnd(Func<T, bool> f)
 
+  /// <summary>
+  /// The <see cref="ResultKind"/> of the current <c>Result</c>.
+  /// </summary>
   public ResultKind Kind { get; private set; }
+  
+  // If this Result is Ok, the value wrapped by the response.
   private T? _value;
+
+  // If this result is Err, the error wrapped by the response.
   private E? _err;
 
+  /// <summary>
+  /// Generates a <c>Result</c> with a <c>ResultKind</c> of <see cref="ResultKind.Ok"/>.
+  /// 
+  /// The value passed is not permitted to be <c>null</c>.
+  /// </summary>
+  /// <param name="value">The value to wrap in the <c>Result</c></param>
+  /// <returns>The <c>Result</c> of kind <c>Ok</c> with the provided value wrapped.</returns>
   public static Result<T, E> Ok(T value)
   {
     ArgumentNullException.ThrowIfNull(value);
@@ -55,6 +69,13 @@ public class Result<T, E>
     return result;
   }
 
+  /// <summary>
+  /// Generates a <c>Result</c> with a <c>ResultKind</c> of <see cref="ResultKind.Err"/>.
+  /// 
+  /// The error passed is not permitted to be <c>null</c>.
+  /// </summary>
+  /// <param name="err">The error to wrap in the <c>Result</c></param>
+  /// <returns>The <c>Result</c> of kind <c>Err</c> with the provided error wrapped.</returns>
   public static Result<T, E> Err(E err)
   {
     ArgumentNullException.ThrowIfNull(err);
@@ -66,6 +87,18 @@ public class Result<T, E>
     return result;
   }
 
+  /// <summary>
+  /// Tests two <c>Result</c> objects for equality.
+  /// 
+  /// Overrides <see cref="Object.Equals(object?)"/>.
+  /// </summary>
+  /// <param name="other">The <c>Result</c> to test <c>this</c> against.</param>
+  /// <returns><c>true</c> if one of the following is true:
+  /// <ul>
+  /// <li>The two <c>Result</c> objects are <c>Ok</c> and their wrapped values are the same</li>
+  /// <li>The two <c>Result</c> objects are <c>Err</c></li>
+  /// </ul>
+  /// <c>false</c> otherwise</returns>
   public override bool Equals(object? other)
   {
     if (other == null) ArgumentNullException.ThrowIfNull(other);
@@ -87,10 +120,26 @@ public class Result<T, E>
     return false;
   }
 
+  /// <summary>
+  /// Convenience override of the <c>==</c> operator.
+  /// </summary>
+  /// <param name="res1">The first <c>Result</c> to compare</param>
+  /// <param name="res2">The second <c>Result</c> to compare</param>
+  /// <returns>The result of <c>res1.Equals(res2)</c></returns>
   public static bool operator ==(Result<T, E> res1, Result<T, E> res2) => res1.Equals(res2);
 
+  /// <summary>
+  /// Convenience override of the <c>!=</c> operator.
+  /// </summary>
+  /// <param name="res1">The first <c>Result</c> to compare</param>
+  /// <param name="res2">The second <c>Result</c> to compare</param>
+  /// <returns>The result of <c>!res1.Equals(res2)</c></returns>
   public static bool operator !=(Result<T, E> res1, Result<T, E> res2) => !(res1.Equals(res2));
 
+  /// <summary>
+  /// Override of <see cref="Object.GetHashCode()"/>.
+  /// </summary>
+  /// <returns><c>base.GetHashCode()</c></returns>
   public override int GetHashCode() => base.GetHashCode();
 
   /// <summary>
