@@ -16,7 +16,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    bool IsOk()
   // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
   // ✓       ✓   ✓    Result<U, E> Map<U>(Func<T, U> op)
-  //                  Result<T, F> MapErr<F>(Func<E, F> op)
+  // ✓       ✓   ✓    Result<T, F> MapErr<F>(Func<E, F> op)
   //                  U MapOr<U>(U def, Func<T, U> f)
   //                  U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
   //                  Option<T> Ok()
@@ -479,7 +479,7 @@ public class Result<T, E>
   /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
   /// <typeparam name="U">The output type of <c>op</c>.</typeparam>
   /// <returns>A <c>Result</c> that's the output of applying <c>op</op> to the current <c>Result</c>'s <c>Ok</c> value.</returns>
-public Result<U, E> Map<U>(Func<T, U> op)
+  public Result<U, E> Map<U>(Func<T, U> op)
   {
     if (this.IsErr())
       return Result<U, E>.Err(this.UnwrapErr());
@@ -500,21 +500,27 @@ public Result<U, E> Map<U>(Func<T, U> op)
   /// Basic usage:
   ///
   /// <code>
-  /// fn stringify(x: u32) -> String { format!("error code: {x}") }
+  /// public string Stringify(int x)
+  /// {
+  ///   return $"error code: {x}";
+  /// }
   ///
-  /// let x: Result<u32, u32> = Ok(2);
-  /// assert_eq!(x.map_err(stringify), Ok(2));
+  /// var x = Result<int, int>.Ok(2);
+  /// Assert.Equal(x.MapErr(Stringify), Result<int, string>.Ok(2));
   ///
-  /// let x: Result<u32, u32> = Err(13);
-  /// assert_eq!(x.map_err(stringify), Err("error code: 13".to_string()));
+  /// var x = Result<int, int>.Err(13);
+  /// Assert.Equal(x.MapErr(Stringify), Result<int, string>.Err("error code: 13"));
   /// </code>
   /// </summary>
-  /// <param name="op"></param>
-  /// <typeparam name="F"></typeparam>
-  /// <returns></returns>
+  /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Err</c>.</param>
+  /// <typeparam name="F">The output type of <c>op</c>.</typeparam>
+  /// <returns>A <c>Result</c> that's the output of applying <c>op</op> to the current <c>Result</c>'s <c>Err</c> value.</returns>
   public Result<T, F> MapErr<F>(Func<E, F> op)
   {
-    throw new NotImplementedException();
+    if (this.IsOk())
+      return Result<T, F>.Ok(this.Unwrap());
+
+    return Result<T, F>.Err(op.Invoke(this.UnwrapErr()));
   }
 
   /// <summary>
