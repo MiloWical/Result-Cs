@@ -19,7 +19,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    Result<T, F> MapErr<F>(Func<E, F> op)
   // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
   // ✓       ✓   ✓    U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
-  //                  Option<T> Ok()
+  // ✓       ✓        Option<T> Ok()
   //                  Result<T, F> Or<F>(Result<T, F> res)
   //                  Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
   //                  Option<Result<T, E>> Transpose()
@@ -602,17 +602,21 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Result<u32, &str> = Ok(2);
-  /// assert_eq!(x.ok(), Some(2));
+  /// var x = Result<int, string>.Ok(2);
+  /// Assert.Equal(x.Ok(), Option<int>.Some(2));
   ///
-  /// let x: Result<u32, &str> = Err("Nothing here");
-  /// assert_eq!(x.ok(), None);
+  /// var x = Result<int, string>.Err("Nothing here");
+  /// Assert.Equal(x.Ok(), Option<int>.None());
   /// </code>
   /// </summary>
-  /// <returns></returns>
-  public Result<T, E> Ok()
+  /// <returns>An <c>Option</c> that contains a <c>Some</c> value if 
+  /// <c>this</c> is <c>ResultKind.Ok</c>; <c>None</c> otherwise.</returns>
+  public Option<T> Ok()
   {
-    return Result<T, E>.Ok(_value!);
+    if(this.IsErr())
+      return Option<T>.None();
+
+    return Option<T>.Some(_value!);
   }
 
   /// <summary>
