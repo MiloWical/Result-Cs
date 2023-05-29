@@ -707,18 +707,27 @@ public class Result<T, E>
   /// Examples
   ///
   /// <code>
-  /// #[derive(Debug, Eq, PartialEq)]
-  /// stringuct SomeErr;
   ///
-  /// var x = Result<Option<i32>, SomeErr>.Ok(Some(5));
-  /// var y: Option<Result<i32, SomeErr>> = Some(Ok(5));
-  /// Assert.Equal(x.transpose(), y);
+  /// var x = Result<Option<int>, string>.Ok(Option<int>.Some(5));
+  /// var y = Option<Result<int, string>>.Some(Result<int, string>.Ok(5));
+  /// Assert.Equal(x.Transpose(), y);
   /// </code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns>A <c>Result<c> of an <c>Option<c> into an <c>Option<c> of a <c>Result<c>.</returns>
   public Option<Result<T, E>> Transpose()
   {
-    throw new NotImplementedException();
+    if(this.IsOk())
+    {
+      if(!(this.Unwrap() is Option<T>))
+        throw new PanicException($"The wrapped type is {_value!.GetType()}; expecting Option<{typeof(T)}>/");
+
+      var option = this.Unwrap() as Option<T>;
+
+      if(option!.IsNone())
+        return Option<Result<T, E>>.None();
+    }
+    
+   return Option<Result<T, E>>.Some(this);
   }
 
   /// <summary>
