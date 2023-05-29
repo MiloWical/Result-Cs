@@ -19,7 +19,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    Result<T, F> MapErr<F>(Func<E, F> op)
   // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
   // ✓       ✓   ✓    U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
-  // ✓       ✓        Option<T> Ok()
+  // ✓       ✓   ✓    Option<T> Ok()
   //                  Result<T, F> Or<F>(Result<T, F> res)
   //                  Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
   //                  Option<Result<T, E>> Transpose()
