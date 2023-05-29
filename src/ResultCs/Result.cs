@@ -21,7 +21,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
   // ✓       ✓   ✓    Option<T> Ok()
   // ✓       ✓   ✓    Result<T, F> Or<F>(Result<T, F> res)
-  // ✓       ✓        Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
+  // ✓       ✓   ✓    Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
   //                  Option<Result<T, E>> Transpose()
   //                  T Unwrap()
   //                  E UnwrapErr()
