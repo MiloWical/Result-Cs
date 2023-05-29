@@ -17,7 +17,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
   // ✓       ✓   ✓    Result<U, E> Map<U>(Func<T, U> op)
   // ✓       ✓   ✓    Result<T, F> MapErr<F>(Func<E, F> op)
-  //                  U MapOr<U>(U def, Func<T, U> f)
+  // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
   //                  U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
   //                  Option<T> Ok()
   //                  Result<T, F> Or<F>(Result<T, F> res)
@@ -527,29 +527,31 @@ public class Result<T, E>
   /// Returns the provided default (if <c>Err</c>), or
   /// applies a function to the contained value (if <c>Ok</c>),
   ///
-  /// Arguments passed to <c>map_or<c> are eagerly evaluated; if you are passing
-  /// the result of a function call, it is recommended to use <c>map_or_else</c>,
+  /// Arguments passed to <c>MapOr<c> are eagerly evaluated; if you are passing
+  /// the result of a function call, it is recommended to use <c>MapOrElse</c>,
   /// which is lazily evaluated.
-  ///
-  /// <c>map_or_else</c>: Result::map_or_else
   ///
   /// Examples
   ///
   /// <code>
-  /// let x: Result<_, &str> = Ok("foo");
-  /// assert_eq!(x.map_or(42, |v| v.len()), 3);
+  /// var x = Result<string, string>.Ok("foo");
+  /// Assert.Equal(3, x.MapOr(42, v => v.Length));
   ///
-  /// let x: Result<&str, _> = Err("bar");
-  /// assert_eq!(x.map_or(42, |v| v.len()), 42);
+  /// var x = Result<string, string>.Err("bar");
+  /// Assert.Equal(42, x.MapOr(42, v => v.Length));
   /// </code>
   /// </summary>
-  /// <param name="def"></param>
-  /// <param name="f"></param>
-  /// <typeparam name="U"></typeparam>
-  /// <returns></returns>
+  /// <param name="def">The default value to return if <c>this</c> is <c>ResultKind.Err</c>.</param>
+  /// <param name="f">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
+  /// <typeparam name="U">The output type of <c>f</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a <c>Result</c> that's the output of applying 
+  /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise <c>def</c>.</returns>
   public U MapOr<U>(U def, Func<T, U> f)
   {
-    throw new NotImplementedException();
+    if(this.IsErr())
+      return def;
+
+    return f.Invoke(this.Unwrap());
   }
 
   /// <summary>
