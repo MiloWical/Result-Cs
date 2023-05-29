@@ -20,8 +20,8 @@ public class Result<T, E>
   // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
   // ✓       ✓   ✓    U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
   // ✓       ✓   ✓    Option<T> Ok()
-  // ✓                Result<T, F> Or<F>(Result<T, F> res)
-  //                  Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
+  // ✓       ✓   ✓    Result<T, F> Or<F>(Result<T, F> res)
+  // ✓       ✓        Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
   //                  Option<Result<T, E>> Transpose()
   //                  T Unwrap()
   //                  E UnwrapErr()
@@ -639,8 +639,8 @@ public class Result<T, E>
   /// var y = Result<int, string>.Ok(2);
   /// Assert.Equal(x.Or(y), Result<int, string>.Ok(2));
   ///
-  /// var x = Result<int, string> = Err("not a 2");
-  /// var y = Result<int, string> = Err("late error");
+  /// var x = Result<int, string>.Err("not a 2");
+  /// var y = Result<int, string>.Err("late error");
   /// Assert.Equal(x.Or(y), Result<int, string>.Err("late error"));
   ///
   /// var x = Result<int, string>.Ok(2);
@@ -665,27 +665,37 @@ public class Result<T, E>
   ///
   /// This function can be used for control flow based on result values.
   ///
-  ///
   /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// fn sq(x: int) -> Result<int, int> { Ok(x * x) }
-  /// fn err(x: int) -> Result<int, int> { Err(x) }
+  /// public Result<int, int> sq(int x) 
+  /// {
+  ///   return Result<int, int>.Ok(x * x); 
+  /// }
+  /// 
+  /// public Result<int, int> err(int x)
+  /// {
+  ///   return Result<int, int>.Err(x);
+  /// }
   ///
-  /// Assert.Equal(Ok(2).or_else(sq).or_else(sq), Ok(2));
-  /// Assert.Equal(Ok(2).or_else(err).or_else(sq), Ok(2));
-  /// Assert.Equal(Err(3).or_else(sq).or_else(err), Ok(9));
-  /// Assert.Equal(Err(3).or_else(err).or_else(err), Err(3));
+  /// Assert.Equal(Result<int, int>.Ok(2).OrElse(sq).OrElse(sq), Result<int, int>.Ok(2));
+  /// Assert.Equal(Result<int, int>.Ok(2).OrElse(err).OrElse(sq), Result<int, int>.Ok(2));
+  /// Assert.Equal(Result<int, int>.Err(3).OrElse(sq).OrElse(err), Result<int, int>.Ok(9));
+  /// Assert.Equal(Result<int, int>.Err(3).OrElse(err).OrElse(err), Result<int, int>.Err(3));
   /// </code>
   /// </summary>
-  /// <param name="op"></param>
-  /// <typeparam name="F"></typeparam>
-  /// <returns></returns>
+  /// <param name="op">The function to invoke when <c>this</c> is <c>Err</c>.</param>
+  /// <typeparam name="F">The <c>Err</c> return type of <c>op</c>.</typeparam>
+  /// <returns>The <c>op</c> result if <c>this</c> is <c>Err</c>; otherwise 
+  /// the <c>Ok</c> value of <c>self<c>.</returns>
   public Result<T, F> OrElse<F>(Func<E, Result<T, F>> op)
   {
-    throw new NotImplementedException();
+    if(this.IsOk())
+      return Result<T, F>.Ok(this.Unwrap());
+
+    return op.Invoke(this.UnwrapErr());
   }
 
   /// <summary>
@@ -716,11 +726,11 @@ public class Result<T, E>
   ///
   /// Because this function may panic, its use is generally discouraged.
   /// Instead, prefer to use pattern matching and handle the <c>Err</c>
-  /// case explicitly, or call <c>unwrap_or</c>, <c>unwrap_or_else</c>, or
+  /// case explicitly, or call <c>unwrap_or</c>, <c>unwrap_OrElse</c>, or
   /// <c>unwrap_or_default</c>.
   ///
   /// <c>unwrap_or</c> = Result::unwrap_or
-  /// <c>unwrap_or_else</c> = Result::unwrap_or_else
+  /// <c>unwrap_OrElse</c> = Result::unwrap_OrElse
   /// <c>unwrap_or_default</c> = Result::unwrap_or_default
   ///
   /// # Panics
@@ -780,10 +790,10 @@ public class Result<T, E>
   /// Returns the contained <c>Ok</c> value or a provided default.
   ///
   /// Arguments passed to <c>unwrap_or<c> are eagerly evaluated; if you are passing
-  /// the result of a function call, it is recommended to use <c>unwrap_or_else</c>,
+  /// the result of a function call, it is recommended to use <c>unwrap_OrElse</c>,
   /// which is lazily evaluated.
   ///
-  /// <c>unwrap_or_else</c> = Result::unwrap_or_else
+  /// <c>unwrap_OrElse</c> = Result::unwrap_OrElse
   ///
   /// Examples
   ///
@@ -846,8 +856,8 @@ public class Result<T, E>
   /// <code>
   /// fn count(x: string) -> usize { x.len() }
   ///
-  /// Assert.Equal(Ok(2).unwrap_or_else(count), 2);
-  /// Assert.Equal(Err("foo").unwrap_or_else(count), 3);
+  /// Assert.Equal(Ok(2).unwrap_OrElse(count), 2);
+  /// Assert.Equal(Err("foo").unwrap_OrElse(count), 3);
   /// </code>
   /// </summary>
   /// <param name="op"></param>
