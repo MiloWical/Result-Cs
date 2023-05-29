@@ -18,7 +18,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    Result<U, E> Map<U>(Func<T, U> op)
   // ✓       ✓   ✓    Result<T, F> MapErr<F>(Func<E, F> op)
   // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
-  //                  U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
+  // ✓       ✓   ✓    U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
   //                  Option<T> Ok()
   //                  Result<T, F> Or<F>(Result<T, F> res)
   //                  Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
@@ -567,22 +567,28 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// let k = 21;
+  /// var k = 21;
   ///
-  /// let x : Result<_, &str> = Ok("foo");
-  /// assert_eq!(x.map_or_else(|e| k * 2, |v| v.len()), 3);
+  /// var x = Result<string, string>.Ok("foo");
+  /// Assert.Equal(x.MapOrElse(_ => k * 2, v => v.Length), 3);
   ///
-  /// let x : Result<&str, _> = Err("bar");
-  /// assert_eq!(x.map_or_else(|e| k * 2, |v| v.len()), 42);
+  /// var x = Result<string, string>.Err("bar");
+  /// Assert.Equal(x.MapOrElse(_ => k * 2, v => v.Length), 42);
   /// </code>
   /// </summary>
-  /// <param name="def"></param>
-  /// <param name="f"></param>
-  /// <typeparam name="U"></typeparam>
-  /// <returns></returns>
+  /// <param name="def">The default function to invoke on the <c>Err</c> value 
+  /// if <c>this</c> is <c>ResultKind.Err</c>.</param>
+  /// <param name="f">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
+  /// <typeparam name="U">The output type of <c>def</c> and <c>f</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a <c>Result</c> that's the output of applying 
+  /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise a <c>Result</c> that's the 
+  /// output of applying <c>def</op> to the current <c>Result</c>'s <c>Err</c> value.</returns>
   public U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
   {
-    throw new NotImplementedException();
+    if(this.IsErr())
+      return def.Invoke(this.UnwrapErr());
+
+    return f.Invoke(this.Unwrap());
   }
 
   /// <summary>
