@@ -3,7 +3,7 @@ namespace ResultCs.Tests.Unit.Result;
 public class ResultIterTests
 {
   [Fact]
-  public void IterOkTest()
+  public void ResultIterOkTest()
   {
     var x = Result<int, string>.Ok(7);
     var iter = x.Iter().GetEnumerator();
@@ -14,7 +14,7 @@ public class ResultIterTests
   }
 
   [Fact]
-  public void IterErrTest()
+  public void ResultIterErrTest()
   {
     var x = Result<int, string>.Err("nothing!");
     var iter = x.Iter().GetEnumerator();

@@ -3,7 +3,7 @@ namespace ResultCs.Tests.Unit.Result;
 public class ResultMapTests
 {
   [Fact]
-  public void MapTest()
+  public void ResultMapTest()
   {
     var lines = "1\n2\n3\n4\nbad_num";
 

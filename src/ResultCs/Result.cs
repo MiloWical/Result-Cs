@@ -19,9 +19,9 @@ public class Result<T, E>
   // ✓       ✓   ✓    Result<T, F> MapErr<F>(Func<E, F> op)
   // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
   // ✓       ✓   ✓    U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
-  // ✓       ✓        Option<T> Ok()
-  //                  Result<T, F> Or<F>(Result<T, F> res)
-  //                  Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
+  // ✓       ✓   ✓    Option<T> Ok()
+  // ✓       ✓   ✓    Result<T, F> Or<F>(Result<T, F> res)
+  // ✓       ✓   ✓    Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
   //                  Option<Result<T, E>> Transpose()
   //                  T Unwrap()
   //                  E UnwrapErr()
@@ -460,7 +460,7 @@ public class Result<T, E>
   ///
   /// foreach(var line in lines.Split('\n'))
   /// {
-  ///   var result = int.TryParse(line, out var num) ? Result<int, string>.Ok(num) : Result<int, string>.Err($"Could not parse: {line}");
+  ///   var result = int.TryParse(line, out var num) ? Result<int, string>.Ok(num)  = Result<int, string>.Err($"Could not parse: {line}");
   ///   
   ///   var mapped = result.Map(i => i * 2);
   /// 
@@ -500,16 +500,16 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// public string Stringify(int x)
+  /// public string stringify(int x)
   /// {
   ///   return $"error code: {x}";
   /// }
   ///
   /// var x = Result<int, int>.Ok(2);
-  /// Assert.Equal(x.MapErr(Stringify), Result<int, string>.Ok(2));
+  /// Assert.Equal(x.MapErr(stringify), Result<int, string>.Ok(2));
   ///
   /// var x = Result<int, int>.Err(13);
-  /// Assert.Equal(x.MapErr(Stringify), Result<int, string>.Err("error code: 13"));
+  /// Assert.Equal(x.MapErr(stringify), Result<int, string>.Err("error code: 13"));
   /// </code>
   /// </summary>
   /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Err</c>.</param>
@@ -622,40 +622,42 @@ public class Result<T, E>
   /// <summary>
   /// Returns <c>res<c> if the result is <c>Err</c>, otherwise returns the <c>Ok</c> value of <c>self<c>.
   ///
-  /// Arguments passed to <c>or<c> are eagerly evaluated; if you are passing the
-  /// result of a function call, it is recommended to use <c>or_else</c>, which is
+  /// Arguments passed to <c>Or()<c> are eagerly evaluated; if you are passing the
+  /// result of a function call, it is recommended to use <see cref="OrElse"/>, which is
   /// lazily evaluated.
-  ///
-  /// <c>or_else</c>: Result::or_else
   ///
   /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Result<u32, &str> = Ok(2);
-  /// let y: Result<u32, &str> = Err("late error");
-  /// assert_eq!(x.or(y), Ok(2));
+  /// var x = Result<int, string>.Ok(2);
+  /// var y = Result<int, string>.Err("late error");
+  /// Assert.Equal(x.Or(y), Result<int, string>.Ok(2));
   ///
-  /// let x: Result<u32, &str> = Err("early error");
-  /// let y: Result<u32, &str> = Ok(2);
-  /// assert_eq!(x.or(y), Ok(2));
+  /// var x = Result<int, string>.Err("early error");
+  /// var y = Result<int, string>.Ok(2);
+  /// Assert.Equal(x.Or(y), Result<int, string>.Ok(2));
   ///
-  /// let x: Result<u32, &str> = Err("not a 2");
-  /// let y: Result<u32, &str> = Err("late error");
-  /// assert_eq!(x.or(y), Err("late error"));
+  /// var x = Result<int, string>.Err("not a 2");
+  /// var y = Result<int, string>.Err("late error");
+  /// Assert.Equal(x.Or(y), Result<int, string>.Err("late error"));
   ///
-  /// let x: Result<u32, &str> = Ok(2);
-  /// let y: Result<u32, &str> = Ok(100);
-  /// assert_eq!(x.or(y), Ok(2));
+  /// var x = Result<int, string>.Ok(2);
+  /// var y = Result<int, string>.Ok(100);
+  /// Assert.Equal(x.Or(y), Result<int, string>.Ok(2));
   /// </code>
   /// </summary>
-  /// <param name="res"></param>
-  /// <typeparam name="F"></typeparam>
-  /// <returns></returns>
+  /// <param name="res">The <c>Result</c> to return if <c>this</c> is <c>Err</c>.</param>
+  /// <typeparam name="F">The <c>Ok</c> type of the return <c>Result</c>.</typeparam>
+  /// <returns><c>res<c> if the result is <c>Err</c>, otherwise returns the 
+  /// <c>Ok</c> value of <c>self<c>.</returns>
   public Result<T, F> Or<F>(Result<T, F> res)
   {
-    throw new NotImplementedException();
+    if(this.IsErr())
+      return res;
+
+    return Result<T, F>.Ok(this.Unwrap());
   }
 
   /// <summary>
@@ -663,27 +665,37 @@ public class Result<T, E>
   ///
   /// This function can be used for control flow based on result values.
   ///
-  ///
   /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// fn sq(x: u32) -> Result<u32, u32> { Ok(x * x) }
-  /// fn err(x: u32) -> Result<u32, u32> { Err(x) }
+  /// public Result<int, int> sq(int x) 
+  /// {
+  ///   return Result<int, int>.Ok(x * x); 
+  /// }
+  /// 
+  /// public Result<int, int> err(int x)
+  /// {
+  ///   return Result<int, int>.Err(x);
+  /// }
   ///
-  /// assert_eq!(Ok(2).or_else(sq).or_else(sq), Ok(2));
-  /// assert_eq!(Ok(2).or_else(err).or_else(sq), Ok(2));
-  /// assert_eq!(Err(3).or_else(sq).or_else(err), Ok(9));
-  /// assert_eq!(Err(3).or_else(err).or_else(err), Err(3));
+  /// Assert.Equal(Result<int, int>.Ok(2).OrElse(sq).OrElse(sq), Result<int, int>.Ok(2));
+  /// Assert.Equal(Result<int, int>.Ok(2).OrElse(err).OrElse(sq), Result<int, int>.Ok(2));
+  /// Assert.Equal(Result<int, int>.Err(3).OrElse(sq).OrElse(err), Result<int, int>.Ok(9));
+  /// Assert.Equal(Result<int, int>.Err(3).OrElse(err).OrElse(err), Result<int, int>.Err(3));
   /// </code>
   /// </summary>
-  /// <param name="op"></param>
-  /// <typeparam name="F"></typeparam>
-  /// <returns></returns>
+  /// <param name="op">The function to invoke when <c>this</c> is <c>Err</c>.</param>
+  /// <typeparam name="F">The <c>Err</c> return type of <c>op</c>.</typeparam>
+  /// <returns>The <c>op</c> result if <c>this</c> is <c>Err</c>; otherwise 
+  /// the <c>Ok</c> value of <c>self<c>.</returns>
   public Result<T, F> OrElse<F>(Func<E, Result<T, F>> op)
   {
-    throw new NotImplementedException();
+    if(this.IsOk())
+      return Result<T, F>.Ok(this.Unwrap());
+
+    return op.Invoke(this.UnwrapErr());
   }
 
   /// <summary>
@@ -696,11 +708,11 @@ public class Result<T, E>
   ///
   /// <code>
   /// #[derive(Debug, Eq, PartialEq)]
-  /// struct SomeErr;
+  /// stringuct SomeErr;
   ///
-  /// let x: Result<Option<i32>, SomeErr> = Ok(Some(5));
-  /// let y: Option<Result<i32, SomeErr>> = Some(Ok(5));
-  /// assert_eq!(x.transpose(), y);
+  /// var x = Result<Option<i32>, SomeErr>.Ok(Some(5));
+  /// var y: Option<Result<i32, SomeErr>> = Some(Ok(5));
+  /// Assert.Equal(x.transpose(), y);
   /// </code>
   /// </summary>
   /// <returns></returns>
@@ -714,12 +726,12 @@ public class Result<T, E>
   ///
   /// Because this function may panic, its use is generally discouraged.
   /// Instead, prefer to use pattern matching and handle the <c>Err</c>
-  /// case explicitly, or call <c>unwrap_or</c>, <c>unwrap_or_else</c>, or
+  /// case explicitly, or call <c>unwrap_or</c>, <c>unwrap_OrElse</c>, or
   /// <c>unwrap_or_default</c>.
   ///
-  /// <c>unwrap_or</c>: Result::unwrap_or
-  /// <c>unwrap_or_else</c>: Result::unwrap_or_else
-  /// <c>unwrap_or_default</c>: Result::unwrap_or_default
+  /// <c>unwrap_or</c> = Result::unwrap_or
+  /// <c>unwrap_OrElse</c> = Result::unwrap_OrElse
+  /// <c>unwrap_or_default</c> = Result::unwrap_or_default
   ///
   /// # Panics
   ///
@@ -732,12 +744,12 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Result<u32, &str> = Ok(2);
-  /// assert_eq!(x.unwrap(), 2);
+  /// var x = Result<int, string>.Ok(2);
+  /// Assert.Equal(x.unwrap(), 2);
   /// </code>
   ///
   /// <code>should_panic
-  /// let x: Result<u32, &str> = Err("emergency failure");
+  /// var x = Result<int, string> = Err("emergency failure");
   /// x.unwrap(); // panics with <c>emergency failure<c>
   /// </code>
   /// </summary>
@@ -758,13 +770,13 @@ public class Result<T, E>
   /// Examples
   ///
   /// <code>should_panic
-  /// let x: Result<u32, &str> = Ok(2);
+  /// var x = Result<int, string>.Ok(2);
   /// x.unwrap_err(); // panics with <c>2<c>
   /// </code>
   ///
   /// <code>
-  /// let x: Result<u32, &str> = Err("emergency failure");
-  /// assert_eq!(x.unwrap_err(), "emergency failure");
+  /// var x = Result<int, string> = Err("emergency failure");
+  /// Assert.Equal(x.unwrap_err(), "emergency failure");
   /// </code>
   /// </summary>
   /// <returns></returns>
@@ -778,22 +790,22 @@ public class Result<T, E>
   /// Returns the contained <c>Ok</c> value or a provided default.
   ///
   /// Arguments passed to <c>unwrap_or<c> are eagerly evaluated; if you are passing
-  /// the result of a function call, it is recommended to use <c>unwrap_or_else</c>,
+  /// the result of a function call, it is recommended to use <c>unwrap_OrElse</c>,
   /// which is lazily evaluated.
   ///
-  /// <c>unwrap_or_else</c>: Result::unwrap_or_else
+  /// <c>unwrap_OrElse</c> = Result::unwrap_OrElse
   ///
   /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// let default = 2;
-  /// let x: Result<u32, &str> = Ok(9);
-  /// assert_eq!(x.unwrap_or(default), 9);
+  /// var default = 2;
+  /// var x = Result<int, string>.Ok(9);
+  /// Assert.Equal(x.unwrap_or(default), 9);
   ///
-  /// let x: Result<u32, &str> = Err("error");
-  /// assert_eq!(x.unwrap_or(default), default);
+  /// var x = Result<int, string> = Err("error");
+  /// Assert.Equal(x.unwrap_or(default), default);
   /// </code>
   /// </summary>
   /// <param name="def"></param>
@@ -814,17 +826,17 @@ public class Result<T, E>
   ///
   /// Converts a string to an integer, turning poorly-formed strings
   /// into 0 (the default value for integers). <c>parse</c> converts
-  /// a string to any other type that implements <c>FromStr</c>, returning an
+  /// a string to any other type that implements <c>Fromstring</c>, returning an
   /// <c>Err</c> on error.
   ///
   /// <code>
-  /// let good_year_from_input = "1909";
-  /// let bad_year_from_input = "190blarg";
-  /// let good_year = good_year_from_input.parse().unwrap_or_default();
-  /// let bad_year = bad_year_from_input.parse().unwrap_or_default();
+  /// var good_year_from_input = "1909";
+  /// var bad_year_from_input = "190blarg";
+  /// var good_year = good_year_from_input.parse().unwrap_or_default();
+  /// var bad_year = bad_year_from_input.parse().unwrap_or_default();
   ///
-  /// assert_eq!(1909, good_year);
-  /// assert_eq!(0, bad_year);
+  /// Assert.Equal(1909, good_year);
+  /// Assert.Equal(0, bad_year);
   /// </code>
   /// </summary>
   /// <returns></returns>
@@ -842,10 +854,10 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// fn count(x: &str) -> usize { x.len() }
+  /// fn count(x: string) -> usize { x.len() }
   ///
-  /// assert_eq!(Ok(2).unwrap_or_else(count), 2);
-  /// assert_eq!(Err("foo").unwrap_or_else(count), 3);
+  /// Assert.Equal(Ok(2).unwrap_OrElse(count), 2);
+  /// Assert.Equal(Err("foo").unwrap_OrElse(count), 3);
   /// </code>
   /// </summary>
   /// <param name="op"></param>
