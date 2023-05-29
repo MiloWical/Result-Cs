@@ -7,13 +7,13 @@ public class ResultExpectTests
   const string panicMessage = "Something wrong";
 
   [Fact]
-  public void ExpectOkTest()
+  public void ResultExpectOkTest()
   {
     Assert.Equal(okMessage, Result<string, string>.Ok(okMessage).Expect(panicMessage));
   }
 
   [Fact]
-  public void ExpectErrStringTest()
+  public void ResultExpectErrStringTest()
   {
     PanicException response = Assert.Throws<PanicException>(() => Result<string, string>.Err(errMessage).Expect(panicMessage));
 
@@ -22,7 +22,7 @@ public class ResultExpectTests
   }
 
   [Fact]
-  public void ExpectErrExceptionTest()
+  public void ResultsExpectErrExceptionTest()
   {
     PanicException response = Assert.Throws<PanicException>(() => Result<string, Exception>.Err(new Exception(errMessage)).Expect(panicMessage));
 

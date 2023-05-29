@@ -3,7 +3,7 @@ namespace ResultCs.Tests.Unit.Result;
 public class ResultTests
 {
   [Fact]
-  public void OkTest()
+  public void ResultOkTest()
   {
     var result = Result<int, string>.Ok(1);
 
@@ -11,13 +11,13 @@ public class ResultTests
   }
 
   [Fact]
-  public void OkWithNullParamTest()
+  public void ResultOkWithNullParamTest()
   {
     Assert.Throws<ArgumentNullException>(() => Result<int?, string>.Ok(null));
   }
 
   [Fact]
-  public void ErrTest()
+  public void ResultErrTest()
   {
     var result = Result<int, string>.Err(string.Empty);
 
@@ -25,13 +25,13 @@ public class ResultTests
   }
 
   [Fact]
-  public void ErrWithNullParamTest()
+  public void ResultErrWithNullParamTest()
   {
     Assert.Throws<ArgumentNullException>(() => Result<int?, string>.Err(null!));
   }
 
   [Fact]
-  public void OkEqualsTest()
+  public void ResultOkEqualsTest()
   {
     var x = Result<int, string>.Ok(1);
     var y = Result<int, string>.Ok(1);
@@ -43,7 +43,7 @@ public class ResultTests
   }
 
   [Fact]
-  public void ErrEqualsTest()
+  public void ResultErrEqualsTest()
   {
     var x = Result<int, string>.Err(string.Empty);
     var y = Result<int, string>.Err(string.Empty);
@@ -55,7 +55,7 @@ public class ResultTests
   }
 
   [Fact]
-  public void OkNotEqualsErrTest()
+  public void ResultOkNotEqualsErrTest()
   {
     var x = Result<int, string>.Ok(1);
     var y = Result<int, string>.Err(string.Empty);
@@ -64,7 +64,7 @@ public class ResultTests
   }
 
   [Fact]
-  public void IncompatibleTypesTest()
+  public void ResultIncompatibleTypesTest()
   {
     var x = Result<int, string>.Ok(1);
 
@@ -72,7 +72,7 @@ public class ResultTests
   }
 
   [Fact]
-  public void NullEqualsTest()
+  public void ResultNullEqualsTest()
   {
     var x = Result<int, string>.Ok(1);
 
@@ -80,7 +80,7 @@ public class ResultTests
   }
 
   [Fact]
-  public void OkEqualityOperatorsTest()
+  public void ResultOkEqualityOperatorsTest()
   {
     var x = Result<int, string>.Ok(1);
     var y = Result<int, string>.Ok(1);
@@ -92,7 +92,7 @@ public class ResultTests
   }
 
   [Fact]
-  public void ErrEqualityOperatorsTest()
+  public void ResultErrEqualityOperatorsTest()
   {
     var x = Result<int, string>.Err(string.Empty);
     var y = Result<int, string>.Err(string.Empty);
@@ -104,7 +104,7 @@ public class ResultTests
   }
 
   [Fact]
-  public void OkHashCodeTest()
+  public void ResultOkHashCodeTest()
   {
     var x = Result<int, string>.Ok(1);
     var y = Result<int, string>.Ok(1);
@@ -115,7 +115,7 @@ public class ResultTests
   }
 
   [Fact]
-  public void ErrHashCodeTest()
+  public void ResultErrHashCodeTest()
   {
     var x = Result<int, string>.Err(string.Empty);
     var y = Result<int, string>.Err(string.Empty);

@@ -3,19 +3,19 @@ namespace ResultCs.Tests.Unit.Result;
 public class ResultAndThenTests
 {
   [Fact]
-  public void AndThenOkTest()
+  public void ResultAndThenOkTest()
   {
     Assert.Equal(Result<int, string>.Ok(2).AndThen(SquareThenToString), Result<string, string>.Ok(4.ToString()));
   }
 
   [Fact]
-  public void AndThenOkExceptionTest()
+  public void ResultAndThenOkExceptionTest()
   {
     Assert.Equal(Result<int, string>.Ok(int.MaxValue).AndThen(SquareThenToString), Result<string, string>.Err("overflowed"));
   }
 
   [Fact]
-  public void AndThenErrTest()
+  public void ResultAndThenErrTest()
   {
     Assert.Equal(Result<int, string>.Err("not a number").AndThen(SquareThenToString), Result<string, string>.Err("not a number"));
   }
