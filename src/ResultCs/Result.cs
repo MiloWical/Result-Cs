@@ -22,7 +22,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    Option<T> Ok()
   // ✓       ✓   ✓    Result<T, F> Or<F>(Result<T, F> res)
   // ✓       ✓   ✓    Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
-  //                  Option<Result<T, E>> Transpose()
+  // ✓       ✓   ✓    Option<Result<U, E>> Transpose<U>()
   //                  T Unwrap()
   //                  E UnwrapErr()
   //                  T UnwrapOr(T def)
@@ -548,7 +548,7 @@ public class Result<T, E>
   /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise <c>def</c>.</returns>
   public U MapOr<U>(U def, Func<T, U> f)
   {
-    if(this.IsErr())
+    if (this.IsErr())
       return def;
 
     return f.Invoke(this.Unwrap());
@@ -585,7 +585,7 @@ public class Result<T, E>
   /// output of applying <c>def</op> to the current <c>Result</c>'s <c>Err</c> value.</returns>
   public U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
   {
-    if(this.IsErr())
+    if (this.IsErr())
       return def.Invoke(this.UnwrapErr());
 
     return f.Invoke(this.Unwrap());
@@ -613,7 +613,7 @@ public class Result<T, E>
   /// <c>this</c> is <c>ResultKind.Ok</c>; <c>None</c> otherwise.</returns>
   public Option<T> Ok()
   {
-    if(this.IsErr())
+    if (this.IsErr())
       return Option<T>.None();
 
     return Option<T>.Some(_value!);
@@ -654,7 +654,7 @@ public class Result<T, E>
   /// <c>Ok</c> value of <c>self<c>.</returns>
   public Result<T, F> Or<F>(Result<T, F> res)
   {
-    if(this.IsErr())
+    if (this.IsErr())
       return res;
 
     return Result<T, F>.Ok(this.Unwrap());
@@ -692,7 +692,7 @@ public class Result<T, E>
   /// the <c>Ok</c> value of <c>self<c>.</returns>
   public Result<T, F> OrElse<F>(Func<E, Result<T, F>> op)
   {
-    if(this.IsOk())
+    if (this.IsOk())
       return Result<T, F>.Ok(this.Unwrap());
 
     return op.Invoke(this.UnwrapErr());
@@ -707,18 +707,37 @@ public class Result<T, E>
   /// Examples
   ///
   /// <code>
-  /// #[derive(Debug, Eq, PartialEq)]
-  /// stringuct SomeErr;
   ///
-  /// var x = Result<Option<i32>, SomeErr>.Ok(Some(5));
-  /// var y: Option<Result<i32, SomeErr>> = Some(Ok(5));
-  /// Assert.Equal(x.transpose(), y);
+  /// var x = Result<Option<int>, string>.Ok(Option<int>.Some(5));
+  /// var y = Option<Result<int, string>>.Some(Result<int, string>.Ok(5));
+  /// Assert.Equal(x.Transpose(), y);
   /// </code>
   /// </summary>
-  /// <returns></returns>
-  public Option<Result<T, E>> Transpose()
+  /// <typeparam name="U">The internal type of the <c>Result<Option<>></c>. (Note: this is a 
+  /// deviation from the Rust signature because C# doesn't implement enum values the way 
+  /// Rust does.)</typeparam>
+  /// <returns>A <c>Result<c> of an <c>Option<c> into an <c>Option<c> of a <c>Result<c>.</returns>
+  public Option<Result<U, E>> Transpose<U>()
   {
-    throw new NotImplementedException();
+    if (!typeof(T).IsGenericType || typeof(T).GetGenericTypeDefinition() != typeof(Option<>))
+        throw new PanicException($"The wrapped type is {_value!.GetType()}; expecting Option<{typeof(U)}>");
+
+    if (this.IsOk())
+    {
+      var optionType = typeof(T).GetGenericArguments()[0];
+
+      if (typeof(U) != optionType)
+        throw new PanicException($"The wrapped value is {optionType} not assignable to type parameter {typeof(U)}");
+
+      Option<U>? option = this.Unwrap() as Option<U>;
+
+      if (option!.IsNone())
+        return Option<Result<U, E>>.None();
+
+      return Option<Result<U, E>>.Some(Result<U, E>.Ok(option.Unwrap()));
+    }
+
+    return Option<Result<U, E>>.Some(Result<U, E>.Err(this.UnwrapErr()));
   }
 
   /// <summary>
