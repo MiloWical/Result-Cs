@@ -5,8 +5,8 @@ public class Option<T>
 {
   // Comment Imp Test Sig
   // ✓       ✓   ✓    Option<U> And<U>(Option<U> optB)
-  // ✓       ✓        Option<U> AndThen<U>(Func<T, Option<U>> f)
-  //                  T Expect(string message)
+  // ✓       ✓   ✓    Option<U> AndThen<U>(Func<T, Option<U>> f)
+  // ✓       ✓   ✓    T Expect(string message)
   //                  Option<T> Filter(Func<T, bool> predicate)
   //                  Option<T> Flatten()
   //                  T GetOrInsert(T value)
@@ -228,7 +228,7 @@ public class Option<T>
   }
 
   /// <summary>
-  // Returns the contained <c>Some</c> value, consuming the <c>self<c> value.
+  /// Returns the contained <c>Some</c> value, consuming the <c>self<c> value.
   ///
   /// # Panics
   ///
@@ -238,13 +238,13 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let x = Some("value");
-  /// assert_eq!(x.expect("fruits are healthy"), "value");
+  /// var x = Option<string>.Some("value");
+  /// Assert.Equal(x.Expect("fruits are healthy"), "value");
   /// <code>
   ///
-  /// <code>should_panic
-  /// let x: Option<&str> = None;
-  /// x.expect("fruits are healthy"); // panics with <c>fruits are healthy<c>
+  /// <code>
+  /// var x = Option<string>.None();
+  /// x.Expect("fruits are healthy"); // panics with <c>fruits are healthy<c>
   /// <code>
   ///
   /// # Recommended Message Style
@@ -252,10 +252,10 @@ public class Option<T>
   /// We recommend that <c>expect<c> messages are used to describe the reason you
   /// _expect_ the <c>Option<c> should be <c>Some<c>.
   ///
-  /// <code>should_panic
-  /// # let slice: &[u8] = &[];
-  /// let item = slice.get(0)
-  ///     .expect("slice should not be empty");
+  /// <code>
+  /// var slice = new int[0];
+  /// var item = GetElement(slice, 0)
+  ///     .Expect("slice should not be empty");
   /// <code>
   ///
   /// **Hint**: If you're having trouble remembering how to phrase expect
@@ -267,11 +267,14 @@ public class Option<T>
   /// recommendation please refer to the section on ["Common Message
   /// Styles"](../../std/error/index.html#common-message-styles) in the <c>std::error</c>(../../std/error/index.html) module docs.
   /// </summary>
-  /// <param name="message"></param>
-  /// <returns></returns>
+  /// <param name="message">The message to panic with if <c>this</c> is <c>None</c>.</param>
+  /// <returns>The wrapped <c>Some</c> value.</returns>
   public T Expect(string message)
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+      throw new PanicException(message);
+
+    return this.Unwrap();
   }
 
   /// <summary>
@@ -540,7 +543,7 @@ public class Option<T>
   /// let x = Some("foo");
   /// assert_eq!(x.map_or(42, |v| v.len()), 3);
   ///
-  /// let x: Option<&str> = None;
+  /// let x: Option<string> = None;
   /// assert_eq!(x.map_or(42, |v| v.len()), 42);
   /// <code>
   /// </summary>
@@ -565,7 +568,7 @@ public class Option<T>
   /// let x = Some("foo");
   /// assert_eq!(x.map_or_else(|| 2 * k, |v| v.len()), 3);
   ///
-  /// let x: Option<&str> = None;
+  /// let x: Option<string> = None;
   /// assert_eq!(x.map_or_else(|| 2 * k, |v| v.len()), 42);
   /// <code>
   /// </summary>
@@ -597,7 +600,7 @@ public class Option<T>
   /// let x = Some("foo");
   /// assert_eq!(x.ok_or(0), Ok("foo"));
   ///
-  /// let x: Option<&str> = None;
+  /// let x: Option<string> = None;
   /// assert_eq!(x.ok_or(0), Err(0));
   /// <code>
   /// </summary>
@@ -623,7 +626,7 @@ public class Option<T>
   /// let x = Some("foo");
   /// assert_eq!(x.ok_or_else(|| 0), Ok("foo"));
   ///
-  /// let x: Option<&str> = None;
+  /// let x: Option<string> = None;
   /// assert_eq!(x.ok_or_else(|| 0), Err(0));
   /// <code>
   /// </summary>
@@ -791,7 +794,7 @@ public class Option<T>
   /// <code>
   ///
   /// <code>should_panic
-  /// let x: Option<&str> = None;
+  /// let x: Option<string> = None;
   /// assert_eq!(x.unwrap(), "air"); // fails
   /// <code>
   /// </summary>
