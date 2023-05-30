@@ -5,7 +5,7 @@ public class Option<T>
 {
   // Comment Imp Test Sig
   // ✓       ✓   ✓    Option<U> And<U>(Option<U> optB)
-  //                  Option<U> AndThen<U>(Func<T, Option<U>> f)
+  // ✓       ✓        Option<U> AndThen<U>(Func<T, Option<U>> f)
   //                  T Expect(string message)
   //                  Option<T> Filter(Func<T, bool> predicate)
   //                  Option<T> Flatten()
@@ -32,7 +32,7 @@ public class Option<T>
   //                  T UnwrapOrElse(Func<T> f)
   //                  Option<T> Xor(Option<T> optB)
   //                  Option<(T, U)> Zip<U>(Option<U> other)
-  //         ✓   ✓    OptionKind Kind { get; }
+  // ✓       ✓   ✓    OptionKind Kind { get; }
   //
   // Experimental signatures (not implemented)
   //                  bool Contains<U>(U x)
@@ -42,9 +42,21 @@ public class Option<T>
   //                  (Option<T>, Option<U>) Unzip<U>()
   //                  Option<R> ZipWith<U, R>(Option<U> other, Func<T, U, R> f)
 
+  /// <summary>
+  /// The <see cref="OptionKind"/> of the current <c>Option</c>.
+  /// </summary>
   public OptionKind Kind { get; private set; }
+
+  // If this Option is Some, the value wrapped by the response.
   private T? _value;
 
+  /// <summary>
+  /// Generates an <c>Option</c> with an <c>OptionKind</c> of <see cref="OptionKind.Some"/>.
+  /// 
+  /// The value passed is not permitted to be <c>null</c>.
+  /// </summary>
+  /// <param name="value">The value to wrap in the <c>Option</c></param>
+  /// <returns>The <c>Option</c> of kind <c>Some</c> with the provided value wrapped.</returns>
   public static Option<T> Some(T value)
   {
     ArgumentNullException.ThrowIfNull(value);
@@ -56,6 +68,12 @@ public class Option<T>
     return option;
   }
 
+  /// <summary>
+  /// Generates an <c>Option</c> with an <c>OptionKind</c> of <see cref="OptionKind.None"/>.
+  /// 
+  /// The value passed is not permitted to be <c>null</c>.
+  /// </summary>
+  /// <returns>The <c>Option</c> of kind <c>None</c>.</returns>
   public static Option<T> None()
   {
     return new Option<T>
@@ -64,6 +82,18 @@ public class Option<T>
     };
   }
 
+  /// <summary>
+  /// Tests two <c>Option</c> objects for equality.
+  /// 
+  /// Overrides <see cref="Object.Equals(object?)"/>.
+  /// </summary>
+  /// <param name="other">The <c>Option</c> to test <c>this</c> against.</param>
+  /// <returns><c>true</c> if one of the following is true:
+  /// <ul>
+  /// <li>The two <c>Option</c> objects are <c>Some</c> and their wrapped values are the same</li>
+  /// <li>The two <c>Option</c> objects are <c>None</c></li>
+  /// </ul>
+  /// <c>false</c> otherwise</returns>
   public override bool Equals(object? other)
   {
     if (other == null) ArgumentNullException.ThrowIfNull(other);
@@ -90,11 +120,27 @@ public class Option<T>
     return false;
   }
 
+  /// <summary>
+  /// Convenience override of the <c>==</c> operator.
+  /// </summary>
+  /// <param name="opt1">The first <c>Option</c> to compare</param>
+  /// <param name="opt2">The second <c>Option</c> to compare</param>
+  /// <returns>The result of <c>opt1.Equals(opt2)</c></returns>
   public static bool operator ==(Option<T> opt1, Option<T> opt2) => opt1.Equals(opt2);
 
+  /// <summary>
+  /// Convenience override of the <c>!=</c> operator.
+  /// </summary>
+  /// <param name="opt1">The first <c>Option</c> to compare</param>
+  /// <param name="opt2">The second <c>Option</c> to compare</param>
+  /// <returns>The result of <c>!opt1.Equals(opt2)</c></returns>
   public static bool operator !=(Option<T> opt1, Option<T> opt2) => !(opt1.Equals(opt2));
 
-  public override int GetHashCode() => ((object)this).GetHashCode();
+  /// <summary>
+  /// Override of <see cref="Object.GetHashCode()"/>.
+  /// </summary>
+  /// <returns><c>base.GetHashCode()</c></returns>
+  public override int GetHashCode() => base.GetHashCode();
 
   /// <summary>
   /// Arguments passed to <c>And</c> are eagerly evaluated; if you are passing the
@@ -129,7 +175,8 @@ public class Option<T>
   /// otherwise returns <c>optb</c>.</returns>
   public Option<U> And<U>(Option<U> optB)
   {
-    if (IsNone()) return Option<U>.None();
+    if (this.IsNone())
+      return Option<U>.None();
 
     return optB;
   }
@@ -146,27 +193,25 @@ public class Option<T>
   /// <code>
   /// public Option<string> SqThenToString(int x)
   /// {
-  ///   return Option.Some<string>(Math.Pow(x, 2).ToString());
+  ///   return Option<string>.Some((x * x).ToString());
   /// }
   ///
-  /// Assert.Equal(Option.Some(2.ToString()).AndThen(SqThenToString), Option.Some(4.ToString())
+  /// Assert.Equal(Option<int>.Some(2).AndThen(SqThenToString), Option<string>.Some(4.ToString()));
   /// 
-  /// TODO: Pick up here!
-  /// Assert.Equal(Option.Some<int>(1_000_000).AndThen(SqThenToString), Option.None<int>()); //TODO: Assert thrown exception
-  /// Assert.Equal(Option.None<int>().AndThen(SqThenToString), Option.None<int>());
+  /// Assert.Equal(Option<int>.Some(1_000_000).AndThen(SqThenToString), Option<string>.None()); //throws OverflowException
+  /// Assert.Equal(Option<int>.None().AndThen(SqThenToString), Option<string>.None());
   /// </code>
   ///
   /// Often used to chain fallible operations that may return <c>None</c>.
   ///
   /// <code>
-  /// TODO: Pick up here!
-  /// let arr_2d = [["A0", "A1"], ["B0", "B1"]];
+  /// var arr_2D = new string[2,2]{{"A0", "A1"}, {"B0", "B1"}};
   ///
-  /// let item_0_1 = arr_2d.get(0).and_then(|row| row.get(1));
-  /// assert_eq!(item_0_1, Some(&"A1"));
+  /// var item_0_1 = GetRow(arr_2D, 0).AndThen(row => GetElement(row, 1));
+  /// Assert.Equal(Option<string>.Some("A1"), item_0_1);
   ///
-  /// let item_2_0 = arr_2d.get(2).and_then(|row| row.get(0));
-  /// assert_eq!(item_2_0, None);
+  /// var item_2_0 = GetRow(arr_2D, 2).AndThen(row => GetElement(row, 0));
+  /// Assert.Equal(Option<string>.None(), item_2_0);
   /// </code>
   /// </example>
   /// </summary>
@@ -176,9 +221,11 @@ public class Option<T>
   /// otherwise calls <c>f</c> with the wrapped value and returns the result.</returns>
   public Option<U> AndThen<U>(Func<T, Option<U>> f)
   {
-    throw new NotImplementedException();
-  }
+    if (this.IsNone())
+      return Option<U>.None();
 
+    return f.Invoke(this.Unwrap());
+  }
 
   /// <summary>
   // Returns the contained <c>Some</c> value, consuming the <c>self<c> value.
@@ -751,7 +798,7 @@ public class Option<T>
   /// <returns></returns>
   public T Unwrap()
   {
-    if (IsNone()) 
+    if (IsNone())
       throw new PanicException("Attempted to call Option.Unwrap() on a None value.");
 
     return _value!;

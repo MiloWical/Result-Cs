@@ -21,7 +21,7 @@ public class OptionAndTests
   }
 
   [Fact]
-  public void AndMistmatchedTypeTest()
+  public void AndMismatchedTypeTest()
   {
     var x = Option<int>.Some(2);
     var y = Option<string>.Some("foo");
