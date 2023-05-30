@@ -751,7 +751,8 @@ public class Option<T>
   /// <returns></returns>
   public T Unwrap()
   {
-    if (IsNone()) throw new UnwrapException();
+    if (IsNone()) 
+      throw new PanicException("Attempted to call Option.Unwrap() on a None value.");
 
     return _value!;
   }

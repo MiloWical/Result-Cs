@@ -56,7 +56,7 @@ public class OptionComparisonTests
   public void NoneUnwrapThrowsException()
   {
     Option<string> option = Option<string>.None();
-    Assert.Throws<UnwrapException>(() => option.Unwrap());
+    Assert.Throws<PanicException>(() => option.Unwrap());
   }
 
   [Fact]
