@@ -6,7 +6,7 @@ public class Option<T>
   // Comment Imp Test Sig
   // ✓       ✓   ✓    Option<U> And<U>(Option<U> optB)
   // ✓       ✓   ✓    Option<U> AndThen<U>(Func<T, Option<U>> f)
-  // ✓       ✓        T Expect(string message)
+  // ✓       ✓   ✓    T Expect(string message)
   //                  Option<T> Filter(Func<T, bool> predicate)
   //                  Option<T> Flatten()
   //                  T GetOrInsert(T value)
