@@ -23,11 +23,11 @@ public class Result<T, E>
   // ✓       ✓   ✓    Result<T, F> Or<F>(Result<T, F> res)
   // ✓       ✓   ✓    Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
   // ✓       ✓   ✓    Option<Result<U, E>> Transpose<U>()
-  //                  T Unwrap()
-  //                  E UnwrapErr()
-  //                  T UnwrapOr(T def)
-  //                  T UnwrapOrDefault()
-  //                  T UnwrapOrElse(Func<E, T> op)
+  // ✓       ✓   ✓    T Unwrap()
+  // ✓       ✓   ✓    E UnwrapErr()
+  // ✓       ✓   ✓    T UnwrapOr(T def)
+  // ✓       ✓   ✓    T UnwrapOrDefault()
+  // ✓       ✓   ✓    T UnwrapOrElse(Func<E, T> op)
   //
   // Experimental signatures (not implemented)
   //                  bool Contains<U>(U x)
@@ -745,12 +745,8 @@ public class Result<T, E>
   ///
   /// Because this function may panic, its use is generally discouraged.
   /// Instead, prefer to use pattern matching and handle the <c>Err</c>
-  /// case explicitly, or call <c>unwrap_or</c>, <c>unwrap_OrElse</c>, or
-  /// <c>unwrap_or_default</c>.
-  ///
-  /// <c>unwrap_or</c> = Result::unwrap_or
-  /// <c>unwrap_OrElse</c> = Result::unwrap_OrElse
-  /// <c>unwrap_or_default</c> = Result::unwrap_or_default
+  /// case explicitly, or call <c>UnwrapOr</c>, <c>UnwrapOrElse</c>, or
+  /// <c>UnwrapOrDefault</c>.
   ///
   /// # Panics
   ///
@@ -764,17 +760,20 @@ public class Result<T, E>
   ///
   /// <code>
   /// var x = Result<int, string>.Ok(2);
-  /// Assert.Equal(x.unwrap(), 2);
+  /// Assert.Equal(x.Unwrap(), 2);
   /// </code>
   ///
-  /// <code>should_panic
-  /// var x = Result<int, string> = Err("emergency failure");
-  /// x.unwrap(); // panics with <c>emergency failure<c>
+  /// <code>
+  /// var x = Result<int, string>.Err("emergency failure");
+  /// x.Unwrap(); // panics with <c>emergency failure<c>
   /// </code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The wrapped <c>Ok</c> value.</returns>
   public T Unwrap()
   {
+    if(this.IsErr())
+      throw new PanicException(this.UnwrapErr()!.ToString()!);
+
     return _value!;
   }
 
@@ -788,50 +787,53 @@ public class Result<T, E>
   ///
   /// Examples
   ///
-  /// <code>should_panic
+  /// <code>
   /// var x = Result<int, string>.Ok(2);
-  /// x.unwrap_err(); // panics with <c>2<c>
+  /// x.UnwrapErr(); // panics with <c>2<c>
   /// </code>
   ///
   /// <code>
-  /// var x = Result<int, string> = Err("emergency failure");
-  /// Assert.Equal(x.unwrap_err(), "emergency failure");
+  /// var x = Result<int, string>.Err("emergency failure");
+  /// Assert.Equal(x.UnwrapErr(), "emergency failure");
   /// </code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The wrapped <c>Err</c> value.</returns>
   public E UnwrapErr()
   {
-    // TODO: Throw an unwrap exception if this is Ok.
+    if(this.IsOk())
+      throw new PanicException(this.Unwrap()!.ToString()!);
+
     return _err!;
   }
 
   /// <summary>
   /// Returns the contained <c>Ok</c> value or a provided default.
   ///
-  /// Arguments passed to <c>unwrap_or<c> are eagerly evaluated; if you are passing
-  /// the result of a function call, it is recommended to use <c>unwrap_OrElse</c>,
+  /// Arguments passed to <c>UnwrapOr<c> are eagerly evaluated; if you are passing
+  /// the result of a function call, it is recommended to use <c>UnwrapOrElse</c>,
   /// which is lazily evaluated.
-  ///
-  /// <c>unwrap_OrElse</c> = Result::unwrap_OrElse
   ///
   /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// var default = 2;
+  /// var def = 2;
   /// var x = Result<int, string>.Ok(9);
-  /// Assert.Equal(x.unwrap_or(default), 9);
+  /// Assert.Equal(9, x.UnwrapOr(def));
   ///
-  /// var x = Result<int, string> = Err("error");
-  /// Assert.Equal(x.unwrap_or(default), default);
+  /// var x = Result<int, string>.Err("error");
+  /// Assert.Equal(def, x.UnwrapOr(def));
   /// </code>
   /// </summary>
-  /// <param name="def"></param>
-  /// <returns></returns>
+  /// <param name="def">The default value to return if <c>this</c> is <c>Err</c>.</param>
+  /// <returns>The <c>Ok</c> value if <c>this</c> is <c>Ok</c>; <c>def</c> otherwise.</returns>
   public T UnwrapOr(T def)
   {
-    throw new NotImplementedException();
+    if(this.IsErr())
+      return def;
+
+    return _value!;
   }
 
   /// <summary>
@@ -844,45 +846,53 @@ public class Result<T, E>
   /// Examples
   ///
   /// Converts a string to an integer, turning poorly-formed strings
-  /// into 0 (the default value for integers). <c>parse</c> converts
-  /// a string to any other type that implements <c>Fromstring</c>, returning an
-  /// <c>Err</c> on error.
+  /// into 0 (the default value for integers). <c>Parse</c> converts
+  /// a string to an <c>int</c>, returning an <c>Err</c> on error.
   ///
   /// <code>
-  /// var good_year_from_input = "1909";
-  /// var bad_year_from_input = "190blarg";
-  /// var good_year = good_year_from_input.parse().unwrap_or_default();
-  /// var bad_year = bad_year_from_input.parse().unwrap_or_default();
+  /// var goodYearFromInput = "1909";
+  /// var badYearFromInput = "190blarg";
+  /// var goodYear = Parse(goodYearFromInput).UnwrapOrDefault();
+  /// var badYear = Parse(badYearFromInput).UnwrapOrDefault();
   ///
-  /// Assert.Equal(1909, good_year);
-  /// Assert.Equal(0, bad_year);
+  /// Assert.Equal(1909, goodYear);
+  /// Assert.Equal(0, badYear);
   /// </code>
   /// </summary>
-  /// <returns></returns>
-  public T UnwrapOrDefault()
+  /// <returns>The <c>Ok</c> value if <c>this</c> is <c>Ok</c>; <c>default(T)</c> otherwise.</returns>
+  public T? UnwrapOrDefault()
   {
-    throw new NotImplementedException();
+    if(this.IsErr())
+      return default(T);
+
+    return _value;
   }
 
   /// <summary>
   /// Returns the contained <c>Ok</c> value or computes it from a closure.
-  ///
   ///
   /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// fn count(x: string) -> usize { x.len() }
+  /// public int Count(string x)
+  /// { 
+  ///   return x.Length;
+  /// }
   ///
-  /// Assert.Equal(Ok(2).unwrap_OrElse(count), 2);
-  /// Assert.Equal(Err("foo").unwrap_OrElse(count), 3);
+  /// Assert.Equal(2, Result<int, string>.Ok(2).UnwrapOrElse(Count));
+  /// Assert.Equal(3, Result<int, string>.Err("foo").UnwrapOrElse(Count));
   /// </code>
   /// </summary>
-  /// <param name="op"></param>
-  /// <returns></returns>
+  /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Err</c>.</param>
+  /// <returns>The <c>Ok</c> value if <c>this</c> is <c>Ok</c>; otherwise the result of passing the 
+  /// <c>Err</c> value to <c>op</c>.</returns>
   public T UnwrapOrElse(Func<E, T> op)
   {
-    throw new NotImplementedException();
+    if(this.IsOk())
+      return _value!;
+
+    return op.Invoke(_err!);
   }
 }
