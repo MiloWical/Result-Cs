@@ -7,8 +7,8 @@ public class Option<T>
   // ✓       ✓   ✓    Option<U> And<U>(Option<U> optB)
   // ✓       ✓   ✓    Option<U> AndThen<U>(Func<T, Option<U>> f)
   // ✓       ✓   ✓    T Expect(string message)
-  //                  Option<T> Filter(Func<T, bool> predicate)
-  //                  Option<T> Flatten()
+  // ✓       ✓   ✓    Option<T> Filter(Func<T, bool> predicate)
+  // ✓       ✓   ✓    Option<T> Flatten()
   //                  T GetOrInsert(T value)
   //                  T GetOrInsertWith(Func<T> f)
   //                  T Insert(T value)
@@ -285,29 +285,40 @@ public class Option<T>
   ///   value), and
   /// - <c>None</c> if <c>predicate<c> returns <c>false<c>.
   ///
-  /// This function works similar to <c>Iterator::filter()</c>. You can imagine
-  /// the <c>Option<T><c> being an iterator over one or zero elements. <c>filter()<c>
-  /// lets you decide which elements to keep.
+  /// You can imagine the <c>Option<T><c> being an iterator over one or zero elements. 
+  /// <c>filter()<c> lets you decide which elements to keep.
   ///
   /// Examples
   ///
-  /// <code>rust
-  /// fn is_even(n: &i32) -> bool {
-  ///     n % 2 == 0
+  /// <code>
+  /// public bool IsEven(int n)
+  /// {
+  ///   return (n % 2) == 0;
   /// }
   ///
-  /// assert_eq!(None.filter(is_even), None);
-  /// assert_eq!(Some(3).filter(is_even), None);
-  /// assert_eq!(Some(4).filter(is_even), Some(4));
+  /// Assert.Equal(Option<int>.None(), Option<int>.None().Filter(IsEven));
+  /// Assert.Equal(Option<int>.None(), Option<int>.Some(3).Filter(IsEven));
+  /// Assert.Equal(Option<int>.Some(4), Option<int>.Some(4).Filter(IsEven));
   /// <code>
   ///
-  /// <c>Some(t)</c>: Some
   /// </summary>
-  /// <param name="predicate"></param>
-  /// <returns></returns>
+  /// <param name="predicate">The function used to evaluate the value of <c>this</c>
+  /// if it's <c>Some</c>.</param>
+  /// <returns>The unwrapped value of <c>this</c> if
+  /// <ul>
+  /// <li><c>this</c> is <c>Some</c> AND </li>
+  /// <li><c>predicate</c> returns <c>true</c>
+  /// </ul>
+  /// <c>false</c> otherwise.</returns>
   public Option<T> Filter(Func<T, bool> predicate)
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+      return Option<T>.None();
+
+    if(predicate.Invoke(this.Unwrap()))
+      return Option<T>.Some(this.Unwrap());
+
+    return Option<T>.None();
   }
 
   /// <summary>
@@ -318,32 +329,35 @@ public class Option<T>
   /// Basic usage:
   ///
   /// <code>
-  /// let x: Option<Option<u32>> = Some(Some(6));
-  /// assert_eq!(Some(6), x.flatten());
+  /// var x = Option<Option<int>>.Some(Option<int>.Some(6));
+  /// Assert.Equal(Option<int>.Some(6), x.Flatten());
   ///
-  /// let x: Option<Option<u32>> = Some(None);
-  /// assert_eq!(None, x.flatten());
+  /// var x = Option<Option<int>>.Some(Option<int>.None());
+  /// Assert.Equal(Option<int>.None(), x.Flatten());
   ///
-  /// let x: Option<Option<u32>> = None;
-  /// assert_eq!(None, x.flatten());
+  /// var x = Option<Option<int>>.None();
+  /// Assert.Equal(Option<int>.None(), x.Flatten());
   /// <code>
   ///
   /// Flattening only removes one level of nesting at a time:
   ///
   /// <code>
-  /// let x: Option<Option<Option<u32>>> = Some(Some(Some(6)));
-  /// assert_eq!(Some(Some(6)), x.flatten());
-  /// assert_eq!(Some(6), x.flatten().flatten());
+  /// var x = Option<Option<Option<int>>>.Some(Option<Option<int>>.Some(Option<int>.Some(6)));
+  /// Assert.Equal(Option<Option<int>>.Some(Option<int>.Some(6)), x.Flatten());
+  /// Assert.Equal(Option<int>.Some(6), x.Flatten().Flatten());
   /// <code>
   /// </summary>
-  /// <returns></returns>
-  public Option<T> Flatten()
+  /// <returns>The <c>Option</c> that's wrapped by <c>this</c>.</returns>
+  public T Flatten()
   {
-    throw new NotImplementedException();
+    if(this.IsNone() && typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(Option<>))
+        return (T)(typeof(T).GetMethod("None")!.Invoke(null, new object[0]))!;
+
+    return this.Unwrap();
   }
 
   /// <summary>
-  /// Inserts <c>value<c> into the option if it is <c>None</c>, then
+  /// Inserts <c>value<c> into the <c>Option</c> if it is <c>None</c>, then
   /// returns a mutable reference to the contained value.
   ///
   /// See also <c>Option::insert</c>, which updates the value even if
@@ -355,7 +369,7 @@ public class Option<T>
   /// let mut x = None;
   ///
   /// {
-  ///     let y: &mut u32 = x.get_or_insert(5);
+  ///     let y: &mut int = x.get_or_insert(5);
   ///     assert_eq!(y, &5);
   ///
   ///     *y = 7;
@@ -381,7 +395,7 @@ public class Option<T>
   /// let mut x = None;
   ///
   /// {
-  ///     let y: &mut u32 = x.get_or_insert_with(|| 5);
+  ///     let y: &mut int = x.get_or_insert_with(|| 5);
   ///     assert_eq!(y, &5);
   ///
   ///     *y = 7;
@@ -431,10 +445,10 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let x: Option<u32> = Some(2);
+  /// let x: Option<int> = Some(2);
   /// assert_eq!(x.is_none(), false);
   ///
-  /// let x: Option<u32> = None;
+  /// let x: Option<int> = None;
   /// assert_eq!(x.is_none(), true);
   /// <code>
   /// </summary>
@@ -466,13 +480,13 @@ public class Option<T>
   /// <code>
   /// #![feature(is_some_with)]
   ///
-  /// let x: Option<u32> = Some(2);
+  /// let x: Option<int> = Some(2);
   /// assert_eq!(x.is_some_and(|&x| x > 1), true);
   ///
-  /// let x: Option<u32> = Some(0);
+  /// let x: Option<int> = Some(0);
   /// assert_eq!(x.is_some_and(|&x| x > 1), false);
   ///
-  /// let x: Option<u32> = None;
+  /// let x: Option<int> = None;
   /// assert_eq!(x.is_some_and(|&x| x > 1), false);
   /// <code>
   /// </summary>
@@ -492,7 +506,7 @@ public class Option<T>
   /// let x = Some(4);
   /// assert_eq!(x.iter().next(), Some(&4));
   ///
-  /// let x: Option<u32> = None;
+  /// let x: Option<int> = None;
   /// assert_eq!(x.iter().next(), None);
   /// <code>
   /// </summary>
@@ -662,7 +676,7 @@ public class Option<T>
   /// let y = Some(100);
   /// assert_eq!(x.or(y), Some(2));
   ///
-  /// let x: Option<u32> = None;
+  /// let x: Option<int> = None;
   /// let y = None;
   /// assert_eq!(x.or(y), None);
   /// <code>
@@ -733,7 +747,7 @@ public class Option<T>
   /// assert_eq!(x, None);
   /// assert_eq!(y, Some(2));
   ///
-  /// let mut x: Option<u32> = None;
+  /// let mut x: Option<int> = None;
   /// let y = x.take();
   /// assert_eq!(x, None);
   /// assert_eq!(y, None);
@@ -889,10 +903,10 @@ public class Option<T>
   ///
   /// <code>
   /// let x = Some(2);
-  /// let y: Option<u32> = None;
+  /// let y: Option<int> = None;
   /// assert_eq!(x.xor(y), Some(2));
   ///
-  /// let x: Option<u32> = None;
+  /// let x: Option<int> = None;
   /// let y = Some(2);
   /// assert_eq!(x.xor(y), Some(2));
   ///
@@ -900,8 +914,8 @@ public class Option<T>
   /// let y = Some(2);
   /// assert_eq!(x.xor(y), None);
   ///
-  /// let x: Option<u32> = None;
-  /// let y: Option<u32> = None;
+  /// let x: Option<int> = None;
+  /// let y: Option<int> = None;
   /// assert_eq!(x.xor(y), None);
   /// <code>
   /// </summary>
