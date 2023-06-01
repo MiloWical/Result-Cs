@@ -421,14 +421,14 @@ public class Result<T, E>
   /// var iter = x.Iter().GetEnumerator();
   ///
   /// Assert.True(iter.MoveNext());
-  /// Assert.Equal(iter.Current, Option<int>.Some(7));
+  /// Assert.Equal(Option<int>.Some(7), iter.Current);
   /// Assert.False(iter.MoveNext());
   ///
   /// var x = Result<int, string>.Err("nothing!");
   /// var iter = x.Iter().GetEnumerator();
   ///
   /// Assert.True(iter.MoveNext());
-  /// Assert.Equal(iter.Current, Option<int>.None());
+  /// Assert.Equal(Option<int>.None(), iter.Current);
   /// Assert.False(iter.MoveNext());
   /// </code>
   /// </summary>

@@ -1,11 +1,11 @@
-namespace ResultCs.Tests.Unit.Result;
+namespace ResultCs.Tests.Unit.Option;
 
-public class ResultIterTests
+public class OptionIterTests
 {
   [Fact]
-  public void ResultIterOkTest()
+  public void OptionIterOkTest()
   {
-    var x = Result<int, string>.Ok(7);
+    var x = Option<int>.Some(7);
     var iter = x.Iter().GetEnumerator();
 
     Assert.True(iter.MoveNext());
@@ -14,13 +14,13 @@ public class ResultIterTests
   }
 
   [Fact]
-  public void ResultIterErrTest()
+  public void OptionIterNoneTest()
   {
-    var x = Result<int, string>.Err("nothing!");
+    var x = Option<int>.None();
     var iter = x.Iter().GetEnumerator();
 
     Assert.True(iter.MoveNext());
-    Assert.Equal(Option<int>.None(), iter.Current);
+    Assert.Equal(iter.Current, Option<int>.None());
     Assert.False(iter.MoveNext());
   }
 }
