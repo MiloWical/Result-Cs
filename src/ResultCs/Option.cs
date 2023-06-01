@@ -9,10 +9,10 @@ public class Option<T>
   // ✓       ✓   ✓    T Expect(string message)
   // ✓       ✓   ✓    Option<T> Filter(Func<T, bool> predicate)
   // ✓       ✓   ✓    Option<T> Flatten()
-  //                  T GetOrInsert(T value)
-  //                  T GetOrInsertWith(Func<T> f)
-  //                  T Insert(T value)
-  //         ✓   ✓    bool IsNone()
+  // ✓       ✓   ✓    T GetOrInsert(T value)
+  // ✓       ✓   ✓    T GetOrInsertWith(Func<T> f)
+  // ✓       ✓   ✓    T Insert(T value)
+  // ✓       ✓   ✓    bool IsNone()
   // ✓       ✓   ✓    bool IsSome()
   //                  bool IsSomeAnd(Func<T, bool> f)
   //                  IEnumerable<Option<T>> Iter()
@@ -357,86 +357,115 @@ public class Option<T>
   }
 
   /// <summary>
-  /// Inserts <c>value<c> into the <c>Option</c> if it is <c>None</c>, then
-  /// returns a mutable reference to the contained value.
+  /// Inserts <c>value<c> into the <c>Option</c> if it is <c>None</c> and returns
+  /// the value stored.
   ///
-  /// See also <c>Option::insert</c>, which updates the value even if
+  /// See also <c>Option.Insert</c>, which updates the value even if
   /// the option already contains <c>Some</c>.
+  /// 
+  /// Note: This differs from the original implementation because it doesn't
+  /// return a mutable reference to the contained value due to differences in
+  /// how the languages work.
   ///
   /// Examples
   ///
   /// <code>
-  /// let mut x = None;
-  ///
-  /// {
-  ///     let y: &mut int = x.get_or_insert(5);
-  ///     assert_eq!(y, &5);
-  ///
-  ///     *y = 7;
-  /// }
-  ///
-  /// assert_eq!(x, Some(7));
+  /// var x = Option<int>.None();
+  /// var y = x.GetOrInsert(5);
+  /// 
+  /// Assert.Equal(5, y);
+  /// Assert.Equal(Option<int>.Some(5), x);
   /// <code>
   /// </summary>
-  /// <param name="value"></param>
-  /// <returns></returns>
+  /// <param name="value">The value to insert if <c>this</c> is <c>None</c>.</param>
+  /// <returns>The value contained in <c>this</c>.</returns>
   public T GetOrInsert(T value)
   {
-    throw new NotImplementedException();
+    ArgumentNullException.ThrowIfNull(value);
+
+    if(this.IsNone())
+    {
+      this._value = value;
+      this.Kind = OptionKind.Some;
+    }  
+
+    return _value!;
   }
 
   /// <summary>
-  /// Inserts a value computed from <c>f<c> into the option if it is <c>None</c>,
-  /// then returns a mutable reference to the contained value.
+  /// Inserts a value computed from <c>f<c> into the option if it is <c>None</c> and returns
+  /// the value stored.
+  /// 
+  /// Note: This differs from the original implementation because it doesn't
+  /// return a mutable reference to the contained value due to differences in
+  /// how the languages work.
   ///
   /// Examples
   ///
   /// <code>
-  /// let mut x = None;
-  ///
-  /// {
-  ///     let y: &mut int = x.get_or_insert_with(|| 5);
-  ///     assert_eq!(y, &5);
-  ///
-  ///     *y = 7;
-  /// }
-  ///
-  /// assert_eq!(x, Some(7));
+  /// var x = Option<int>.None();
+  /// var y = x.GetOrInsertWith(() => 5);
+  /// 
+  /// Assert.Equal(5, y);
+  /// Assert.Equal(Option<int>.Some(5), x);
   /// <code>
   /// </summary>
-  /// <param name="f"></param>
-  /// <returns></returns>
+  /// <param name="f">The function to use to populate <c>this</c> if it's currently <c>None</c>.</param>
+  /// <returns>The value contained in <c>this</c>.</returns>
   public T GetOrInsertWith(Func<T> f)
   {
-    throw new NotImplementedException();
+    ArgumentNullException.ThrowIfNull(f);
+
+    if(this.IsNone())
+    {
+      var value = f.Invoke();
+
+      if(value == null)
+        throw new PanicException($"Function result returned null - cannot assign null to an Option<{typeof(T).ToString()}>.");
+
+      this._value = value;
+      this.Kind = OptionKind.Some;
+    }  
+
+    return _value!;
   }
 
   /// <summary>
-  /// Inserts <c>value<c> into the option, then returns a mutable reference to it.
+  /// Inserts <c>value<c> into the option, then returns the value stored.
   ///
   /// If the option already contains a value, the old value is dropped.
   ///
-  /// See also <c>Option::get_or_insert</c>, which doesn't update the value if
+  /// See also <c>Option.GetOrInsert</c>, which doesn't update the value if
   /// the option already contains <c>Some</c>.
   ///
+  /// Note: This differs from the original implementation because it doesn't
+  /// return a mutable reference to the contained value due to differences in
+  /// how the languages work.
+  /// 
   /// # Example
   ///
   /// <code>
-  /// let mut opt = None;
-  /// let val = opt.insert(1);
-  /// assert_eq!(*val, 1);
-  /// assert_eq!(opt.unwrap(), 1);
-  /// let val = opt.insert(2);
-  /// assert_eq!(*val, 2);
-  /// *val = 3;
-  /// assert_eq!(opt.unwrap(), 3);
+  /// var opt = Option<int>.None();
+  /// var val = opt.Insert(1);
+  /// Assert.Equal(1, val);
+  /// Assert.Equal(1, opt.Unwrap());
+  /// 
+  /// val = opt.Insert(2);
+  /// Assert.Equal(2, val);
+  /// Assert.Equal(Option<int>.Some(2), opt);
   /// <code>
   /// </summary>
-  /// <param name="value"></param>
-  /// <returns></returns>
+  /// <param name="value">The value to insert into <c>this</c>, 
+  /// replacing any existing value.</param>
+  /// <returns>The new value contained in <c>this</c>.</returns>
   public T Insert(T value)
   {
-    throw new NotImplementedException();
+    ArgumentNullException.ThrowIfNull(value);
+
+    _value = value;
+    this.Kind = OptionKind.Some;
+
+    return _value;
   }
 
   /// <summary>
@@ -445,14 +474,15 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let x: Option<int> = Some(2);
-  /// assert_eq!(x.is_none(), false);
+  /// var x = Option<int>.Some(2);
+  /// Assert.False(x.IsNone());
   ///
-  /// let x: Option<int> = None;
-  /// assert_eq!(x.is_none(), true);
+  /// var x = Option<int>.None();
+  /// Assert.True(x.IsNone());
   /// <code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns><c>true</c> if <c>this</c> is <c>None</c>;
+  /// <c>false</c> otherwise.</returns>
   public bool IsNone() => Kind == OptionKind.None;
 
   /// <summary>
