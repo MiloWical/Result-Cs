@@ -15,7 +15,7 @@ public class Option<T>
   // ✓       ✓   ✓    bool IsNone()
   // ✓       ✓   ✓    bool IsSome()
   // ✓       ✓   ✓    bool IsSomeAnd(Func<T, bool> f)
-  //                  IEnumerable<Option<T>> Iter()
+  // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
   //                  Option<U> Map<U>(Func<T, U> f)
   //                  U MapOr<U>(U def, Func<T, U> f)
   //                  U MapOrElse<U>(Func<U> def, Func<T, U> f)
@@ -540,17 +540,32 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let x = Some(4);
-  /// assert_eq!(x.iter().next(), Some(&4));
+  /// var x = Option<int>.Some(4);
+  /// var iter = x.Iter().GetEnumerator();
+  /// 
+  /// Assert.True(iter.MoveNext());
+  /// Assert.Equal(Option<int>.Some(4), iter.Current);
+  /// Assert.False(iter.MoveNext());
   ///
-  /// let x: Option<int> = None;
-  /// assert_eq!(x.iter().next(), None);
+  /// var x = Option<int>.None();
+  /// var iter = x.Iter().GetEnumerator();
+  ///
+  /// Assert.True(iter.MoveNext());
+  /// Assert.Equal(Option<int>.None(), iter.Current);
+  /// Assert.False(iter.MoveNext());
   /// <code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns>An <c>IEnumerable<Option<T>></c> containing a single value. 
+  /// <ul>
+  /// <li>If <c>this</c> is <c>OptionKind.Some</c>, the value is an <c>OptionKind.Some</c> with the unwrapped value of <c>this</c>
+  /// <li>If <c>this</c> is <c>OptionKind.None</c>, the value is an <c>OptionKind.None</c>
+  /// </ul></returns>
   public IEnumerable<Option<T>> Iter()
   {
-    throw new NotImplementedException();
+    if (this.IsSome())
+      return new List<Option<T>> { Option<T>.Some(this.Unwrap()) };
+
+    return new List<Option<T>> { Option<T>.None() };
   }
 
   /// <summary>
