@@ -14,7 +14,7 @@ public class Option<T>
   // ✓       ✓   ✓    T Insert(T value)
   // ✓       ✓   ✓    bool IsNone()
   // ✓       ✓   ✓    bool IsSome()
-  //                  bool IsSomeAnd(Func<T, bool> f)
+  // ✓       ✓   ✓    bool IsSomeAnd(Func<T, bool> f)
   //                  IEnumerable<Option<T>> Iter()
   //                  Option<U> Map<U>(Func<T, U> f)
   //                  U MapOr<U>(U def, Func<T, U> f)
@@ -508,23 +508,30 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// #![feature(is_some_with)]
+  /// var x = Option<int>.Some(2);
+  /// Assert.True(x.IsSomeAnd(x => x > 1));
   ///
-  /// let x: Option<int> = Some(2);
-  /// assert_eq!(x.is_some_and(|&x| x > 1), true);
+  /// var x = Option<int>.Some(0);
+  /// Assert.False(x.IsSomeAnd(x => x > 1));
   ///
-  /// let x: Option<int> = Some(0);
-  /// assert_eq!(x.is_some_and(|&x| x > 1), false);
-  ///
-  /// let x: Option<int> = None;
-  /// assert_eq!(x.is_some_and(|&x| x > 1), false);
+  /// var x = Option<int>.None();
+  /// Assert.False(x.IsSomeAnd(x => x > 1));
   /// <code>
   /// </summary>
-  /// <param name="f"></param>
-  /// <returns></returns>
+  /// <param name="f">The function used to evaluate the value of <c>this</c>
+  /// if it's <c>Some</c>.</param>
+  /// <returns><c>true</c> if:
+  /// <ul>
+  /// <li><c>this</c> is <c>Some</c> AND</li>
+  /// <li><c>f</c> returns <c>true</c></li>
+  /// </ul>
+  /// <c>false</c> otherwise.</returns>
   public bool IsSomeAnd(Func<T, bool> f)
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+      return false;
+
+    return f.Invoke(this.Unwrap());
   }
 
   /// <summary>
