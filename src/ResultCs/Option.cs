@@ -16,7 +16,7 @@ public class Option<T>
   // ✓       ✓   ✓    bool IsSome()
   // ✓       ✓   ✓    bool IsSomeAnd(Func<T, bool> f)
   // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
-  //                  Option<U> Map<U>(Func<T, U> f)
+  // ✓       ✓   ✓    Option<U> Map<U>(Func<T, U> f)
   //                  U MapOr<U>(U def, Func<T, U> f)
   //                  U MapOrElse<U>(Func<U> def, Func<T, U> f)
   //                  Result<T, E> OkOr<E>(E err)
@@ -573,24 +573,35 @@ public class Option<T>
   ///
   /// Examples
   ///
-  /// Converts an <code>Option<[String]></code> into an <code>Option<[usize]></code>, consuming
+  /// Converts an <code>Option<string></code> into an <code>Option<int></code>, consuming
   /// the original:
   ///
-  /// [String]: ../../std/string/struct.String.html "String"
   /// <code>
-  /// let maybe_some_string = Some(String::from("Hello, World!"));
-  /// // <c>Option::map<c> takes self *by value*, consuming <c>maybe_some_string<c>
-  /// let maybe_some_len = maybe_some_string.map(|s| s.len());
+  /// var maybeSomeString = Option<string>.Some("Hello, World!");
+  /// 
+  /// var maybeSomeLen = maybeSomeString.Map(s => s.Length);
   ///
-  /// assert_eq!(maybe_some_len, Some(13));
+  /// Assert.Equal(Option<int>.Some(13), maybeSomeLen);
   /// <code>
   /// </summary>
-  /// <param name="f"></param>
-  /// <typeparam name="U"></typeparam>
-  /// <returns></returns>
+  /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
+  /// <typeparam name="U">The return type of <c>f</c>.s</typeparam>
+  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, an <c>Option</c> containing the output of <c>f</c> 
+  /// applied to <c>this</c>; an <c>OptionKind.None</c> otherwise.</returns>
   public Option<U> Map<U>(Func<T, U> f)
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+      return Option<U>.None();
+
+    if (f == null)
+      throw new PanicException("Cannot call Option.Map() with a null delegate.");
+
+    var result = f.Invoke(this.Unwrap());
+
+    if (result == null)
+      throw new PanicException("Output of Options.Map() delegate function cannot be null.");
+
+    return Option<U>.Some(result);
   }
 
   /// <summary>
