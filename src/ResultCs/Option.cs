@@ -18,7 +18,7 @@ public class Option<T>
   // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
   // ✓       ✓   ✓    Option<U> Map<U>(Func<T, U> f)
   // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
-  //                  U MapOrElse<U>(Func<U> def, Func<T, U> f)
+  // ✓       ✓   ✓    U MapOrElse<U>(Func<U> def, Func<T, U> f)
   //                  Result<T, E> OkOr<E>(E err)
   //                  Result<T, E> OkOrElse<E>(Func<E> err)
   //                  Option<T> Or(Option<T> optB)
@@ -655,22 +655,46 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let k = 21;
+  /// const int k = 21;
   ///
-  /// let x = Some("foo");
-  /// assert_eq!(x.map_or_else(|| 2 * k, |v| v.len()), 3);
+  /// var x = Option<string>.Some("foo");
+  /// Assert.Equal(3, x.MapOrElse(() => 2 * k, v => v.Length));
   ///
-  /// let x: Option<string> = None;
-  /// assert_eq!(x.map_or_else(|| 2 * k, |v| v.len()), 42);
+  /// var x = Option<string>.None();
+  /// Assert.Equal(42, x.MapOrElse(() => 2 * k, v => v.Length));
   /// <code>
   /// </summary>
-  /// <param name="def"></param>
-  /// <param name="f"></param>
-  /// <typeparam name="U"></typeparam>
-  /// <returns></returns>
+  /// <param name="def">The default function to invoke
+  /// if <c>this</c> is <c>OptionKind.None</c>.</param>
+  /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
+  /// <typeparam name="U">The output type of <c>def</c> and <c>f</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, a value that's the output of applying 
+  /// <c>f</op> to the current <c>Options</c>'s <c>Some</c> value; otherwise the value of 
+  /// invoking <c>def</c>.</returns>
   public U MapOrElse<U>(Func<U> def, Func<T, U> f)
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+    {
+      if (def == null)
+        throw new PanicException("The default delegate for Option.MapOrElse() cannot be null.");
+
+      var noneResult = def.Invoke();
+
+      if (noneResult == null)
+        throw new PanicException("The default delegate for Option.MapOrElse() cannot return null.");
+
+      return noneResult;
+    }
+
+    if (f == null)
+      throw new PanicException("Cannot call Option.MapOrElse() with a null delegate.");
+
+    var someResult = f.Invoke(this.Unwrap());
+
+    if (someResult == null)
+      throw new PanicException("Output of Options.MapOrElse() delegate function cannot be null.");
+
+    return someResult;
   }
 
   /// <summary>

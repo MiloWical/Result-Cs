@@ -580,8 +580,8 @@ public class Result<T, E>
   /// if <c>this</c> is <c>ResultKind.Err</c>.</param>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
   /// <typeparam name="U">The output type of <c>def</c> and <c>f</c>.</typeparam>
-  /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a <c>Result</c> that's the output of applying 
-  /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise a <c>Result</c> that's the 
+  /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a value that's the output of applying 
+  /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise a value that's the 
   /// output of applying <c>def</op> to the current <c>Result</c>'s <c>Err</c> value.</returns>
   public U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
   {
