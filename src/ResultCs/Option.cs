@@ -17,7 +17,7 @@ public class Option<T>
   // ✓       ✓   ✓    bool IsSomeAnd(Func<T, bool> f)
   // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
   // ✓       ✓   ✓    Option<U> Map<U>(Func<T, U> f)
-  //                  U MapOr<U>(U def, Func<T, U> f)
+  // ✓       ✓        U MapOr<U>(U def, Func<T, U> f)
   //                  U MapOrElse<U>(Func<U> def, Func<T, U> f)
   //                  Result<T, E> OkOr<E>(E err)
   //                  Result<T, E> OkOrElse<E>(Func<E> err)
@@ -315,7 +315,7 @@ public class Option<T>
     if (this.IsNone())
       return Option<T>.None();
 
-    if(predicate.Invoke(this.Unwrap()))
+    if (predicate.Invoke(this.Unwrap()))
       return Option<T>.Some(this.Unwrap());
 
     return Option<T>.None();
@@ -350,8 +350,8 @@ public class Option<T>
   /// <returns>The <c>Option</c> that's wrapped by <c>this</c>.</returns>
   public T Flatten()
   {
-    if(this.IsNone() && typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(Option<>))
-        return (T)(typeof(T).GetMethod("None")!.Invoke(null, new object[0]))!;
+    if (this.IsNone() && typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(Option<>))
+      return (T)(typeof(T).GetMethod("None")!.Invoke(null, new object[0]))!;
 
     return this.Unwrap();
   }
@@ -383,11 +383,11 @@ public class Option<T>
   {
     ArgumentNullException.ThrowIfNull(value);
 
-    if(this.IsNone())
+    if (this.IsNone())
     {
       this._value = value;
       this.Kind = OptionKind.Some;
-    }  
+    }
 
     return _value!;
   }
@@ -416,16 +416,16 @@ public class Option<T>
   {
     ArgumentNullException.ThrowIfNull(f);
 
-    if(this.IsNone())
+    if (this.IsNone())
     {
       var value = f.Invoke();
 
-      if(value == null)
+      if (value == null)
         throw new PanicException($"Function result returned null - cannot assign null to an Option<{typeof(T).ToString()}>.");
 
       this._value = value;
       this.Kind = OptionKind.Some;
-    }  
+    }
 
     return _value!;
   }
@@ -608,29 +608,44 @@ public class Option<T>
   /// Returns the provided default result (if none),
   /// or applies a function to the contained value (if any).
   ///
-  /// Arguments passed to <c>map_or<c> are eagerly evaluated; if you are passing
-  /// the result of a function call, it is recommended to use <c>map_or_else</c>,
+  /// Arguments passed to <c>MapOr<c> are eagerly evaluated; if you are passing
+  /// the result of a function call, it is recommended to use <c>MapOrElse</c>,
   /// which is lazily evaluated.
-  ///
-  /// <c>map_or_else</c>: Option::map_or_else
   ///
   /// Examples
   ///
   /// <code>
-  /// let x = Some("foo");
-  /// assert_eq!(x.map_or(42, |v| v.len()), 3);
+  /// var x = Option<string>.Some("foo");
+  /// Assert.Equal(3, x.MapOr(42, v => v.Length));
   ///
-  /// let x: Option<string> = None;
-  /// assert_eq!(x.map_or(42, |v| v.len()), 42);
+  /// var x = Option<string>.None();
+  /// Assert.Equal(42, x.MapOr(42, v => v.Length));
   /// <code>
   /// </summary>
-  /// <param name="def"></param>
-  /// <param name="f"></param>
-  /// <typeparam name="U"></typeparam>
-  /// <returns></returns>
+  /// <param name="def">The default value to return if <c>this</c> is <c>OptionKind.None</c>.</param>
+  /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
+  /// <typeparam name="U">The output type of <c>f</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, an <c>Option</c> that's the output of applying 
+  /// <c>f</op> to the current <c>Options</c>'s <c>Some</c> value; otherwise <c>def</c>.</returns>
   public U MapOr<U>(U def, Func<T, U> f)
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+    {
+      if (def == null)
+        throw new PanicException("The default return value for Option.MapOr() cannot be null.");
+
+      return def;
+    }
+
+    if (f == null)
+      throw new PanicException("Cannot call Option.MapOr() with a null delegate.");
+
+    var result = f.Invoke(this.Unwrap());
+
+    if (result == null)
+      throw new PanicException("Output of Options.MapOr() delegate function cannot be null.");
+
+    return result;
   }
 
   /// <summary>
