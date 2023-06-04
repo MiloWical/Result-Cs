@@ -17,7 +17,7 @@ public class Option<T>
   // ✓       ✓   ✓    bool IsSomeAnd(Func<T, bool> f)
   // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
   // ✓       ✓   ✓    Option<U> Map<U>(Func<T, U> f)
-  // ✓       ✓        U MapOr<U>(U def, Func<T, U> f)
+  // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
   //                  U MapOrElse<U>(Func<U> def, Func<T, U> f)
   //                  Result<T, E> OkOr<E>(E err)
   //                  Result<T, E> OkOrElse<E>(Func<E> err)
