@@ -23,7 +23,7 @@ public class Option<T>
   // ✓       ✓   ✓    Result<T, E> OkOrElse<E>(Func<E> err)
   // ✓       ✓   ✓    Option<T> Or(Option<T> optB)
   // ✓       ✓   ✓    Option<T> OrElse(Func<Option<T>> f)
-  //                  Option<T> Replace(T value)
+  // ✓       ✓   ✓    Option<T> Replace(T value)
   //                  Option<T> Take()
   //                  Result<Option<T>, E> Transpose<E>()
   //         ✓   ✓    T Unwrap()
@@ -868,22 +868,38 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let mut x = Some(2);
-  /// let old = x.replace(5);
-  /// assert_eq!(x, Some(5));
-  /// assert_eq!(old, Some(2));
+  /// var x = Option<int>.Some(2);
+  /// var old = x.Replace(5);
+  /// Assert.Equal(Option<int>.Some(5), x);
+  /// Assert.Equal(Option<int>.Some(2), old);
   ///
-  /// let mut x = None;
-  /// let old = x.replace(3);
-  /// assert_eq!(x, Some(3));
-  /// assert_eq!(old, None);
+  /// var x = Option<int>.None();
+  /// var old = x.Replace(3);
+  /// Assert.Equal(Option<int>.Some(3), x);
+  /// Assert.Equal(Option<int>.None(), old);
   /// <code>
   /// </summary>
-  /// <param name="value"></param>
-  /// <returns></returns>
+  /// <param name="value">The value to upsert into this <c>Option</c>.</param>
+  /// <returns>If <c>this</c> is <c>Some</c>, an <c>Option</c> with the value that is replaced;
+  /// otherwise and <c>Option.None</c>.</returns>
   public Option<T> Replace(T value)
   {
-    throw new NotImplementedException();
+    if (value is null)
+      throw new PanicException("Cannot pass a null value to Option.Replace().");
+
+    Option<T> oldOpt;
+
+    if (this.IsNone())
+    {
+      oldOpt = Option<T>.None();
+      this.Kind = OptionKind.Some;
+    }
+    else
+      oldOpt = Option<T>.Some(this.Unwrap());
+
+    _value = value;
+
+    return oldOpt;
   }
 
   /// <summary>
