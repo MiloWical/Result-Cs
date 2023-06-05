@@ -22,7 +22,7 @@ public class Option<T>
   // ✓       ✓   ✓    Result<T, E> OkOr<E>(E err)
   // ✓       ✓   ✓    Result<T, E> OkOrElse<E>(Func<E> err)
   // ✓       ✓   ✓    Option<T> Or(Option<T> optB)
-  // ✓       ✓        Option<T> OrElse(Func<Option<T>> f)
+  // ✓       ✓   ✓    Option<T> OrElse(Func<Option<T>> f)
   //                  Option<T> Replace(T value)
   //                  Option<T> Take()
   //                  Result<Option<T>, E> Transpose<E>()
