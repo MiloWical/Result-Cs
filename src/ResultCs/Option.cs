@@ -25,7 +25,7 @@ public class Option<T>
   // ✓       ✓   ✓    Option<T> OrElse(Func<Option<T>> f)
   // ✓       ✓   ✓    Option<T> Replace(T value)
   // ✓       ✓   ✓    Option<T> Take()
-  //                  Result<Option<T>, E> Transpose<E>()
+  // ✓       ✓   ✓    Result<Option<T>, E> Transpose<E>()
   //         ✓   ✓    T Unwrap()
   //                  T UnwrapOr(T def)
   //                  T UnwrapOrDefault()
@@ -937,26 +937,49 @@ public class Option<T>
   /// <summary>
   /// Transposes an <c>Option<c> of a <c>Result</c> into a <c>Result</c> of an <c>Option<c>.
   ///
-  /// <c>None</c> will be mapped to <code>[Ok]\([None])</code>.
-  /// <code>[Some]\([Ok]\(\_))</code> and <code>[Some]\([Err]\(\_))</code> will be mapped to
-  /// <code>[Ok]\([Some]\(\_))</code> and <code>[Err]\(\_)</code>.
+  /// <c>None</c> will be mapped to <c>Ok(None)</c>.
+  /// <c>Some(Ok)</c> and <c>Some(Err)</c> will be mapped to
+  /// <c>Ok(Some)</c> and <c>Err</code>.
   ///
   /// Examples
   ///
   /// <code>
-  /// #[derive(Debug, Eq, PartialEq)]
-  /// struct SomeErr;
-  ///
-  /// let x: Result<Option<i32>, SomeErr> = Ok(Some(5));
-  /// let y: Option<Result<i32, SomeErr>> = Some(Ok(5));
-  /// assert_eq!(x, y.transpose());
+  /// var x = Result<Option<int>, string>.Ok(Option<int>.Some(5));
+  /// var y = Option<Result<int, string>>.Some(Result<int, string>.Ok(5));
+  /// Assert.Equal(x, y.Transpose<int, string>());
   /// <code>
   /// </summary>
-  /// <typeparam name="E"></typeparam>
-  /// <returns></returns>
-  public Result<Option<T>, E> Transpose<E>()
+  /// <typeparam name="U">The internal type of the <c>Result<Option<>></c>. (Note: this is a 
+  /// deviation from the Rust signature because C# doesn't implement enum values the way 
+  /// Rust does.)</typeparam>
+  /// <typeparam name="E">The type of the error for the <c>Result</c>.</typeparam>
+  /// <returns>An <c>Option<c> of a <c>Result</c> as a <c>Result</c> of an <c>Option<c></returns>
+  public Result<Option<U>, E> Transpose<U, E>()
   {
-    throw new NotImplementedException();
+     if (!typeof(T).IsGenericType || typeof(T).GetGenericTypeDefinition() != typeof(Result<,>))
+        throw new PanicException($"The wrapped type is {_value!.GetType()}; expecting Result<{typeof(U)}, {typeof(E)}>");
+
+    if (this.IsSome())
+    {
+      var okType = typeof(T).GetGenericArguments()[0];
+
+      if (typeof(U) != okType)
+        throw new PanicException($"The wrapped value type {okType} not assignable to type parameter {typeof(U)}");
+
+      var errType = typeof(T).GetGenericArguments()[1];
+
+      if (typeof(E) != errType)
+        throw new PanicException($"The wrapped error type {errType} not assignable to type parameter {typeof(E)}");
+
+      Result<U, E>? result = this.Unwrap() as Result<U, E>;
+
+      if(result!.IsErr())
+        return Result<Option<U>, E>.Err(result.UnwrapErr());
+
+      return Result<Option<U>, E>.Ok(Option<U>.Some(result.Unwrap()));
+    }
+  
+    return Result<Option<U>, E>.Ok(Option<U>.None());
   }
 
   /// <summary>
