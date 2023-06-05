@@ -19,8 +19,8 @@ public class Option<T>
   // ✓       ✓   ✓    Option<U> Map<U>(Func<T, U> f)
   // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
   // ✓       ✓   ✓    U MapOrElse<U>(Func<U> def, Func<T, U> f)
-  //                  Result<T, E> OkOr<E>(E err)
-  //                  Result<T, E> OkOrElse<E>(Func<E> err)
+  // ✓       ✓   ✓    Result<T, E> OkOr<E>(E err)
+  // ✓       ✓   ✓    Result<T, E> OkOrElse<E>(Func<E> err)
   //                  Option<T> Or(Option<T> optB)
   //                  Option<T> OrElse(Func<Option<T>> f)
   //                  Option<T> Replace(T value)
@@ -126,7 +126,7 @@ public class Option<T>
   /// <param name="opt1">The first <c>Option</c> to compare</param>
   /// <param name="opt2">The second <c>Option</c> to compare</param>
   /// <returns>The result of <c>opt1.Equals(opt2)</c></returns>
-  public static bool operator ==(Option<T> opt1, Option<T> opt2) => opt1.Equals(opt2);
+  public static bool operator == (Option<T> opt1, Option<T> opt2) => opt1.Equals(opt2);
 
   /// <summary>
   /// Convenience override of the <c>!=</c> operator.
@@ -134,7 +134,7 @@ public class Option<T>
   /// <param name="opt1">The first <c>Option</c> to compare</param>
   /// <param name="opt2">The second <c>Option</c> to compare</param>
   /// <returns>The result of <c>!opt1.Equals(opt2)</c></returns>
-  public static bool operator !=(Option<T> opt1, Option<T> opt2) => !(opt1.Equals(opt2));
+  public static bool operator != (Option<T> opt1, Option<T> opt2) => !(opt1.Equals(opt2));
 
   /// <summary>
   /// Override of <see cref="Object.GetHashCode()"/>.
@@ -701,57 +701,74 @@ public class Option<T>
   /// Transforms the <c>Option<T><c> into a <c>Result<T, E></c>, mapping <c>Some(v)</c> to
   /// <c>Ok(v)</c> and <c>None</c> to <c>Err(err)</c>.
   ///
-  /// Arguments passed to <c>ok_or<c> are eagerly evaluated; if you are passing the
-  /// result of a function call, it is recommended to use <c>ok_or_else</c>, which is
+  /// Arguments passed to <c>OkOr<c> are eagerly evaluated; if you are passing the
+  /// result of a function call, it is recommended to use <c>OkOrElse</c>, which is
   /// lazily evaluated.
-  ///
-  /// <c>Ok(v)</c>: Ok
-  /// <c>Err(err)</c>: Err
-  /// <c>Some(v)</c>: Some
-  /// <c>ok_or_else</c>: Option::ok_or_else
   ///
   /// Examples
   ///
   /// <code>
-  /// let x = Some("foo");
-  /// assert_eq!(x.ok_or(0), Ok("foo"));
+  /// var x = Option<string>.Some("foo");
+  /// Assert.Equal(Result<string, int>.Ok("foo"), x.OkOr(0));
   ///
-  /// let x: Option<string> = None;
-  /// assert_eq!(x.ok_or(0), Err(0));
+  /// var x = Option<string>.None();
+  /// Assert.Equal(Result<string, int>.Err(0), x.OkOr(0));
   /// <code>
   /// </summary>
-  /// <param name="err"></param>
-  /// <typeparam name="E"></typeparam>
-  /// <returns></returns>
+  /// <param name="err">The error used for the <c>Result</c> if <c>this</c> is <c>OptionKind.None</c>.</param>
+  /// <typeparam name="E">The type of the <c>Result</c>'s <c>ResultKind.Err</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, a <c>Result</c> with <c>ResultKind.Ok</c> with the
+  /// <c>Some</c> value of <c>this</c>; otherwise a <c>Result</c> with <c>ResultKind.Err</c> with the
+  /// value of <c>err</c>.</returns>
   public Result<T, E> OkOr<E>(E err)
   {
-    throw new NotImplementedException();
+    if(this.IsNone())
+    {
+      if (err == null)
+        throw new PanicException("Option.OkOr() cannot be passed a null error value.");
+
+      return Result<T, E>.Err(err);
+    }
+
+    return Result<T, E>.Ok(this.Unwrap());
   }
 
   /// <summary>
   /// Transforms the <c>Option<T><c> into a <c>Result<T, E></c>, mapping <c>Some(v)</c> to
-  /// <c>Ok(v)</c> and <c>None</c> to <c>Err(err())</c>.
-  ///
-  /// <c>Ok(v)</c>: Ok
-  /// <c>Err(err())</c>: Err
-  /// <c>Some(v)</c>: Some
+  /// <c>Ok(v)</c> and <c>None</c> to <c>Err(err)</c>.
   ///
   /// Examples
   ///
   /// <code>
-  /// let x = Some("foo");
-  /// assert_eq!(x.ok_or_else(|| 0), Ok("foo"));
+  /// var x = Option<string>.Some("foo");
+  /// Assert.Equal(Result<string, int>.Ok("foo"), x.OkOrElse(() => 0));
   ///
-  /// let x: Option<string> = None;
-  /// assert_eq!(x.ok_or_else(|| 0), Err(0));
+  /// var x = Option<string>.None();
+  /// Assert.Equal(Result<string, int>.Err(0), x.OkOrElse(() => 0));
   /// <code>
   /// </summary>
-  /// <param name="err"></param>
-  /// <typeparam name="E"></typeparam>
-  /// <returns></returns>
+  /// <param name="err">The function to call to get the <c>Err</c> value for the <c>Result</c> 
+  /// if <c>this</c> is <c>OptionKind.None</c>.</param>
+  /// <typeparam name="E">The type of the <c>Result</c>'s <c>ResultKind.Err</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, a <c>Result</c> with <c>ResultKind.Ok</c> with the
+  /// <c>Some</c> value of <c>this</c>; otherwise a <c>Result</c> with <c>ResultKind.Err</c> with the
+  /// value resulting from calling <c>err</c>.</returns>
   public Result<T, E> OkOrElse<E>(Func<E> err)
   {
-    throw new NotImplementedException();
+    if(this.IsNone())
+    {
+      if (err == null)
+        throw new PanicException("Option.OkOrElse() cannot be passed a null error delegate.");
+
+      var errValue = err.Invoke();
+
+      if (errValue == null)
+        throw new PanicException("The error delegate for Option.OkOrElse() cannot return a null value.");
+
+      return Result<T, E>.Err(errValue);
+    }
+
+    return Result<T, E>.Ok(this.Unwrap());
   }
 
   /// <summary>
