@@ -21,8 +21,8 @@ public class Option<T>
   // ✓       ✓   ✓    U MapOrElse<U>(Func<U> def, Func<T, U> f)
   // ✓       ✓   ✓    Result<T, E> OkOr<E>(E err)
   // ✓       ✓   ✓    Result<T, E> OkOrElse<E>(Func<E> err)
-  //                  Option<T> Or(Option<T> optB)
-  //                  Option<T> OrElse(Func<Option<T>> f)
+  // ✓       ✓   ✓    Option<T> Or(Option<T> optB)
+  // ✓       ✓   ✓    Option<T> OrElse(Func<Option<T>> f)
   //                  Option<T> Replace(T value)
   //                  Option<T> Take()
   //                  Result<Option<T>, E> Transpose<E>()
@@ -96,7 +96,7 @@ public class Option<T>
   /// <c>false</c> otherwise</returns>
   public override bool Equals(object? other)
   {
-    if (other == null) ArgumentNullException.ThrowIfNull(other);
+    if (other is null) return false;
 
     var otherOption = (Option<T>)other;
 
@@ -106,9 +106,9 @@ public class Option<T>
     if (this.IsNone() && otherOption.IsNone())
       return true;
 
-    if (_value == null)
+    if (_value is null)
     {
-      if (otherOption.Unwrap() == null)
+      if (otherOption.Unwrap() is null)
         return true;
 
       return false;
@@ -120,13 +120,25 @@ public class Option<T>
     return false;
   }
 
+
   /// <summary>
   /// Convenience override of the <c>==</c> operator.
   /// </summary>
   /// <param name="opt1">The first <c>Option</c> to compare</param>
   /// <param name="opt2">The second <c>Option</c> to compare</param>
   /// <returns>The result of <c>opt1.Equals(opt2)</c></returns>
-  public static bool operator == (Option<T> opt1, Option<T> opt2) => opt1.Equals(opt2);
+  public static bool operator ==(Option<T> opt1, Option<T> opt2)
+  {
+    if (opt1 is null)
+    {
+      if (opt2 is null)
+        return true;
+
+      return false;
+    }
+
+    return opt1.Equals(opt2);
+  }
 
   /// <summary>
   /// Convenience override of the <c>!=</c> operator.
@@ -134,7 +146,7 @@ public class Option<T>
   /// <param name="opt1">The first <c>Option</c> to compare</param>
   /// <param name="opt2">The second <c>Option</c> to compare</param>
   /// <returns>The result of <c>!opt1.Equals(opt2)</c></returns>
-  public static bool operator != (Option<T> opt1, Option<T> opt2) => !(opt1.Equals(opt2));
+  public static bool operator !=(Option<T> opt1, Option<T> opt2) => !(opt1 == opt2);
 
   /// <summary>
   /// Override of <see cref="Object.GetHashCode()"/>.
@@ -420,7 +432,7 @@ public class Option<T>
     {
       var value = f.Invoke();
 
-      if (value == null)
+      if (value is null)
         throw new PanicException($"Function result returned null - cannot assign null to an Option<{typeof(T).ToString()}>.");
 
       this._value = value;
@@ -593,12 +605,12 @@ public class Option<T>
     if (this.IsNone())
       return Option<U>.None();
 
-    if (f == null)
+    if (f is null)
       throw new PanicException("Cannot call Option.Map() with a null delegate.");
 
     var result = f.Invoke(this.Unwrap());
 
-    if (result == null)
+    if (result is null)
       throw new PanicException("Output of Options.Map() delegate function cannot be null.");
 
     return Option<U>.Some(result);
@@ -631,18 +643,18 @@ public class Option<T>
   {
     if (this.IsNone())
     {
-      if (def == null)
+      if (def is null)
         throw new PanicException("The default return value for Option.MapOr() cannot be null.");
 
       return def;
     }
 
-    if (f == null)
+    if (f is null)
       throw new PanicException("Cannot call Option.MapOr() with a null delegate.");
 
     var result = f.Invoke(this.Unwrap());
 
-    if (result == null)
+    if (result is null)
       throw new PanicException("Output of Options.MapOr() delegate function cannot be null.");
 
     return result;
@@ -675,23 +687,23 @@ public class Option<T>
   {
     if (this.IsNone())
     {
-      if (def == null)
+      if (def is null)
         throw new PanicException("The default delegate for Option.MapOrElse() cannot be null.");
 
       var noneResult = def.Invoke();
 
-      if (noneResult == null)
+      if (noneResult is null)
         throw new PanicException("The default delegate for Option.MapOrElse() cannot return null.");
 
       return noneResult;
     }
 
-    if (f == null)
+    if (f is null)
       throw new PanicException("Cannot call Option.MapOrElse() with a null delegate.");
 
     var someResult = f.Invoke(this.Unwrap());
 
-    if (someResult == null)
+    if (someResult is null)
       throw new PanicException("Output of Options.MapOrElse() delegate function cannot be null.");
 
     return someResult;
@@ -722,9 +734,9 @@ public class Option<T>
   /// value of <c>err</c>.</returns>
   public Result<T, E> OkOr<E>(E err)
   {
-    if(this.IsNone())
+    if (this.IsNone())
     {
-      if (err == null)
+      if (err is null)
         throw new PanicException("Option.OkOr() cannot be passed a null error value.");
 
       return Result<T, E>.Err(err);
@@ -755,14 +767,14 @@ public class Option<T>
   /// value resulting from calling <c>err</c>.</returns>
   public Result<T, E> OkOrElse<E>(Func<E> err)
   {
-    if(this.IsNone())
+    if (this.IsNone())
     {
-      if (err == null)
+      if (err is null)
         throw new PanicException("Option.OkOrElse() cannot be passed a null error delegate.");
 
       var errValue = err.Invoke();
 
-      if (errValue == null)
+      if (errValue is null)
         throw new PanicException("The error delegate for Option.OkOrElse() cannot return a null value.");
 
       return Result<T, E>.Err(errValue);
@@ -772,39 +784,45 @@ public class Option<T>
   }
 
   /// <summary>
-  /// Returns the option if it contains a value, otherwise returns <c>optb<c>.
+  /// Returns the option if it contains a value, otherwise returns <c>optB<c>.
   ///
-  /// Arguments passed to <c>or<c> are eagerly evaluated; if you are passing the
-  /// result of a function call, it is recommended to use <c>or_else</c>, which is
+  /// Arguments passed to <c>Or<c> are eagerly evaluated; if you are passing the
+  /// result of a function call, it is recommended to use <c>OrElse</c>, which is
   /// lazily evaluated.
-  ///
-  /// <c>or_else</c>: Option::or_else
   ///
   /// Examples
   ///
   /// <code>
-  /// let x = Some(2);
-  /// let y = None;
-  /// assert_eq!(x.or(y), Some(2));
+  /// var x = Option<int>.Some(2);
+  /// var y = Option<int>.None();
+  /// Assert.Equal(Option<int>.Some(2), x.Or(y));
   ///
-  /// let x = None;
-  /// let y = Some(100);
-  /// assert_eq!(x.or(y), Some(100));
+  /// var x = Option<int>.None();
+  /// var y = Option<int>.Some(100);
+  /// Assert.Equal(Option<int>.Some(100), x.Or(y));
   ///
-  /// let x = Some(2);
-  /// let y = Some(100);
-  /// assert_eq!(x.or(y), Some(2));
+  /// var x = Option<int>.Some(2);
+  /// var y = Option<int>.Some(100);
+  /// Assert.Equal(Option<int>.Some(2), x.Or(y));
   ///
-  /// let x: Option<int> = None;
-  /// let y = None;
-  /// assert_eq!(x.or(y), None);
+  /// var x = Option<int>.None();
+  /// var y = Option<int>.None();
+  /// Assert.Equal(Option<int>.None(), x.Or(y));
   /// <code>
   /// </summary>
-  /// <param name="optB"></param>
-  /// <returns></returns>
+  /// <param name="optB">The value to return if <c>this</c> is <c>OptionKind.None</c></param>
+  /// <returns><c>this</c> if <c>this</c> if <c>OptionKind.Some</c>, <c>optB</c> otherwise.</returns>
   public Option<T> Or(Option<T> optB)
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+    {
+      if (optB is null)
+        throw new PanicException("Cannot pass a null alternative value to Option.Or().");
+
+      return optB;
+    }
+
+    return Option<T>.Some(this.Unwrap());
   }
 
   /// <summary>
@@ -814,19 +832,32 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// fn nobody() -> Option<&'static str> { None }
-  /// fn vikings() -> Option<&'static str> { Some("vikings") }
+  /// public Option<string> Nobody() => Option<string>.None();
+  /// public Option<string> Vikings() => Option<string>.Some("vikings");
   ///
-  /// assert_eq!(Some("barbarians").or_else(vikings), Some("barbarians"));
-  /// assert_eq!(None.or_else(vikings), Some("vikings"));
-  /// assert_eq!(None.or_else(nobody), None);
+  /// Assert.Equal(Option<string>.Some("barbarians"), Option<string>.Some("barbarians").OrElse(Vikings));
+  /// Assert.Equal(Option<string>.Some("vikings"), Option<string>.None().OrElse(Vikings));
+  /// Assert.Equal(Option<string>.None(), Option<string>.None().OrElse(Nobody));
   /// <code>
   /// </summary>
-  /// <param name="f"></param>
-  /// <returns></returns>
+  /// <param name="f">The function to invoke when <c>this</c> is <c>Some</c>.</param>
+  /// <returns>The result of <c>f</c> if <c>this</c> is <c>None</c>; otherwise <c>self<c>.</returns>
   public Option<T> OrElse(Func<Option<T>> f)
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+    {
+      if (f is null)
+        throw new PanicException("Cannot pass a null delegate function to Option.OrElse().");
+
+      var noneValue = f.Invoke();
+
+      if (noneValue is null)
+        throw new PanicException("The delegate function of Option.OrElse(0 cannot return null.)");
+
+      return noneValue;
+    }
+
+    return Option<T>.Some(this.Unwrap());
   }
 
   /// <summary>

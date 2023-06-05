@@ -1,8 +1,5 @@
 namespace WicalWare.Components.ResultCs;
 
-// TODO: Reread the comments and correct the formatting to C# styling!
-// TODO: Check the <return> tags on all comments!
-
 // https://doc.rust-lang.org/std/result/enum.Result.html
 public class Result<T, E>
 {
@@ -101,7 +98,7 @@ public class Result<T, E>
   /// <c>false</c> otherwise</returns>
   public override bool Equals(object? other)
   {
-    if (other == null) ArgumentNullException.ThrowIfNull(other);
+    if (other is null) return false;
 
     if (other is not Result<T, E>)
       return false;
@@ -126,7 +123,18 @@ public class Result<T, E>
   /// <param name="res1">The first <c>Result</c> to compare</param>
   /// <param name="res2">The second <c>Result</c> to compare</param>
   /// <returns>The result of <c>res1.Equals(res2)</c></returns>
-  public static bool operator ==(Result<T, E> res1, Result<T, E> res2) => res1.Equals(res2);
+  public static bool operator == (Result<T, E> res1, Result<T, E> res2)
+  {
+    if (res1 is null)
+    {
+      if (res2 is null)
+        return true;
+
+      return false;
+    }
+
+    return res1.Equals(res2);
+  }
 
   /// <summary>
   /// Convenience override of the <c>!=</c> operator.
@@ -134,7 +142,7 @@ public class Result<T, E>
   /// <param name="res1">The first <c>Result</c> to compare</param>
   /// <param name="res2">The second <c>Result</c> to compare</param>
   /// <returns>The result of <c>!res1.Equals(res2)</c></returns>
-  public static bool operator !=(Result<T, E> res1, Result<T, E> res2) => !(res1.Equals(res2));
+  public static bool operator != (Result<T, E> res1, Result<T, E> res2) => !(res1 == res2);
 
   /// <summary>
   /// Override of <see cref="Object.GetHashCode()"/>.
