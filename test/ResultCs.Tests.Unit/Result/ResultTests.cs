@@ -76,7 +76,7 @@ public class ResultTests
   {
     var x = Result<int, string>.Ok(1);
 
-    Assert.Throws<ArgumentNullException>(() => x.Equals(null));
+    Assert.False(x.Equals(null));
   }
 
   [Fact]
