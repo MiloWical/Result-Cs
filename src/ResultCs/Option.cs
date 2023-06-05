@@ -24,7 +24,7 @@ public class Option<T>
   // ✓       ✓   ✓    Option<T> Or(Option<T> optB)
   // ✓       ✓   ✓    Option<T> OrElse(Func<Option<T>> f)
   // ✓       ✓   ✓    Option<T> Replace(T value)
-  //                  Option<T> Take()
+  // ✓       ✓   ✓    Option<T> Take()
   //                  Result<Option<T>, E> Transpose<E>()
   //         ✓   ✓    T Unwrap()
   //                  T UnwrapOr(T def)
@@ -908,21 +908,30 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let mut x = Some(2);
-  /// let y = x.take();
-  /// assert_eq!(x, None);
-  /// assert_eq!(y, Some(2));
+  /// var x = Option<int>.Some(2);
+  /// var y = x.Take();
+  /// Assert.Equal(Option<int>.None(), x);
+  /// Assert.Equal(Option<int>.Some(2), y);
   ///
-  /// let mut x: Option<int> = None;
-  /// let y = x.take();
-  /// assert_eq!(x, None);
-  /// assert_eq!(y, None);
+  /// var x = Option<int>.None();
+  /// var y = x.Take();
+  /// Assert.Equal(Option<int>.None(), x);
+  /// Assert.Equal(Option<int>.None(), y);
   /// <code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns>If <c>this</c> is <c>Some</c>, an <c>Option</c> that wraps the previous
+  /// value; otherwise <c>Option.None</c>.</returns>
   public Option<T> Take()
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+      return Option<T>.None();
+
+    var oldOpt = Option<T>.Some(this.Unwrap());
+
+    this.Kind = OptionKind.None;
+    this._value = default(T);
+
+    return oldOpt;
   }
 
   /// <summary>
