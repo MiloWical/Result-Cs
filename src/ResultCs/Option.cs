@@ -21,8 +21,8 @@ public class Option<T>
   // ✓       ✓   ✓    U MapOrElse<U>(Func<U> def, Func<T, U> f)
   // ✓       ✓   ✓    Result<T, E> OkOr<E>(E err)
   // ✓       ✓   ✓    Result<T, E> OkOrElse<E>(Func<E> err)
-  //                  Option<T> Or(Option<T> optB)
-  //                  Option<T> OrElse(Func<Option<T>> f)
+  // ✓       ✓   ✓    Option<T> Or(Option<T> optB)
+  // ✓       ✓        Option<T> OrElse(Func<Option<T>> f)
   //                  Option<T> Replace(T value)
   //                  Option<T> Take()
   //                  Result<Option<T>, E> Transpose<E>()
@@ -824,6 +824,7 @@ public class Option<T>
 
     return Option<T>.Some(this.Unwrap());
   }
+
   /// <summary>
   /// Returns the option if it contains a value, otherwise calls <c>f<c> and
   /// returns the result.
@@ -831,19 +832,32 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// fn nobody() -> Option<&'static str> { None }
-  /// fn vikings() -> Option<&'static str> { Some("vikings") }
+  /// public Option<string> Nobody() => Option<string>.None();
+  /// public Option<string> Vikings() => Option<string>.Some("vikings");
   ///
-  /// assert_eq!(Some("barbarians").or_else(vikings), Some("barbarians"));
-  /// assert_eq!(None.or_else(vikings), Some("vikings"));
-  /// assert_eq!(None.or_else(nobody), None);
+  /// Assert.Equal(Option<string>.Some("barbarians"), Option<string>.Some("barbarians").OrElse(Vikings));
+  /// Assert.Equal(Option<string>.Some("vikings"), Option<string>.None().OrElse(Vikings));
+  /// Assert.Equal(Option<string>.None(), Option<string>.None().OrElse(Nobody));
   /// <code>
   /// </summary>
-  /// <param name="f"></param>
-  /// <returns></returns>
+  /// <param name="f">The function to invoke when <c>this</c> is <c>Some</c>.</param>
+  /// <returns>The result of <c>f</c> if <c>this</c> is <c>None</c>; otherwise <c>self<c>.</returns>
   public Option<T> OrElse(Func<Option<T>> f)
   {
-    throw new NotImplementedException();
+    if (this.IsNone())
+    {
+      if (f is null)
+        throw new PanicException("Cannot pass a null delegate function to Option.OrElse().");
+
+      var noneValue = f.Invoke();
+
+      if (noneValue is null)
+        throw new PanicException("The delegate function of Option.OrElse(0 cannot return null.)");
+
+      return noneValue;
+    }
+
+    return Option<T>.Some(this.Unwrap());
   }
 
   /// <summary>
