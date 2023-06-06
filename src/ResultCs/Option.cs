@@ -26,7 +26,7 @@ public class Option<T>
   // ✓       ✓   ✓    Option<T> Replace(T value)
   // ✓       ✓   ✓    Option<T> Take()
   // ✓       ✓   ✓    Result<Option<T>, E> Transpose<E>()
-  //         ✓   ✓    T Unwrap()
+  // ✓       ✓   ✓    T Unwrap()
   //                  T UnwrapOr(T def)
   //                  T UnwrapOrDefault()
   //                  T UnwrapOrElse(Func<T> f)
@@ -987,30 +987,24 @@ public class Option<T>
   ///
   /// Because this function may panic, its use is generally discouraged.
   /// Instead, prefer to use pattern matching and handle the <c>None</c>
-  /// case explicitly, or call <c>unwrap_or</c>, <c>unwrap_or_else</c>, or
-  /// <c>unwrap_or_default</c>.
+  /// case explicitly, or call <c>UnwrapOr</c>, <c>UnwrapOrElse</c>, or
+  /// <c>UnwrapOrDefault</c>.
   ///
-  /// <c>unwrap_or</c>: Option::unwrap_or
-  /// <c>unwrap_or_else</c>: Option::unwrap_or_else
-  /// <c>unwrap_or_default</c>: Option::unwrap_or_default
-  ///
-  /// # Panics
-  ///
-  /// Panics if the self value equals <c>None</c>.
+  /// Throws <exception cref="PanicException"/> if the self value equals <c>None</c>.
   ///
   /// Examples
   ///
   /// <code>
-  /// let x = Some("air");
-  /// assert_eq!(x.unwrap(), "air");
+  /// var x = Option<string>.Some("air");
+  /// Assert.Equal("air". x.Unwrap());
   /// <code>
   ///
-  /// <code>should_panic
-  /// let x: Option<string> = None;
-  /// assert_eq!(x.unwrap(), "air"); // fails
+  /// <code>
+  /// var x = Option<string>.None();
+  /// Assert.Throws<PanicException>(() => x.unwrap());
   /// <code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The contained <c>Some</c> value, consuming the <c>self<c> value.</returns>
   public T Unwrap()
   {
     if (IsNone())
