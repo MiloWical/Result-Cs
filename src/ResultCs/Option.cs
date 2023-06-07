@@ -27,7 +27,7 @@ public class Option<T>
   // ✓       ✓   ✓    Option<T> Take()
   // ✓       ✓   ✓    Result<Option<T>, E> Transpose<E>()
   // ✓       ✓   ✓    T Unwrap()
-  //                  T UnwrapOr(T def)
+  // ✓       ✓   ✓    T UnwrapOr(T def)
   //                  T UnwrapOrDefault()
   //                  T UnwrapOrElse(Func<T> f)
   //                  Option<T> Xor(Option<T> optB)
@@ -1016,24 +1016,30 @@ public class Option<T>
   /// <summary>
   /// Returns the contained <c>Some</c> value or a provided default.
   ///
-  /// Arguments passed to <c>unwrap_or<c> are eagerly evaluated; if you are passing
-  /// the result of a function call, it is recommended to use <c>unwrap_or_else</c>,
+  /// Arguments passed to <c>UnwrapOr<c> are eagerly evaluated; if you are passing
+  /// the result of a function call, it is recommended to use <c>UnwrapOrElse</c>,
   /// which is lazily evaluated.
-  ///
-  /// <c>unwrap_or_else</c>: Option::unwrap_or_else
   ///
   /// Examples
   ///
   /// <code>
-  /// assert_eq!(Some("car").unwrap_or("bike"), "car");
-  /// assert_eq!(None.unwrap_or("bike"), "bike");
+  /// Assert.Equal("car", Option<string>.Some("car").UnwrapOr("bike"));
+  /// Assert.Equal("bike", Option<string>.None().UnwrapOr("bike"));
   /// <code>
   /// </summary>
-  /// <param name="def"></param>
-  /// <returns></returns>
+  /// <param name="def">The default value of type <c>T</c> to return.</param>
+  /// <returns>The contained <c>Some</c> value or a provided default.</returns>
   public T UnwrapOr(T def)
   {
-    throw new NotImplementedException();
+    if(this.IsNone())
+    {
+      if (def is null)
+        throw new PanicException("The default value for Option.UnwrapOr() cannot be null.");
+
+      return def;
+    }
+
+    return this.Unwrap();
   }
 
   /// <summary>
@@ -1056,8 +1062,8 @@ public class Option<T>
   /// let good_year = good_year_from_input.parse().ok().unwrap_or_default();
   /// let bad_year = bad_year_from_input.parse().ok().unwrap_or_default();
   ///
-  /// assert_eq!(1909, good_year);
-  /// assert_eq!(0, bad_year);
+  /// Assert.Equal(1909, good_year);
+  /// Assert.Equal(0, bad_year);
   /// <code>
   ///
   /// [default value]: Default::default
@@ -1077,8 +1083,8 @@ public class Option<T>
   ///
   /// <code>
   /// let k = 10;
-  /// assert_eq!(Some(4).unwrap_or_else(|| 2 * k), 4);
-  /// assert_eq!(None.unwrap_or_else(|| 2 * k), 20);
+  /// Assert.Equal(Some(4).unwrap_or_else(|| 2 * k), 4);
+  /// Assert.Equal(None.unwrap_or_else(|| 2 * k), 20);
   /// <code>
   /// </summary>
   /// <param name="f"></param>
@@ -1096,19 +1102,19 @@ public class Option<T>
   /// <code>
   /// let x = Some(2);
   /// let y: Option<int> = None;
-  /// assert_eq!(x.xor(y), Some(2));
+  /// Assert.Equal(x.xor(y), Some(2));
   ///
   /// let x: Option<int> = None;
   /// let y = Some(2);
-  /// assert_eq!(x.xor(y), Some(2));
+  /// Assert.Equal(x.xor(y), Some(2));
   ///
   /// let x = Some(2);
   /// let y = Some(2);
-  /// assert_eq!(x.xor(y), None);
+  /// Assert.Equal(x.xor(y), None);
   ///
   /// let x: Option<int> = None;
   /// let y: Option<int> = None;
-  /// assert_eq!(x.xor(y), None);
+  /// Assert.Equal(x.xor(y), None);
   /// <code>
   /// </summary>
   /// <param name="optB"></param>
@@ -1131,8 +1137,8 @@ public class Option<T>
   /// let y = Some("hi");
   /// let z = None::<u8>;
   ///
-  /// assert_eq!(x.zip(y), Some((1, "hi")));
-  /// assert_eq!(x.zip(z), None);
+  /// Assert.Equal(x.zip(y), Some((1, "hi")));
+  /// Assert.Equal(x.zip(z), None);
   /// <code>
   /// </summary>
   /// <param name="other"></param>
