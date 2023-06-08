@@ -28,7 +28,7 @@ public class Option<T>
   // ✓       ✓   ✓    Result<Option<T>, E> Transpose<E>()
   // ✓       ✓   ✓    T Unwrap()
   // ✓       ✓   ✓    T UnwrapOr(T def)
-  //                  T UnwrapOrDefault()
+  // ✓       ✓   ✓    T UnwrapOrDefault()
   //                  T UnwrapOrElse(Func<T> f)
   //                  Option<T> Xor(Option<T> optB)
   //                  Option<(T, U)> Zip<U>(Option<U> other)
@@ -1046,34 +1046,40 @@ public class Option<T>
   /// Returns the contained <c>Some</c> value or a default.
   ///
   /// Consumes the <c>self<c> argument then, if <c>Some</c>, returns the contained
-  /// value, otherwise if <c>None</c>, returns the [default value] for that
+  /// value, otherwise if <c>None</c>, returns the default value for that
   /// type.
   ///
   /// Examples
   ///
   /// Converts a string to an integer, turning poorly-formed strings
-  /// into 0 (the default value for integers). <c>parse</c> converts
-  /// a string to any other type that implements <c>FromStr</c>, returning
+  /// into 0 (the default value for integers). <c>Parse</c> converts
+  /// a <c>string</c> to an <c>int</c>, returning
   /// <c>None</c> on error.
   ///
   /// <code>
-  /// let good_year_from_input = "1909";
-  /// let bad_year_from_input = "190blarg";
-  /// let good_year = good_year_from_input.parse().ok().unwrap_or_default();
-  /// let bad_year = bad_year_from_input.parse().ok().unwrap_or_default();
+  /// var goodYearFromInput = "1909";
+  /// var badYearFromInput = "190blarg";
+  /// var goodYear = Parse(goodYearFromInput).UnwrapOrDefault();
+  /// var badYear = Parse(badYearFromInput).UnwrapOrDefault();
   ///
-  /// Assert.Equal(1909, good_year);
-  /// Assert.Equal(0, bad_year);
+  /// Assert.Equal(1909, goodYear);
+  /// Assert.Equal(0, badYear);
   /// <code>
-  ///
-  /// [default value]: Default::default
-  /// <c>parse</c>: str::parse
-  /// <c>FromStr</c>: crate::str::FromStr
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The contained <c>Some</c> value or a default.</returns>
   public T UnwrapOrDefault()
   {
-    throw new NotImplementedException();
+    if(this.IsNone())
+    {
+      var def = default(T);
+
+      if(def is null)
+        throw new PanicException($"The default value of {typeof(T)} from Option.UnwrapOrDefault() is null.");
+
+      return def;
+    }
+
+    return this.Unwrap();
   }
 
   /// <summary>
