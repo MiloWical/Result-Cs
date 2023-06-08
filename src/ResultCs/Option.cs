@@ -26,10 +26,10 @@ public class Option<T>
   // ✓       ✓   ✓    Option<T> Replace(T value)
   // ✓       ✓   ✓    Option<T> Take()
   // ✓       ✓   ✓    Result<Option<T>, E> Transpose<E>()
-  //         ✓   ✓    T Unwrap()
-  //                  T UnwrapOr(T def)
-  //                  T UnwrapOrDefault()
-  //                  T UnwrapOrElse(Func<T> f)
+  // ✓       ✓   ✓    T Unwrap()
+  // ✓       ✓   ✓    T UnwrapOr(T def)
+  // ✓       ✓   ✓    T UnwrapOrDefault()
+  // ✓       ✓   ✓    T UnwrapOrElse(Func<T> f)
   //                  Option<T> Xor(Option<T> optB)
   //                  Option<(T, U)> Zip<U>(Option<U> other)
   // ✓       ✓   ✓    OptionKind Kind { get; }
@@ -987,30 +987,24 @@ public class Option<T>
   ///
   /// Because this function may panic, its use is generally discouraged.
   /// Instead, prefer to use pattern matching and handle the <c>None</c>
-  /// case explicitly, or call <c>unwrap_or</c>, <c>unwrap_or_else</c>, or
-  /// <c>unwrap_or_default</c>.
+  /// case explicitly, or call <c>UnwrapOr</c>, <c>UnwrapOrElse</c>, or
+  /// <c>UnwrapOrDefault</c>.
   ///
-  /// <c>unwrap_or</c>: Option::unwrap_or
-  /// <c>unwrap_or_else</c>: Option::unwrap_or_else
-  /// <c>unwrap_or_default</c>: Option::unwrap_or_default
-  ///
-  /// # Panics
-  ///
-  /// Panics if the self value equals <c>None</c>.
+  /// Throws <exception cref="PanicException"/> if the self value equals <c>None</c>.
   ///
   /// Examples
   ///
   /// <code>
-  /// let x = Some("air");
-  /// assert_eq!(x.unwrap(), "air");
+  /// var x = Option<string>.Some("air");
+  /// Assert.Equal("air". x.Unwrap());
   /// <code>
   ///
-  /// <code>should_panic
-  /// let x: Option<string> = None;
-  /// assert_eq!(x.unwrap(), "air"); // fails
+  /// <code>
+  /// var x = Option<string>.None();
+  /// Assert.Throws<PanicException>(() => x.unwrap());
   /// <code>
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The contained <c>Some</c> value, consuming the <c>self<c> value.</returns>
   public T Unwrap()
   {
     if (IsNone())
@@ -1022,58 +1016,70 @@ public class Option<T>
   /// <summary>
   /// Returns the contained <c>Some</c> value or a provided default.
   ///
-  /// Arguments passed to <c>unwrap_or<c> are eagerly evaluated; if you are passing
-  /// the result of a function call, it is recommended to use <c>unwrap_or_else</c>,
+  /// Arguments passed to <c>UnwrapOr<c> are eagerly evaluated; if you are passing
+  /// the result of a function call, it is recommended to use <c>UnwrapOrElse</c>,
   /// which is lazily evaluated.
-  ///
-  /// <c>unwrap_or_else</c>: Option::unwrap_or_else
   ///
   /// Examples
   ///
   /// <code>
-  /// assert_eq!(Some("car").unwrap_or("bike"), "car");
-  /// assert_eq!(None.unwrap_or("bike"), "bike");
+  /// Assert.Equal("car", Option<string>.Some("car").UnwrapOr("bike"));
+  /// Assert.Equal("bike", Option<string>.None().UnwrapOr("bike"));
   /// <code>
   /// </summary>
-  /// <param name="def"></param>
-  /// <returns></returns>
+  /// <param name="def">The default value of type <c>T</c> to return.</param>
+  /// <returns>The contained <c>Some</c> value or a provided default.</returns>
   public T UnwrapOr(T def)
   {
-    throw new NotImplementedException();
+    if(this.IsNone())
+    {
+      if (def is null)
+        throw new PanicException("The default value for Option.UnwrapOr() cannot be null.");
+
+      return def;
+    }
+
+    return this._value!;
   }
 
   /// <summary>
   /// Returns the contained <c>Some</c> value or a default.
   ///
   /// Consumes the <c>self<c> argument then, if <c>Some</c>, returns the contained
-  /// value, otherwise if <c>None</c>, returns the [default value] for that
+  /// value, otherwise if <c>None</c>, returns the default value for that
   /// type.
   ///
   /// Examples
   ///
   /// Converts a string to an integer, turning poorly-formed strings
-  /// into 0 (the default value for integers). <c>parse</c> converts
-  /// a string to any other type that implements <c>FromStr</c>, returning
+  /// into 0 (the default value for integers). <c>Parse</c> converts
+  /// a <c>string</c> to an <c>int</c>, returning
   /// <c>None</c> on error.
   ///
   /// <code>
-  /// let good_year_from_input = "1909";
-  /// let bad_year_from_input = "190blarg";
-  /// let good_year = good_year_from_input.parse().ok().unwrap_or_default();
-  /// let bad_year = bad_year_from_input.parse().ok().unwrap_or_default();
+  /// var goodYearFromInput = "1909";
+  /// var badYearFromInput = "190blarg";
+  /// var goodYear = Parse(goodYearFromInput).UnwrapOrDefault();
+  /// var badYear = Parse(badYearFromInput).UnwrapOrDefault();
   ///
-  /// assert_eq!(1909, good_year);
-  /// assert_eq!(0, bad_year);
+  /// Assert.Equal(1909, goodYear);
+  /// Assert.Equal(0, badYear);
   /// <code>
-  ///
-  /// [default value]: Default::default
-  /// <c>parse</c>: str::parse
-  /// <c>FromStr</c>: crate::str::FromStr
   /// </summary>
-  /// <returns></returns>
+  /// <returns>The contained <c>Some</c> value or a default.</returns>
   public T UnwrapOrDefault()
   {
-    throw new NotImplementedException();
+    if(this.IsNone())
+    {
+      var def = default(T);
+
+      if(def is null)
+        throw new PanicException($"The default value of {typeof(T)} from Option.UnwrapOrDefault() is null.");
+
+      return def;
+    }
+
+    return this._value!;
   }
 
   /// <summary>
@@ -1082,16 +1088,33 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let k = 10;
-  /// assert_eq!(Some(4).unwrap_or_else(|| 2 * k), 4);
-  /// assert_eq!(None.unwrap_or_else(|| 2 * k), 20);
+  /// var k = 10;
+  /// Assert.Equal(4, Option<int>.Some(4).UnwrapOrElse(() => 2 * k));
+  /// Assert.Equal(20, Option<int>.None().UnwrapOrElse(() => 2 * k));
   /// <code>
   /// </summary>
-  /// <param name="f"></param>
-  /// <returns></returns>
+  /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
+  /// <returns>The <c>Some</c> value if <c>this</c> is <c>Some</c>; otherwise the result of invoking <c>f</c>.</returns>
   public T UnwrapOrElse(Func<T> f)
   {
-    throw new NotImplementedException();
+    if(this.IsNone())
+    {
+      if (f is null)
+      {
+        throw new PanicException("Cannot pass a null delegate function to Option.UnwrapOrElse()");
+      }
+
+      var noneResult = f.Invoke();
+
+      if (noneResult is null)
+      {
+        throw new PanicException("The delegate function passed to Option.UnwrapOrElse() cannot return null.");
+      }
+
+      return noneResult;
+    }
+
+    return this._value!;
   }
 
   /// <summary>
@@ -1102,19 +1125,19 @@ public class Option<T>
   /// <code>
   /// let x = Some(2);
   /// let y: Option<int> = None;
-  /// assert_eq!(x.xor(y), Some(2));
+  /// Assert.Equal(x.xor(y), Some(2));
   ///
   /// let x: Option<int> = None;
   /// let y = Some(2);
-  /// assert_eq!(x.xor(y), Some(2));
+  /// Assert.Equal(x.xor(y), Some(2));
   ///
   /// let x = Some(2);
   /// let y = Some(2);
-  /// assert_eq!(x.xor(y), None);
+  /// Assert.Equal(x.xor(y), None);
   ///
   /// let x: Option<int> = None;
   /// let y: Option<int> = None;
-  /// assert_eq!(x.xor(y), None);
+  /// Assert.Equal(x.xor(y), None);
   /// <code>
   /// </summary>
   /// <param name="optB"></param>
@@ -1137,8 +1160,8 @@ public class Option<T>
   /// let y = Some("hi");
   /// let z = None::<u8>;
   ///
-  /// assert_eq!(x.zip(y), Some((1, "hi")));
-  /// assert_eq!(x.zip(z), None);
+  /// Assert.Equal(x.zip(y), Some((1, "hi")));
+  /// Assert.Equal(x.zip(z), None);
   /// <code>
   /// </summary>
   /// <param name="other"></param>
