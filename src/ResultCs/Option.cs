@@ -31,7 +31,7 @@ public class Option<T>
   // ✓       ✓   ✓    T UnwrapOrDefault()
   // ✓       ✓   ✓    T UnwrapOrElse(Func<T> f)
   // ✓       ✓   ✓    Option<T> Xor(Option<T> optB)
-  //                  Option<(T, U)> Zip<U>(Option<U> other)
+  // ✓       ✓   ✓    Option<(T, U)> Zip<U>(Option<U> other)
   // ✓       ✓   ✓    OptionKind Kind { get; }
   //
   // Experimental signatures (not implemented)
@@ -1177,12 +1177,12 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let x = Some(1);
-  /// let y = Some("hi");
-  /// let z = None::<u8>;
+  /// var x = Option<int>.Some(1);
+  /// var y = Option<string>.Some("hi");
+  /// var z = Option<short>.None();
   ///
-  /// Assert.Equal(x.zip(y), Some((1, "hi")));
-  /// Assert.Equal(x.zip(z), None);
+  /// Assert.Equal(Option<(int, string)>.Some((1, "hi")), x.Zip(y));
+  /// Assert.Equal(Option<(int, short)>.None(), x.Zip(z));
   /// <code>
   /// </summary>
   /// <param name="other"></param>
@@ -1190,6 +1190,16 @@ public class Option<T>
   /// <returns></returns>
   public Option<(T, U)> Zip<U>(Option<U> other)
   {
-    throw new NotImplementedException();
+    if (other is null)
+    {
+      throw new PanicException("Cannot pass a null 'other' parameter to Option.Zip().");
+    }
+
+    if(this.IsNone() || other.IsNone())
+    {
+      return Option<(T, U)>.None();
+    }
+
+    return Option<(T, U)>.Some((this.Unwrap(), other.Unwrap()));
   }
 }
