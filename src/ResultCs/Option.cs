@@ -1,7 +1,11 @@
-﻿namespace WicalWare.Components.ResultCs;
+﻿// Copyright (c) Milo Wical. All rights reserved.
+
+using System.Diagnostics.CodeAnalysis;
+
+namespace WicalWare.Components.ResultCs;
 
 // https://doc.rust-lang.org/std/option/enum.Option.html
-public class Option<T>
+public class Option<TSome>
 {
   // Comment Imp Test Sig
   // ✓       ✓   ✓    Option<U> And<U>(Option<U> optB)
@@ -42,84 +46,13 @@ public class Option<T>
   //                  (Option<T>, Option<U>) Unzip<U>()
   //                  Option<R> ZipWith<U, R>(Option<U> other, Func<T, U, R> f)
 
+  // If this Option is Some, the value wrapped by the response.
+  private TSome? val;
+
   /// <summary>
   /// The <see cref="OptionKind"/> of the current <c>Option</c>.
   /// </summary>
   public OptionKind Kind { get; private set; }
-
-  // If this Option is Some, the value wrapped by the response.
-  private T? _value;
-
-  /// <summary>
-  /// Generates an <c>Option</c> with an <c>OptionKind</c> of <see cref="OptionKind.Some"/>.
-  /// 
-  /// The value passed is not permitted to be <c>null</c>.
-  /// </summary>
-  /// <param name="value">The value to wrap in the <c>Option</c></param>
-  /// <returns>The <c>Option</c> of kind <c>Some</c> with the provided value wrapped.</returns>
-  public static Option<T> Some(T value)
-  {
-    ArgumentNullException.ThrowIfNull(value);
-
-    var option = new Option<T>();
-    option._value = value;
-    option.Kind = OptionKind.Some;
-
-    return option;
-  }
-
-  /// <summary>
-  /// Generates an <c>Option</c> with an <c>OptionKind</c> of <see cref="OptionKind.None"/>.
-  /// 
-  /// The value passed is not permitted to be <c>null</c>.
-  /// </summary>
-  /// <returns>The <c>Option</c> of kind <c>None</c>.</returns>
-  public static Option<T> None()
-  {
-    return new Option<T>
-    {
-      Kind = OptionKind.None
-    };
-  }
-
-  /// <summary>
-  /// Tests two <c>Option</c> objects for equality.
-  /// 
-  /// Overrides <see cref="Object.Equals(object?)"/>.
-  /// </summary>
-  /// <param name="other">The <c>Option</c> to test <c>this</c> against.</param>
-  /// <returns><c>true</c> if one of the following is true:
-  /// <ul>
-  /// <li>The two <c>Option</c> objects are <c>Some</c> and their wrapped values are the same</li>
-  /// <li>The two <c>Option</c> objects are <c>None</c></li>
-  /// </ul>
-  /// <c>false</c> otherwise</returns>
-  public override bool Equals(object? other)
-  {
-    if (other is null) return false;
-
-    var otherOption = (Option<T>)other;
-
-    if (this.Kind != otherOption.Kind)
-      return false;
-
-    if (this.IsNone() && otherOption.IsNone())
-      return true;
-
-    if (_value is null)
-    {
-      if (otherOption.Unwrap() is null)
-        return true;
-
-      return false;
-    }
-
-    if (_value.Equals(otherOption.Unwrap()))
-      return true;
-
-    return false;
-  }
-
 
   /// <summary>
   /// Convenience override of the <c>==</c> operator.
@@ -127,12 +60,14 @@ public class Option<T>
   /// <param name="opt1">The first <c>Option</c> to compare</param>
   /// <param name="opt2">The second <c>Option</c> to compare</param>
   /// <returns>The result of <c>opt1.Equals(opt2)</c></returns>
-  public static bool operator ==(Option<T> opt1, Option<T> opt2)
+  public static bool operator ==(Option<TSome> opt1, Option<TSome> opt2)
   {
     if (opt1 is null)
     {
       if (opt2 is null)
+      {
         return true;
+      }
 
       return false;
     }
@@ -146,7 +81,88 @@ public class Option<T>
   /// <param name="opt1">The first <c>Option</c> to compare</param>
   /// <param name="opt2">The second <c>Option</c> to compare</param>
   /// <returns>The result of <c>!opt1.Equals(opt2)</c></returns>
-  public static bool operator !=(Option<T> opt1, Option<T> opt2) => !(opt1 == opt2);
+  public static bool operator !=(Option<TSome> opt1, Option<TSome> opt2) => !(opt1 == opt2);
+
+  /// <summary>
+  /// Generates an <c>Option</c> with an <c>OptionKind</c> of <see cref="OptionKind.Some"/>.
+  ///
+  /// The value passed is not permitted to be <c>null</c>.
+  /// </summary>
+  /// <param name="value">The value to wrap in the <c>Option</c></param>
+  /// <returns>The <c>Option</c> of kind <c>Some</c> with the provided value wrapped.</returns>
+  public static Option<TSome> Some(TSome value)
+  {
+    ArgumentNullException.ThrowIfNull(value);
+
+    var option = new Option<TSome>();
+    option.val = value;
+    option.Kind = OptionKind.Some;
+
+    return option;
+  }
+
+  /// <summary>
+  /// Generates an <c>Option</c> with an <c>OptionKind</c> of <see cref="OptionKind.None"/>.
+  ///
+  /// The value passed is not permitted to be <c>null</c>.
+  /// </summary>
+  /// <returns>The <c>Option</c> of kind <c>None</c>.</returns>
+  public static Option<TSome> None()
+  {
+    return new Option<TSome>
+    {
+      Kind = OptionKind.None,
+    };
+  }
+
+  /// <summary>
+  /// Tests two <c>Option</c> objects for equality.
+  ///
+  /// Overrides <see cref="Object.Equals(object?)"/>.
+  /// </summary>
+  /// <param name="other">The <c>Option</c> to test <c>this</c> against.</param>
+  /// <returns><c>true</c> if one of the following is true:
+  /// <ul>
+  /// <li>The two <c>Option</c> objects are <c>Some</c> and their wrapped values are the same</li>
+  /// <li>The two <c>Option</c> objects are <c>None</c></li>
+  /// </ul>
+  /// <c>false</c> otherwise</returns>
+  public override bool Equals(object? other)
+  {
+    if (other is null)
+    {
+      return false;
+    }
+
+    var otherOption = (Option<TSome>)other;
+
+    if (this.Kind != otherOption.Kind)
+    {
+      return false;
+    }
+
+    if (this.IsNone() && otherOption.IsNone())
+    {
+      return true;
+    }
+
+    if (this.val is null)
+    {
+      if (otherOption.Unwrap() is null)
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+    if (this.val.Equals(otherOption.Unwrap()))
+    {
+      return true;
+    }
+
+    return false;
+  }
 
   /// <summary>
   /// Override of <see cref="Object.GetHashCode()"/>.
@@ -156,7 +172,7 @@ public class Option<T>
 
   /// <summary>
   /// Arguments passed to <c>And</c> are eagerly evaluated; if you are passing the
-  /// result of a function call, it is recommended to use 
+  /// result of a function call, it is recommended to use
   /// <c><see cref="AndThen"></c></see>, which is lazily evaluated.
   ///
   /// <example>
@@ -182,13 +198,15 @@ public class Option<T>
   /// </example>
   /// </summary>
   /// <param name="optB">The option to return if the current option is <c>None</c></param>
-  /// <typeparam name="U">The type of <c>optB</c></typeparam>
-  /// <returns>Returns <c>None</c>if the option is <c>None</c>, 
-  /// otherwise returns <c>optb</c>.</returns>
-  public Option<U> And<U>(Option<U> optB)
+  /// <typeparam name="TOut">The type of <c>optB</c></typeparam>
+  /// <returns>Returns <c>None</c>if the option is <c>None</c>,
+  /// otherwise returns <c>optB</c>.</returns>
+  public Option<TOut> And<TOut>(Option<TOut> optB)
   {
     if (this.IsNone())
-      return Option<U>.None();
+    {
+      return Option<TOut>.None();
+    }
 
     return optB;
   }
@@ -196,7 +214,7 @@ public class Option<T>
   /// <summary>
   /// Checks <c>self</c> to see if it's <c>Some</c>, then calls <c>f</c>
   /// on the result and returns the returned <c>Option</c>.
-  /// 
+  ///
   /// Some languages call this operation flatmap.
   ///
   /// <example>
@@ -209,7 +227,7 @@ public class Option<T>
   /// }
   ///
   /// Assert.Equal(Option<int>.Some(2).AndThen(SqThenToString), Option<string>.Some(4.ToString()));
-  /// 
+  ///
   /// Assert.Equal(Option<int>.Some(1_000_000).AndThen(SqThenToString), Option<string>.None()); //throws OverflowException
   /// Assert.Equal(Option<int>.None().AndThen(SqThenToString), Option<string>.None());
   /// </code>
@@ -228,13 +246,15 @@ public class Option<T>
   /// </example>
   /// </summary>
   /// <param name="f">The function to call with the unwrapped value of <c>self</c></param>
-  /// <typeparam name="U">The underlying type of the result of <c>f</c></typeparam>
+  /// <typeparam name="TOut">The underlying type of the result of <c>f</c></typeparam>
   /// <returns>Returns <c>None</c> if the option is <c>None</c>,
   /// otherwise calls <c>f</c> with the wrapped value and returns the result.</returns>
-  public Option<U> AndThen<U>(Func<T, Option<U>> f)
+  public Option<TOut> AndThen<TOut>(Func<TSome, Option<TOut>> f)
   {
     if (this.IsNone())
-      return Option<U>.None();
+    {
+      return Option<TOut>.None();
+    }
 
     return f.Invoke(this.Unwrap());
   }
@@ -281,10 +301,12 @@ public class Option<T>
   /// </summary>
   /// <param name="message">The message to panic with if <c>this</c> is <c>None</c>.</param>
   /// <returns>The wrapped <c>Some</c> value.</returns>
-  public T Expect(string message)
+  public TSome Expect(string message)
   {
     if (this.IsNone())
+    {
       throw new PanicException(message);
+    }
 
     return this.Unwrap();
   }
@@ -297,7 +319,7 @@ public class Option<T>
   ///   value), and
   /// - <c>None</c> if <c>predicate<c> returns <c>false<c>.
   ///
-  /// You can imagine the <c>Option<T><c> being an iterator over one or zero elements. 
+  /// You can imagine the <c>Option<T><c> being an iterator over one or zero elements.
   /// <c>filter()<c> lets you decide which elements to keep.
   ///
   /// Examples
@@ -322,15 +344,19 @@ public class Option<T>
   /// <li><c>predicate</c> returns <c>true</c>
   /// </ul>
   /// <c>false</c> otherwise.</returns>
-  public Option<T> Filter(Func<T, bool> predicate)
+  public Option<TSome> Filter(Func<TSome, bool> predicate)
   {
     if (this.IsNone())
-      return Option<T>.None();
+    {
+      return Option<TSome>.None();
+    }
 
     if (predicate.Invoke(this.Unwrap()))
-      return Option<T>.Some(this.Unwrap());
+    {
+      return Option<TSome>.Some(this.Unwrap());
+    }
 
-    return Option<T>.None();
+    return Option<TSome>.None();
   }
 
   /// <summary>
@@ -360,10 +386,13 @@ public class Option<T>
   /// <code>
   /// </summary>
   /// <returns>The <c>Option</c> that's wrapped by <c>this</c>.</returns>
-  public T Flatten()
+  [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "StyleCop doesn't respect the null-forgiving operator (!)")]
+  public TSome Flatten()
   {
-    if (this.IsNone() && typeof(T).IsGenericType && typeof(T).GetGenericTypeDefinition() == typeof(Option<>))
-      return (T)(typeof(T).GetMethod("None")!.Invoke(null, new object[0]))!;
+    if (this.IsNone() && typeof(TSome).IsGenericType && typeof(TSome).GetGenericTypeDefinition() == typeof(Option<>))
+    {
+      return (TSome)typeof(TSome).GetMethod("None")!.Invoke(null, new object[0])!;
+    }
 
     return this.Unwrap();
   }
@@ -374,7 +403,7 @@ public class Option<T>
   ///
   /// See also <c>Option.Insert</c>, which updates the value even if
   /// the option already contains <c>Some</c>.
-  /// 
+  ///
   /// Note: This differs from the original implementation because it doesn't
   /// return a mutable reference to the contained value due to differences in
   /// how the languages work.
@@ -384,30 +413,30 @@ public class Option<T>
   /// <code>
   /// var x = Option<int>.None();
   /// var y = x.GetOrInsert(5);
-  /// 
+  ///
   /// Assert.Equal(5, y);
   /// Assert.Equal(Option<int>.Some(5), x);
   /// <code>
   /// </summary>
   /// <param name="value">The value to insert if <c>this</c> is <c>None</c>.</param>
   /// <returns>The value contained in <c>this</c>.</returns>
-  public T GetOrInsert(T value)
+  public TSome GetOrInsert(TSome value)
   {
     ArgumentNullException.ThrowIfNull(value);
 
     if (this.IsNone())
     {
-      this._value = value;
+      this.val = value;
       this.Kind = OptionKind.Some;
     }
 
-    return _value!;
+    return this.val!;
   }
 
   /// <summary>
   /// Inserts a value computed from <c>f<c> into the option if it is <c>None</c> and returns
   /// the value stored.
-  /// 
+  ///
   /// Note: This differs from the original implementation because it doesn't
   /// return a mutable reference to the contained value due to differences in
   /// how the languages work.
@@ -417,14 +446,14 @@ public class Option<T>
   /// <code>
   /// var x = Option<int>.None();
   /// var y = x.GetOrInsertWith(() => 5);
-  /// 
+  ///
   /// Assert.Equal(5, y);
   /// Assert.Equal(Option<int>.Some(5), x);
   /// <code>
   /// </summary>
   /// <param name="f">The function to use to populate <c>this</c> if it's currently <c>None</c>.</param>
   /// <returns>The value contained in <c>this</c>.</returns>
-  public T GetOrInsertWith(Func<T> f)
+  public TSome GetOrInsertWith(Func<TSome> f)
   {
     ArgumentNullException.ThrowIfNull(f);
 
@@ -433,13 +462,15 @@ public class Option<T>
       var value = f.Invoke();
 
       if (value is null)
-        throw new PanicException($"Function result returned null - cannot assign null to an Option<{typeof(T).ToString()}>.");
+      {
+        throw new PanicException($"Function result returned null - cannot assign null to an Option<{typeof(TSome).ToString()}>.");
+      }
 
-      this._value = value;
+      this.val = value;
       this.Kind = OptionKind.Some;
     }
 
-    return _value!;
+    return this.val!;
   }
 
   /// <summary>
@@ -453,7 +484,7 @@ public class Option<T>
   /// Note: This differs from the original implementation because it doesn't
   /// return a mutable reference to the contained value due to differences in
   /// how the languages work.
-  /// 
+  ///
   /// # Example
   ///
   /// <code>
@@ -461,23 +492,23 @@ public class Option<T>
   /// var val = opt.Insert(1);
   /// Assert.Equal(1, val);
   /// Assert.Equal(1, opt.Unwrap());
-  /// 
+  ///
   /// val = opt.Insert(2);
   /// Assert.Equal(2, val);
   /// Assert.Equal(Option<int>.Some(2), opt);
   /// <code>
   /// </summary>
-  /// <param name="value">The value to insert into <c>this</c>, 
+  /// <param name="value">The value to insert into <c>this</c>,
   /// replacing any existing value.</param>
   /// <returns>The new value contained in <c>this</c>.</returns>
-  public T Insert(T value)
+  public TSome Insert(TSome value)
   {
     ArgumentNullException.ThrowIfNull(value);
 
-    _value = value;
+    this.val = value;
     this.Kind = OptionKind.Some;
 
-    return _value;
+    return this.val;
   }
 
   /// <summary>
@@ -495,7 +526,7 @@ public class Option<T>
   /// </summary>
   /// <returns><c>true</c> if <c>this</c> is <c>None</c>;
   /// <c>false</c> otherwise.</returns>
-  public bool IsNone() => Kind == OptionKind.None;
+  public bool IsNone() => this.Kind == OptionKind.None;
 
   /// <summary>
   /// Returns <c>true<c> if the option is a <c>Some</c> value.
@@ -510,9 +541,9 @@ public class Option<T>
   /// Assert.False(x.IsSome());
   /// <code>
   /// </summary>
-  /// <returns><c>true</c> if self is <c>Some</c>, <c>false</c> 
+  /// <returns><c>true</c> if self is <c>Some</c>, <c>false</c>
   /// if self is <c>None</c>.</returns>
-  public bool IsSome() => Kind == OptionKind.Some;
+  public bool IsSome() => this.Kind == OptionKind.Some;
 
   /// <summary>
   /// Returns <c>true<c> if the option is a <c>Some</c> and the value inside of it matches a predicate.
@@ -538,10 +569,12 @@ public class Option<T>
   /// <li><c>f</c> returns <c>true</c></li>
   /// </ul>
   /// <c>false</c> otherwise.</returns>
-  public bool IsSomeAnd(Func<T, bool> f)
+  public bool IsSomeAnd(Func<TSome, bool> f)
   {
     if (this.IsNone())
+    {
       return false;
+    }
 
     return f.Invoke(this.Unwrap());
   }
@@ -554,7 +587,7 @@ public class Option<T>
   /// <code>
   /// var x = Option<int>.Some(4);
   /// var iter = x.Iter().GetEnumerator();
-  /// 
+  ///
   /// Assert.True(iter.MoveNext());
   /// Assert.Equal(Option<int>.Some(4), iter.Current);
   /// Assert.False(iter.MoveNext());
@@ -567,17 +600,19 @@ public class Option<T>
   /// Assert.False(iter.MoveNext());
   /// <code>
   /// </summary>
-  /// <returns>An <c>IEnumerable<Option<T>></c> containing a single value. 
+  /// <returns>An <c>IEnumerable<Option<T>></c> containing a single value.
   /// <ul>
   /// <li>If <c>this</c> is <c>OptionKind.Some</c>, the value is an <c>OptionKind.Some</c> with the unwrapped value of <c>this</c>
   /// <li>If <c>this</c> is <c>OptionKind.None</c>, the value is an <c>OptionKind.None</c>
   /// </ul></returns>
-  public IEnumerable<Option<T>> Iter()
+  public IEnumerable<Option<TSome>> Iter()
   {
     if (this.IsSome())
-      return new List<Option<T>> { Option<T>.Some(this.Unwrap()) };
+    {
+      return new List<Option<TSome>> { Option<TSome>.Some(this.Unwrap()) };
+    }
 
-    return new List<Option<T>> { Option<T>.None() };
+    return new List<Option<TSome>> { Option<TSome>.None() };
   }
 
   /// <summary>
@@ -590,30 +625,36 @@ public class Option<T>
   ///
   /// <code>
   /// var maybeSomeString = Option<string>.Some("Hello, World!");
-  /// 
+  ///
   /// var maybeSomeLen = maybeSomeString.Map(s => s.Length);
   ///
   /// Assert.Equal(Option<int>.Some(13), maybeSomeLen);
   /// <code>
   /// </summary>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
-  /// <typeparam name="U">The return type of <c>f</c>.s</typeparam>
-  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, an <c>Option</c> containing the output of <c>f</c> 
+  /// <typeparam name="TOut">The return type of <c>f</c>.s</typeparam>
+  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, an <c>Option</c> containing the output of <c>f</c>
   /// applied to <c>this</c>; an <c>OptionKind.None</c> otherwise.</returns>
-  public Option<U> Map<U>(Func<T, U> f)
+  public Option<TOut> Map<TOut>(Func<TSome, TOut> f)
   {
     if (this.IsNone())
-      return Option<U>.None();
+    {
+      return Option<TOut>.None();
+    }
 
     if (f is null)
+    {
       throw new PanicException("Cannot call Option.Map() with a null delegate.");
+    }
 
     var result = f.Invoke(this.Unwrap());
 
     if (result is null)
+    {
       throw new PanicException("Output of Options.Map() delegate function cannot be null.");
+    }
 
-    return Option<U>.Some(result);
+    return Option<TOut>.Some(result);
   }
 
   /// <summary>
@@ -636,26 +677,32 @@ public class Option<T>
   /// </summary>
   /// <param name="def">The default value to return if <c>this</c> is <c>OptionKind.None</c>.</param>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
-  /// <typeparam name="U">The output type of <c>f</c>.</typeparam>
-  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, an <c>Option</c> that's the output of applying 
+  /// <typeparam name="TOut">The output type of <c>f</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, an <c>Option</c> that's the output of applying
   /// <c>f</op> to the current <c>Options</c>'s <c>Some</c> value; otherwise <c>def</c>.</returns>
-  public U MapOr<U>(U def, Func<T, U> f)
+  public TOut MapOr<TOut>(TOut def, Func<TSome, TOut> f)
   {
     if (this.IsNone())
     {
       if (def is null)
+      {
         throw new PanicException("The default return value for Option.MapOr() cannot be null.");
+      }
 
       return def;
     }
 
     if (f is null)
+    {
       throw new PanicException("Cannot call Option.MapOr() with a null delegate.");
+    }
 
     var result = f.Invoke(this.Unwrap());
 
     if (result is null)
+    {
       throw new PanicException("Output of Options.MapOr() delegate function cannot be null.");
+    }
 
     return result;
   }
@@ -679,32 +726,40 @@ public class Option<T>
   /// <param name="def">The default function to invoke
   /// if <c>this</c> is <c>OptionKind.None</c>.</param>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
-  /// <typeparam name="U">The output type of <c>def</c> and <c>f</c>.</typeparam>
-  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, a value that's the output of applying 
-  /// <c>f</op> to the current <c>Options</c>'s <c>Some</c> value; otherwise the value of 
+  /// <typeparam name="TOut">The output type of <c>def</c> and <c>f</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, a value that's the output of applying
+  /// <c>f</op> to the current <c>Options</c>'s <c>Some</c> value; otherwise the value of
   /// invoking <c>def</c>.</returns>
-  public U MapOrElse<U>(Func<U> def, Func<T, U> f)
+  public TOut MapOrElse<TOut>(Func<TOut> def, Func<TSome, TOut> f)
   {
     if (this.IsNone())
     {
       if (def is null)
+      {
         throw new PanicException("The default delegate for Option.MapOrElse() cannot be null.");
+      }
 
       var noneResult = def.Invoke();
 
       if (noneResult is null)
+      {
         throw new PanicException("The default delegate for Option.MapOrElse() cannot return null.");
+      }
 
       return noneResult;
     }
 
     if (f is null)
+    {
       throw new PanicException("Cannot call Option.MapOrElse() with a null delegate.");
+    }
 
     var someResult = f.Invoke(this.Unwrap());
 
     if (someResult is null)
+    {
       throw new PanicException("Output of Options.MapOrElse() delegate function cannot be null.");
+    }
 
     return someResult;
   }
@@ -728,21 +783,23 @@ public class Option<T>
   /// <code>
   /// </summary>
   /// <param name="err">The error used for the <c>Result</c> if <c>this</c> is <c>OptionKind.None</c>.</param>
-  /// <typeparam name="E">The type of the <c>Result</c>'s <c>ResultKind.Err</c>.</typeparam>
+  /// <typeparam name="TErr">The type of the <c>Result</c>'s <c>ResultKind.Err</c>.</typeparam>
   /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, a <c>Result</c> with <c>ResultKind.Ok</c> with the
   /// <c>Some</c> value of <c>this</c>; otherwise a <c>Result</c> with <c>ResultKind.Err</c> with the
   /// value of <c>err</c>.</returns>
-  public Result<T, E> OkOr<E>(E err)
+  public Result<TSome, TErr> OkOr<TErr>(TErr err)
   {
     if (this.IsNone())
     {
       if (err is null)
+      {
         throw new PanicException("Option.OkOr() cannot be passed a null error value.");
+      }
 
-      return Result<T, E>.Err(err);
+      return Result<TSome, TErr>.Err(err);
     }
 
-    return Result<T, E>.Ok(this.Unwrap());
+    return Result<TSome, TErr>.Ok(this.Unwrap());
   }
 
   /// <summary>
@@ -759,28 +816,32 @@ public class Option<T>
   /// Assert.Equal(Result<string, int>.Err(0), x.OkOrElse(() => 0));
   /// <code>
   /// </summary>
-  /// <param name="err">The function to call to get the <c>Err</c> value for the <c>Result</c> 
+  /// <param name="err">The function to call to get the <c>Err</c> value for the <c>Result</c>
   /// if <c>this</c> is <c>OptionKind.None</c>.</param>
-  /// <typeparam name="E">The type of the <c>Result</c>'s <c>ResultKind.Err</c>.</typeparam>
+  /// <typeparam name="TErr">The type of the <c>Result</c>'s <c>ResultKind.Err</c>.</typeparam>
   /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, a <c>Result</c> with <c>ResultKind.Ok</c> with the
   /// <c>Some</c> value of <c>this</c>; otherwise a <c>Result</c> with <c>ResultKind.Err</c> with the
   /// value resulting from calling <c>err</c>.</returns>
-  public Result<T, E> OkOrElse<E>(Func<E> err)
+  public Result<TSome, TErr> OkOrElse<TErr>(Func<TErr> err)
   {
     if (this.IsNone())
     {
       if (err is null)
+      {
         throw new PanicException("Option.OkOrElse() cannot be passed a null error delegate.");
+      }
 
       var errValue = err.Invoke();
 
       if (errValue is null)
+      {
         throw new PanicException("The error delegate for Option.OkOrElse() cannot return a null value.");
+      }
 
-      return Result<T, E>.Err(errValue);
+      return Result<TSome, TErr>.Err(errValue);
     }
 
-    return Result<T, E>.Ok(this.Unwrap());
+    return Result<TSome, TErr>.Ok(this.Unwrap());
   }
 
   /// <summary>
@@ -812,17 +873,19 @@ public class Option<T>
   /// </summary>
   /// <param name="optB">The value to return if <c>this</c> is <c>OptionKind.None</c></param>
   /// <returns><c>this</c> if <c>this</c> if <c>OptionKind.Some</c>, <c>optB</c> otherwise.</returns>
-  public Option<T> Or(Option<T> optB)
+  public Option<TSome> Or(Option<TSome> optB)
   {
     if (this.IsNone())
     {
       if (optB is null)
+      {
         throw new PanicException("Cannot pass a null alternative value to Option.Or().");
+      }
 
       return optB;
     }
 
-    return Option<T>.Some(this.Unwrap());
+    return Option<TSome>.Some(this.Unwrap());
   }
 
   /// <summary>
@@ -842,22 +905,26 @@ public class Option<T>
   /// </summary>
   /// <param name="f">The function to invoke when <c>this</c> is <c>Some</c>.</param>
   /// <returns>The result of <c>f</c> if <c>this</c> is <c>None</c>; otherwise <c>self<c>.</returns>
-  public Option<T> OrElse(Func<Option<T>> f)
+  public Option<TSome> OrElse(Func<Option<TSome>> f)
   {
     if (this.IsNone())
     {
       if (f is null)
+      {
         throw new PanicException("Cannot pass a null delegate function to Option.OrElse().");
+      }
 
       var noneValue = f.Invoke();
 
       if (noneValue is null)
+      {
         throw new PanicException("The delegate function of Option.OrElse(0 cannot return null.)");
+      }
 
       return noneValue;
     }
 
-    return Option<T>.Some(this.Unwrap());
+    return Option<TSome>.Some(this.Unwrap());
   }
 
   /// <summary>
@@ -882,22 +949,26 @@ public class Option<T>
   /// <param name="value">The value to upsert into this <c>Option</c>.</param>
   /// <returns>If <c>this</c> is <c>Some</c>, an <c>Option</c> with the value that is replaced;
   /// otherwise and <c>Option.None</c>.</returns>
-  public Option<T> Replace(T value)
+  public Option<TSome> Replace(TSome value)
   {
     if (value is null)
+    {
       throw new PanicException("Cannot pass a null value to Option.Replace().");
+    }
 
-    Option<T> oldOpt;
+    Option<TSome> oldOpt;
 
     if (this.IsNone())
     {
-      oldOpt = Option<T>.None();
+      oldOpt = Option<TSome>.None();
       this.Kind = OptionKind.Some;
     }
     else
-      oldOpt = Option<T>.Some(this.Unwrap());
+    {
+      oldOpt = Option<TSome>.Some(this.Unwrap());
+    }
 
-    _value = value;
+    this.val = value;
 
     return oldOpt;
   }
@@ -921,15 +992,17 @@ public class Option<T>
   /// </summary>
   /// <returns>If <c>this</c> is <c>Some</c>, an <c>Option</c> that wraps the previous
   /// value; otherwise <c>Option.None</c>.</returns>
-  public Option<T> Take()
+  public Option<TSome> Take()
   {
     if (this.IsNone())
-      return Option<T>.None();
+    {
+      return Option<TSome>.None();
+    }
 
-    var oldOpt = Option<T>.Some(this.Unwrap());
+    var oldOpt = Option<TSome>.Some(this.Unwrap());
 
     this.Kind = OptionKind.None;
-    this._value = default(T);
+    this.val = default(TSome);
 
     return oldOpt;
   }
@@ -949,37 +1022,45 @@ public class Option<T>
   /// Assert.Equal(x, y.Transpose<int, string>());
   /// <code>
   /// </summary>
-  /// <typeparam name="U">The internal type of the <c>Result<Option<>></c>. (Note: this is a 
-  /// deviation from the Rust signature because C# doesn't implement enum values the way 
+  /// <typeparam name="TOut">The internal type of the <c>Result<Option<>></c>. (Note: this is a
+  /// deviation from the Rust signature because C# doesn't implement enum values the way
   /// Rust does.)</typeparam>
-  /// <typeparam name="E">The type of the error for the <c>Result</c>.</typeparam>
+  /// <typeparam name="TErr">The type of the error for the <c>Result</c>.</typeparam>
   /// <returns>An <c>Option<c> of a <c>Result</c> as a <c>Result</c> of an <c>Option<c></returns>
-  public Result<Option<U>, E> Transpose<U, E>()
+  public Result<Option<TOut>, TErr> Transpose<TOut, TErr>()
   {
-    if (!typeof(T).IsGenericType || typeof(T).GetGenericTypeDefinition() != typeof(Result<,>))
-      throw new PanicException($"The wrapped type is {_value!.GetType()}; expecting Result<{typeof(U)}, {typeof(E)}>");
+    if (!typeof(TSome).IsGenericType || typeof(TSome).GetGenericTypeDefinition() != typeof(Result<,>))
+    {
+      throw new PanicException($"The wrapped type is {this.val!.GetType()}; expecting Result<{typeof(TOut)}, {typeof(TErr)}>");
+    }
 
     if (this.IsSome())
     {
-      var okType = typeof(T).GetGenericArguments()[0];
+      var okType = typeof(TSome).GetGenericArguments()[0];
 
-      if (typeof(U) != okType)
-        throw new PanicException($"The wrapped value type {okType} not assignable to type parameter {typeof(U)}");
+      if (typeof(TOut) != okType)
+      {
+        throw new PanicException($"The wrapped value type {okType} not assignable to type parameter {typeof(TOut)}");
+      }
 
-      var errType = typeof(T).GetGenericArguments()[1];
+      var errType = typeof(TSome).GetGenericArguments()[1];
 
-      if (typeof(E) != errType)
-        throw new PanicException($"The wrapped error type {errType} not assignable to type parameter {typeof(E)}");
+      if (typeof(TErr) != errType)
+      {
+        throw new PanicException($"The wrapped error type {errType} not assignable to type parameter {typeof(TErr)}");
+      }
 
-      Result<U, E>? result = this.Unwrap() as Result<U, E>;
+      Result<TOut, TErr>? result = this.Unwrap() as Result<TOut, TErr>;
 
       if (result!.IsErr())
-        return Result<Option<U>, E>.Err(result.UnwrapErr());
+      {
+        return Result<Option<TOut>, TErr>.Err(result.UnwrapErr());
+      }
 
-      return Result<Option<U>, E>.Ok(Option<U>.Some(result.Unwrap()));
+      return Result<Option<TOut>, TErr>.Ok(Option<TOut>.Some(result.Unwrap()));
     }
 
-    return Result<Option<U>, E>.Ok(Option<U>.None());
+    return Result<Option<TOut>, TErr>.Ok(Option<TOut>.None());
   }
 
   /// <summary>
@@ -1005,12 +1086,14 @@ public class Option<T>
   /// <code>
   /// </summary>
   /// <returns>The contained <c>Some</c> value, consuming the <c>self<c> value.</returns>
-  public T Unwrap()
+  public TSome Unwrap()
   {
-    if (IsNone())
+    if (this.IsNone())
+    {
       throw new PanicException("Attempted to call Option.Unwrap() on a None value.");
+    }
 
-    return _value!;
+    return this.val!;
   }
 
   /// <summary>
@@ -1029,17 +1112,19 @@ public class Option<T>
   /// </summary>
   /// <param name="def">The default value of type <c>T</c> to return.</param>
   /// <returns>The contained <c>Some</c> value or a provided default.</returns>
-  public T UnwrapOr(T def)
+  public TSome UnwrapOr(TSome def)
   {
     if (this.IsNone())
     {
       if (def is null)
+      {
         throw new PanicException("The default value for Option.UnwrapOr() cannot be null.");
+      }
 
       return def;
     }
 
-    return this._value!;
+    return this.val!;
   }
 
   /// <summary>
@@ -1067,19 +1152,21 @@ public class Option<T>
   /// <code>
   /// </summary>
   /// <returns>The contained <c>Some</c> value or a default.</returns>
-  public T UnwrapOrDefault()
+  public TSome UnwrapOrDefault()
   {
     if (this.IsNone())
     {
-      var def = default(T);
+      var def = default(TSome);
 
       if (def is null)
-        throw new PanicException($"The default value of {typeof(T)} from Option.UnwrapOrDefault() is null.");
+      {
+        throw new PanicException($"The default value of {typeof(TSome)} from Option.UnwrapOrDefault() is null.");
+      }
 
       return def;
     }
 
-    return this._value!;
+    return this.val!;
   }
 
   /// <summary>
@@ -1095,7 +1182,7 @@ public class Option<T>
   /// </summary>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
   /// <returns>The <c>Some</c> value if <c>this</c> is <c>Some</c>; otherwise the result of invoking <c>f</c>.</returns>
-  public T UnwrapOrElse(Func<T> f)
+  public TSome UnwrapOrElse(Func<TSome> f)
   {
     if (this.IsNone())
     {
@@ -1114,7 +1201,7 @@ public class Option<T>
       return noneResult;
     }
 
-    return this._value!;
+    return this.val!;
   }
 
   /// <summary>
@@ -1141,9 +1228,9 @@ public class Option<T>
   /// <code>
   /// </summary>
   /// <param name="optB">The other <c>Option</c> to evaluate.</param>
-  /// <returns><c>Some</c> if exactly one of <c>self<c>, <c>optB<c> is <c>Some</c>, 
+  /// <returns><c>Some</c> if exactly one of <c>self<c>, <c>optB<c> is <c>Some</c>,
   /// otherwise returns <c>None</c>.</returns>
-  public Option<T> Xor(Option<T> optB)
+  public Option<TSome> Xor(Option<TSome> optB)
   {
     if (optB is null)
     {
@@ -1157,15 +1244,15 @@ public class Option<T>
         return this;
       }
 
-      return Option<T>.None();
+      return Option<TSome>.None();
     }
 
-    if(optB.IsSome())
+    if (optB.IsSome())
     {
       return optB;
     }
 
-    return Option<T>.None();
+    return Option<TSome>.None();
   }
 
   /// <summary>
@@ -1185,21 +1272,21 @@ public class Option<T>
   /// Assert.Equal(Option<(int, short)>.None(), x.Zip(z));
   /// <code>
   /// </summary>
-  /// <param name="other"></param>
-  /// <typeparam name="U"></typeparam>
+  /// <param name="other">The other <c>Option</c> to zip with <c>this</c>.</param>
+  /// <typeparam name="TOut">The type of the tuple of the output <c>Option</c></typeparam>
   /// <returns></returns>
-  public Option<(T, U)> Zip<U>(Option<U> other)
+  public Option<(TSome, TOut)> Zip<TOut>(Option<TOut> other)
   {
     if (other is null)
     {
       throw new PanicException("Cannot pass a null 'other' parameter to Option.Zip().");
     }
 
-    if(this.IsNone() || other.IsNone())
+    if (this.IsNone() || other.IsNone())
     {
-      return Option<(T, U)>.None();
+      return Option<(TSome, TOut)>.None();
     }
 
-    return Option<(T, U)>.Some((this.Unwrap(), other.Unwrap()));
+    return Option<(TSome, TOut)>.Some((this.Unwrap(), other.Unwrap()));
   }
 }

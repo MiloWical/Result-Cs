@@ -1,7 +1,11 @@
+// Copyright (c) Milo Wical. All rights reserved.
+
+using System.Diagnostics.CodeAnalysis;
+
 namespace WicalWare.Components.ResultCs;
 
 // https://doc.rust-lang.org/std/result/enum.Result.html
-public class Result<T, E>
+public class Result<TOk, TErr>
 {
   // Comment Imp Test Signature
   // ✓       ✓   ✓    Result<U, E> And<U>(Result<U, E> optB)
@@ -18,7 +22,7 @@ public class Result<T, E>
   // ✓       ✓   ✓    U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
   // ✓       ✓   ✓    Option<T> Ok()
   // ✓       ✓   ✓    Result<T, F> Or<F>(Result<T, F> res)
-  // ✓       ✓   ✓    Result<T, F> OrElse<F>(Func<E, Result<T, F>> op) 
+  // ✓       ✓   ✓    Result<T, F> OrElse<F>(Func<E, Result<T, F>> op)
   // ✓       ✓   ✓    Option<Result<U, E>> Transpose<U>()
   // ✓       ✓   ✓    T Unwrap()
   // ✓       ✓   ✓    E UnwrapErr()
@@ -37,85 +41,16 @@ public class Result<T, E>
   //                  bool IsErrAnd(Func<E, bool> f)
   //                  bool IsOkAnd(Func<T, bool> f)
 
+  // If this Result is Ok, the value wrapped by the response.
+  private TOk? val;
+
+  // If this result is Err, the error wrapped by the response.
+  private TErr? err;
+
   /// <summary>
   /// The <see cref="ResultKind"/> of the current <c>Result</c>.
   /// </summary>
   public ResultKind Kind { get; private set; }
-
-  // If this Result is Ok, the value wrapped by the response.
-  private T? _value;
-
-  // If this result is Err, the error wrapped by the response.
-  private E? _err;
-
-  /// <summary>
-  /// Generates a <c>Result</c> with a <c>ResultKind</c> of <see cref="ResultKind.Ok"/>.
-  /// 
-  /// The value passed is not permitted to be <c>null</c>.
-  /// </summary>
-  /// <param name="value">The value to wrap in the <c>Result</c></param>
-  /// <returns>The <c>Result</c> of kind <c>Ok</c> with the provided value wrapped.</returns>
-  public static Result<T, E> Ok(T value)
-  {
-    ArgumentNullException.ThrowIfNull(value);
-
-    var result = new Result<T, E>();
-    result._value = value;
-    result.Kind = ResultKind.Ok;
-
-    return result;
-  }
-
-  /// <summary>
-  /// Generates a <c>Result</c> with a <c>ResultKind</c> of <see cref="ResultKind.Err"/>.
-  /// 
-  /// The error passed is not permitted to be <c>null</c>.
-  /// </summary>
-  /// <param name="err">The error to wrap in the <c>Result</c></param>
-  /// <returns>The <c>Result</c> of kind <c>Err</c> with the provided error wrapped.</returns>
-  public static Result<T, E> Err(E err)
-  {
-    ArgumentNullException.ThrowIfNull(err);
-
-    var result = new Result<T, E>();
-    result._err = err;
-    result.Kind = ResultKind.Err;
-
-    return result;
-  }
-
-  /// <summary>
-  /// Tests two <c>Result</c> objects for equality.
-  /// 
-  /// Overrides <see cref="Object.Equals(object?)"/>.
-  /// </summary>
-  /// <param name="other">The <c>Result</c> to test <c>this</c> against.</param>
-  /// <returns><c>true</c> if one of the following is true:
-  /// <ul>
-  /// <li>The two <c>Result</c> objects are <c>Ok</c> and their wrapped values are the same</li>
-  /// <li>The two <c>Result</c> objects are <c>Err</c></li>
-  /// </ul>
-  /// <c>false</c> otherwise</returns>
-  public override bool Equals(object? other)
-  {
-    if (other is null) return false;
-
-    if (other is not Result<T, E>)
-      return false;
-
-    var otherResult = (Result<T, E>)other;
-
-    if (this.Kind != otherResult.Kind)
-      return false;
-
-    if (this.IsErr() && otherResult.IsErr())
-      return true;
-
-    if (_value!.Equals(otherResult.Unwrap()))
-      return true;
-
-    return false;
-  }
 
   /// <summary>
   /// Convenience override of the <c>==</c> operator.
@@ -123,12 +58,14 @@ public class Result<T, E>
   /// <param name="res1">The first <c>Result</c> to compare</param>
   /// <param name="res2">The second <c>Result</c> to compare</param>
   /// <returns>The result of <c>res1.Equals(res2)</c></returns>
-  public static bool operator == (Result<T, E> res1, Result<T, E> res2)
+  public static bool operator ==(Result<TOk, TErr> res1, Result<TOk, TErr> res2)
   {
     if (res1 is null)
     {
       if (res2 is null)
+      {
         return true;
+      }
 
       return false;
     }
@@ -142,7 +79,87 @@ public class Result<T, E>
   /// <param name="res1">The first <c>Result</c> to compare</param>
   /// <param name="res2">The second <c>Result</c> to compare</param>
   /// <returns>The result of <c>!res1.Equals(res2)</c></returns>
-  public static bool operator != (Result<T, E> res1, Result<T, E> res2) => !(res1 == res2);
+  public static bool operator !=(Result<TOk, TErr> res1, Result<TOk, TErr> res2) => !(res1 == res2);
+
+  /// <summary>
+  /// Generates a <c>Result</c> with a <c>ResultKind</c> of <see cref="ResultKind.Ok"/>.
+  ///
+  /// The value passed is not permitted to be <c>null</c>.
+  /// </summary>
+  /// <param name="value">The value to wrap in the <c>Result</c></param>
+  /// <returns>The <c>Result</c> of kind <c>Ok</c> with the provided value wrapped.</returns>
+  public static Result<TOk, TErr> Ok(TOk value)
+  {
+    ArgumentNullException.ThrowIfNull(value);
+
+    var result = new Result<TOk, TErr>();
+    result.val = value;
+    result.Kind = ResultKind.Ok;
+
+    return result;
+  }
+
+  /// <summary>
+  /// Generates a <c>Result</c> with a <c>ResultKind</c> of <see cref="ResultKind.Err"/>.
+  ///
+  /// The error passed is not permitted to be <c>null</c>.
+  /// </summary>
+  /// <param name="err">The error to wrap in the <c>Result</c></param>
+  /// <returns>The <c>Result</c> of kind <c>Err</c> with the provided error wrapped.</returns>
+  public static Result<TOk, TErr> Err(TErr err)
+  {
+    ArgumentNullException.ThrowIfNull(err);
+
+    var result = new Result<TOk, TErr>();
+    result.err = err;
+    result.Kind = ResultKind.Err;
+
+    return result;
+  }
+
+  /// <summary>
+  /// Tests two <c>Result</c> objects for equality.
+  ///
+  /// Overrides <see cref="Object.Equals(object?)"/>.
+  /// </summary>
+  /// <param name="other">The <c>Result</c> to test <c>this</c> against.</param>
+  /// <returns><c>true</c> if one of the following is true:
+  /// <ul>
+  /// <li>The two <c>Result</c> objects are <c>Ok</c> and their wrapped values are the same</li>
+  /// <li>The two <c>Result</c> objects are <c>Err</c></li>
+  /// </ul>
+  /// <c>false</c> otherwise</returns>
+  public override bool Equals(object? other)
+  {
+    if (other is null)
+    {
+      return false;
+    }
+
+    if (other is not Result<TOk, TErr>)
+    {
+      return false;
+    }
+
+    var otherResult = (Result<TOk, TErr>)other;
+
+    if (this.Kind != otherResult.Kind)
+    {
+      return false;
+    }
+
+    if (this.IsErr() && otherResult.IsErr())
+    {
+      return true;
+    }
+
+    if (this.val!.Equals(otherResult.Unwrap()))
+    {
+      return true;
+    }
+
+    return false;
+  }
 
   /// <summary>
   /// Override of <see cref="Object.GetHashCode()"/>.
@@ -152,9 +169,9 @@ public class Result<T, E>
 
   /// <summary>
   /// Asserts whether a result is <c>Ok</c> and returns values accordingly.
-  /// 
+  ///
   /// Arguments passed to <c>And</c> are eagerly evaluated; if you are passing the
-  /// result of a function call, it is recommended to use 
+  /// result of a function call, it is recommended to use
   /// <see cref="AndThen"><c>AndThen</c></see>, which is lazily evaluated.
   ///
   /// <example>
@@ -181,22 +198,26 @@ public class Result<T, E>
   /// </code>
   /// </summary>
   /// <param name="res">The option to return if the current option is <c>Ok</c></param>
-  /// <typeparam name="U">The underlying type of <c>res</c></typeparam>
-  /// <returns>Returns <c>res</c> if the result is <c>Ok</c>, 
+  /// <typeparam name="TOkOut">The underlying type of <c>res</c></typeparam>
+  /// <returns>Returns <c>res</c> if the result is <c>Ok</c>,
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
-  public Result<U, E> And<U>(Result<U, E> res)
+  public Result<TOkOut, TErr> And<TOkOut>(Result<TOkOut, TErr> res)
   {
-    if (Kind == ResultKind.Err)
-      return Result<U, E>.Err(_err!);
+    if (this.Kind == ResultKind.Err)
+    {
+      return Result<TOkOut, TErr>.Err(this.err!);
+    }
 
     if (res.Kind == ResultKind.Err)
-      return Result<U, E>.Err(res.UnwrapErr());
+    {
+      return Result<TOkOut, TErr>.Err(res.UnwrapErr());
+    }
 
     return res;
   }
 
   /// <summary>
-  /// Calls <c>op</c> if the result is <c>Ok</c>, 
+  /// Calls <c>op</c> if the result is <c>Ok</c>,
   /// otherwise returns the <c>Err</c> value of <c>self</c>.
   ///
   /// This function can be used for control flow based on <c>Result</c> values.
@@ -210,12 +231,12 @@ public class Result<T, E>
   ///   try
   ///   {
   ///     int product;
-  ///     
-  ///     checked 
+  ///
+  ///     checked
   ///     {
   ///       product = x*x;
   ///     }
-  ///     
+  ///
   ///     return Result<string, string>.Ok(product.ToString());
   ///   }
   ///   catch(OverflowException oe)
@@ -223,7 +244,7 @@ public class Result<T, E>
   ///     return Result<string, string>.Err("overflowed");
   ///   }
   /// }
-  /// 
+  ///
   /// Assert.Equal(Result<int, string>.Ok(2).AndThen(SquareThenToString), Result<string, string>.Ok(4.ToString()));
   /// Assert.Equal(Result<int, string>.Ok(int.MaxValue).AndThen(SquareThenToString), Result<string, string>.Err("overflowed"));
   /// Assert.Equal(Result<int, string>.Err("not a number").AndThen(SquareThenToString), Result<string, string>.Err("not a number"));
@@ -245,14 +266,14 @@ public class Result<T, E>
   /// </example>
   /// </summary>
   /// <param name="f">The function to call to evaluate the current <c>Result</c></param>
-  /// <typeparam name="U">The underlying type of the result of calling <c>f</c></typeparam>
-  /// <returns>The result of calling <c>f</c>, 
+  /// <typeparam name="TOut">The underlying type of the result of calling <c>f</c></typeparam>
+  /// <returns>The result of calling <c>f</c>,
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
-  public Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
+  public Result<TOut, TErr> AndThen<TOut>(Func<TOk, Result<TOut, TErr>> f)
   {
     if (this.IsErr())
     {
-      return Result<U, E>.Err(this.UnwrapErr());
+      return Result<TOut, TErr>.Err(this.UnwrapErr());
     }
 
     return f.Invoke(this.Unwrap());
@@ -278,14 +299,16 @@ public class Result<T, E>
   /// </code>
   /// <example>
   /// </summary>
-  /// <returns>The <c>Err</c> value of <c>self</c>, wrapped in 
+  /// <returns>The <c>Err</c> value of <c>self</c>, wrapped in
   /// and <c>Option<E></c></returns>
-  public Option<E> Err()
+  public Option<TErr> Err()
   {
     if (this.IsErr())
-      return Option<E>.Some(_err!);
+    {
+      return Option<TErr>.Some(this.err!);
+    }
 
-    return Option<E>.None();
+    return Option<TErr>.None();
   }
 
   /// <summary>
@@ -294,7 +317,7 @@ public class Result<T, E>
   ///
   /// Because this function may panic, its use is generally discouraged.
   /// Instead, prefer to use pattern matching and handle the <c>Err</c>
-  /// case explicitly, or call <c><see cref="UnwrapOr"/></c>, 
+  /// case explicitly, or call <c><see cref="UnwrapOr"/></c>,
   /// <c><see cref="UnwrapOrElse"/></c>, or <c><see cref="UnwrapOrDefault"/></c>
   ///
   /// Panics
@@ -334,13 +357,18 @@ public class Result<T, E>
   /// </summary>
   /// <param name="msg">The message to panic with.</param>
   /// <returns>The unwrapped value of <c>self</c></returns>
-  public T Expect(string msg)
+  [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "StyleCop doesn't respect the null-forgiving operator (!)")]
+  public TOk Expect(string msg)
   {
     if (this.IsOk())
+    {
       return this.Unwrap();
+    }
 
-    if (_err is Exception)
-      throw new PanicException(msg, (_err as Exception)!);
+    if (this.err is Exception)
+    {
+      throw new PanicException(msg, (this.err as Exception)!);
+    }
 
     throw new PanicException($"{msg}: {this.UnwrapErr()!.ToString()}");
   }
@@ -365,10 +393,13 @@ public class Result<T, E>
   /// </summary>
   /// <param name="msg">The message to panic with.</param>
   /// <returns>The unwrapped value of <c>self</c></returns>
-  public E ExpectErr(string msg)
+  [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "StyleCop doesn't respect the null-forgiving operator (!)")]
+  public TErr ExpectErr(string msg)
   {
     if (this.IsErr())
+    {
       return this.UnwrapErr();
+    }
 
     throw new PanicException($"{msg}: {this.Unwrap()!.ToString()}");
   }
@@ -440,17 +471,19 @@ public class Result<T, E>
   /// Assert.False(iter.MoveNext());
   /// </code>
   /// </summary>
-  /// <returns>An <c>IEnumerable<Option<T>></c> containing a single value. 
+  /// <returns>An <c>IEnumerable<Option<T>></c> containing a single value.
   /// <ul>
   /// <li>If <c>this</c> is <c>ResultKind.Ok</c>, the value is an <c>OptionKind.Some</c> with the unwrapped value of <c>this</c>
   /// <li>If <c>this</c> is <c>ResultKind.Ok</c>, the value is an <c>OptionKind.None</c>
   /// </ul></returns>
-  public IEnumerable<Option<T>> Iter()
+  public IEnumerable<Option<TOk>> Iter()
   {
     if (this.IsOk())
-      return new List<Option<T>> { Option<T>.Some(this.Unwrap()) };
+    {
+      return new List<Option<TOk>> { Option<TOk>.Some(this.Unwrap()) };
+    }
 
-    return new List<Option<T>> { Option<T>.None() };
+    return new List<Option<TOk>> { Option<TOk>.None() };
   }
 
   /// <summary>
@@ -469,9 +502,9 @@ public class Result<T, E>
   /// foreach(var line in lines.Split('\n'))
   /// {
   ///   var result = int.TryParse(line, out var num) ? Result<int, string>.Ok(num)  = Result<int, string>.Err($"Could not parse: {line}");
-  ///   
+  ///
   ///   var mapped = result.Map(i => i * 2);
-  /// 
+  ///
   ///   switch (mapped.Kind)
   ///   {
   ///    case ResultKind.Ok:
@@ -481,18 +514,20 @@ public class Result<T, E>
   ///       Assert.Contains(line, mapped.UnwrapErr());
   ///       break;
   ///   };
-  /// }  
+  /// }
   /// </code>
   /// </summary>
   /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
-  /// <typeparam name="U">The output type of <c>op</c>.</typeparam>
+  /// <typeparam name="TOut">The output type of <c>op</c>.</typeparam>
   /// <returns>A <c>Result</c> that's the output of applying <c>op</op> to the current <c>Result</c>'s <c>Ok</c> value.</returns>
-  public Result<U, E> Map<U>(Func<T, U> op)
+  public Result<TOut, TErr> Map<TOut>(Func<TOk, TOut> op)
   {
     if (this.IsErr())
-      return Result<U, E>.Err(this.UnwrapErr());
+    {
+      return Result<TOut, TErr>.Err(this.UnwrapErr());
+    }
 
-    return Result<U, E>.Ok(op.Invoke(this.Unwrap()));
+    return Result<TOut, TErr>.Ok(op.Invoke(this.Unwrap()));
   }
 
   /// <summary>
@@ -521,14 +556,16 @@ public class Result<T, E>
   /// </code>
   /// </summary>
   /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Err</c>.</param>
-  /// <typeparam name="F">The output type of <c>op</c>.</typeparam>
+  /// <typeparam name="TOut">The output type of <c>op</c>.</typeparam>
   /// <returns>A <c>Result</c> that's the output of applying <c>op</op> to the current <c>Result</c>'s <c>Err</c> value.</returns>
-  public Result<T, F> MapErr<F>(Func<E, F> op)
+  public Result<TOk, TOut> MapErr<TOut>(Func<TErr, TOut> op)
   {
     if (this.IsOk())
-      return Result<T, F>.Ok(this.Unwrap());
+    {
+      return Result<TOk, TOut>.Ok(this.Unwrap());
+    }
 
-    return Result<T, F>.Err(op.Invoke(this.UnwrapErr()));
+    return Result<TOk, TOut>.Err(op.Invoke(this.UnwrapErr()));
   }
 
   /// <summary>
@@ -551,13 +588,15 @@ public class Result<T, E>
   /// </summary>
   /// <param name="def">The default value to return if <c>this</c> is <c>ResultKind.Err</c>.</param>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
-  /// <typeparam name="U">The output type of <c>f</c>.</typeparam>
-  /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a <c>Result</c> that's the output of applying 
+  /// <typeparam name="TOut">The output type of <c>f</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a <c>Result</c> that's the output of applying
   /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise <c>def</c>.</returns>
-  public U MapOr<U>(U def, Func<T, U> f)
+  public TOut MapOr<TOut>(TOut def, Func<TOk, TOut> f)
   {
     if (this.IsErr())
+    {
       return def;
+    }
 
     return f.Invoke(this.Unwrap());
   }
@@ -584,17 +623,19 @@ public class Result<T, E>
   /// Assert.Equal(x.MapOrElse(_ => k * 2, v => v.Length), 42);
   /// </code>
   /// </summary>
-  /// <param name="def">The default function to invoke on the <c>Err</c> value 
+  /// <param name="def">The default function to invoke on the <c>Err</c> value
   /// if <c>this</c> is <c>ResultKind.Err</c>.</param>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
-  /// <typeparam name="U">The output type of <c>def</c> and <c>f</c>.</typeparam>
-  /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a value that's the output of applying 
-  /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise a value that's the 
+  /// <typeparam name="TOut">The output type of <c>def</c> and <c>f</c>.</typeparam>
+  /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a value that's the output of applying
+  /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise a value that's the
   /// output of applying <c>def</op> to the current <c>Result</c>'s <c>Err</c> value.</returns>
-  public U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
+  public TOut MapOrElse<TOut>(Func<TErr, TOut> def, Func<TOk, TOut> f)
   {
     if (this.IsErr())
+    {
       return def.Invoke(this.UnwrapErr());
+    }
 
     return f.Invoke(this.Unwrap());
   }
@@ -617,14 +658,16 @@ public class Result<T, E>
   /// Assert.Equal(x.Ok(), Option<int>.None());
   /// </code>
   /// </summary>
-  /// <returns>An <c>Option</c> that contains a <c>Some</c> value if 
+  /// <returns>An <c>Option</c> that contains a <c>Some</c> value if
   /// <c>this</c> is <c>ResultKind.Ok</c>; <c>None</c> otherwise.</returns>
-  public Option<T> Ok()
+  public Option<TOk> Ok()
   {
     if (this.IsErr())
-      return Option<T>.None();
+    {
+      return Option<TOk>.None();
+    }
 
-    return Option<T>.Some(_value!);
+    return Option<TOk>.Some(this.val!);
   }
 
   /// <summary>
@@ -657,15 +700,17 @@ public class Result<T, E>
   /// </code>
   /// </summary>
   /// <param name="res">The <c>Result</c> to return if <c>this</c> is <c>Err</c>.</param>
-  /// <typeparam name="F">The <c>Ok</c> type of the return <c>Result</c>.</typeparam>
-  /// <returns><c>res<c> if the result is <c>Err</c>, otherwise returns the 
+  /// <typeparam name="TErrOut">The <c>Err</c> type of the return <c>Result</c>.</typeparam>
+  /// <returns><c>res<c> if the result is <c>Err</c>, otherwise returns the
   /// <c>Ok</c> value of <c>self<c>.</returns>
-  public Result<T, F> Or<F>(Result<T, F> res)
+  public Result<TOk, TErrOut> Or<TErrOut>(Result<TOk, TErrOut> res)
   {
     if (this.IsErr())
+    {
       return res;
+    }
 
-    return Result<T, F>.Ok(this.Unwrap());
+    return Result<TOk, TErrOut>.Ok(this.Unwrap());
   }
 
   /// <summary>
@@ -678,11 +723,11 @@ public class Result<T, E>
   /// Basic usage:
   ///
   /// <code>
-  /// public Result<int, int> sq(int x) 
+  /// public Result<int, int> sq(int x)
   /// {
-  ///   return Result<int, int>.Ok(x * x); 
+  ///   return Result<int, int>.Ok(x * x);
   /// }
-  /// 
+  ///
   /// public Result<int, int> err(int x)
   /// {
   ///   return Result<int, int>.Err(x);
@@ -695,13 +740,15 @@ public class Result<T, E>
   /// </code>
   /// </summary>
   /// <param name="op">The function to invoke when <c>this</c> is <c>Err</c>.</param>
-  /// <typeparam name="F">The <c>Err</c> return type of <c>op</c>.</typeparam>
-  /// <returns>The <c>op</c> result if <c>this</c> is <c>Err</c>; otherwise 
+  /// <typeparam name="TErrOut">The <c>Err</c> return type of <c>op</c>.</typeparam>
+  /// <returns>The <c>op</c> result if <c>this</c> is <c>Err</c>; otherwise
   /// the <c>Ok</c> value of <c>self<c>.</returns>
-  public Result<T, F> OrElse<F>(Func<E, Result<T, F>> op)
+  public Result<TOk, TErrOut> OrElse<TErrOut>(Func<TErr, Result<TOk, TErrOut>> op)
   {
     if (this.IsOk())
-      return Result<T, F>.Ok(this.Unwrap());
+    {
+      return Result<TOk, TErrOut>.Ok(this.Unwrap());
+    }
 
     return op.Invoke(this.UnwrapErr());
   }
@@ -710,7 +757,7 @@ public class Result<T, E>
   /// Transposes a <c>Result<c> of an <c>Option<c> into an <c>Option<c> of a <c>Result<c>.
   ///
   /// <c>Ok(None)<c> will be mapped to <c>None<c>.
-  /// <c>Ok(Some(_))<c> and <c>Err(_)<c> will be mapped to <c>Some(Ok(_))<c> and <c>Some(Err(_))<c>.
+  /// <c>Ok(Some)<c> and <c>Err<c> will be mapped to <c>Some(Ok)<c> and <c>Some(Err)<c>.
   ///
   /// Examples
   ///
@@ -721,31 +768,37 @@ public class Result<T, E>
   /// Assert.Equal(x.Transpose(), y);
   /// </code>
   /// </summary>
-  /// <typeparam name="U">The internal type of the <c>Result<Option<>></c>. (Note: this is a 
-  /// deviation from the Rust signature because C# doesn't implement enum values the way 
+  /// <typeparam name="TOkOut">The internal type of the <c>Result<Option<>></c>. (Note: this is a
+  /// deviation from the Rust signature because C# doesn't implement enum values the way
   /// Rust does.)</typeparam>
   /// <returns>A <c>Result<c> of an <c>Option<c> into an <c>Option<c> of a <c>Result<c>.</returns>
-  public Option<Result<U, E>> Transpose<U>()
+  public Option<Result<TOkOut, TErr>> Transpose<TOkOut>()
   {
-    if (!typeof(T).IsGenericType || typeof(T).GetGenericTypeDefinition() != typeof(Option<>))
-        throw new PanicException($"The wrapped type is {_value!.GetType()}; expecting Option<{typeof(U)}>");
+    if (!typeof(TOk).IsGenericType || typeof(TOk).GetGenericTypeDefinition() != typeof(Option<>))
+    {
+      throw new PanicException($"The wrapped type is {this.val!.GetType()}; expecting Option<{typeof(TOkOut)}>");
+    }
 
     if (this.IsOk())
     {
-      var optionType = typeof(T).GetGenericArguments()[0];
+      var optionType = typeof(TOk).GetGenericArguments()[0];
 
-      if (typeof(U) != optionType)
-        throw new PanicException($"The wrapped value is {optionType} not assignable to type parameter {typeof(U)}");
+      if (typeof(TOkOut) != optionType)
+      {
+        throw new PanicException($"The wrapped value is {optionType} not assignable to type parameter {typeof(TOkOut)}");
+      }
 
-      Option<U>? option = this.Unwrap() as Option<U>;
+      Option<TOkOut>? option = this.Unwrap() as Option<TOkOut>;
 
       if (option!.IsNone())
-        return Option<Result<U, E>>.None();
+      {
+        return Option<Result<TOkOut, TErr>>.None();
+      }
 
-      return Option<Result<U, E>>.Some(Result<U, E>.Ok(option.Unwrap()));
+      return Option<Result<TOkOut, TErr>>.Some(Result<TOkOut, TErr>.Ok(option.Unwrap()));
     }
 
-    return Option<Result<U, E>>.Some(Result<U, E>.Err(this.UnwrapErr()));
+    return Option<Result<TOkOut, TErr>>.Some(Result<TOkOut, TErr>.Err(this.UnwrapErr()));
   }
 
   /// <summary>
@@ -777,12 +830,15 @@ public class Result<T, E>
   /// </code>
   /// </summary>
   /// <returns>The wrapped <c>Ok</c> value.</returns>
-  public T Unwrap()
+  [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "StyleCop doesn't respect the null-forgiving operator (!)")]
+  public TOk Unwrap()
   {
-    if(this.IsErr())
+    if (this.IsErr())
+    {
       throw new PanicException(this.UnwrapErr()!.ToString()!);
+    }
 
-    return _value!;
+    return this.val!;
   }
 
   /// <summary>
@@ -806,12 +862,15 @@ public class Result<T, E>
   /// </code>
   /// </summary>
   /// <returns>The wrapped <c>Err</c> value.</returns>
-  public E UnwrapErr()
+  [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "StyleCop doesn't respect the null-forgiving operator (!)")]
+  public TErr UnwrapErr()
   {
-    if(this.IsOk())
+    if (this.IsOk())
+    {
       throw new PanicException(this.Unwrap()!.ToString()!);
+    }
 
-    return _err!;
+    return this.err!;
   }
 
   /// <summary>
@@ -836,12 +895,14 @@ public class Result<T, E>
   /// </summary>
   /// <param name="def">The default value to return if <c>this</c> is <c>Err</c>.</param>
   /// <returns>The <c>Ok</c> value if <c>this</c> is <c>Ok</c>; <c>def</c> otherwise.</returns>
-  public T UnwrapOr(T def)
+  public TOk UnwrapOr(TOk def)
   {
-    if(this.IsErr())
+    if (this.IsErr())
+    {
       return def;
+    }
 
-    return _value!;
+    return this.val!;
   }
 
   /// <summary>
@@ -868,12 +929,14 @@ public class Result<T, E>
   /// </code>
   /// </summary>
   /// <returns>The <c>Ok</c> value if <c>this</c> is <c>Ok</c>; <c>default(T)</c> otherwise.</returns>
-  public T? UnwrapOrDefault()
+  public TOk? UnwrapOrDefault()
   {
-    if(this.IsErr())
-      return default(T);
+    if (this.IsErr())
+    {
+      return default(TOk);
+    }
 
-    return _value;
+    return this.val;
   }
 
   /// <summary>
@@ -885,7 +948,7 @@ public class Result<T, E>
   ///
   /// <code>
   /// public int Count(string x)
-  /// { 
+  /// {
   ///   return x.Length;
   /// }
   ///
@@ -894,13 +957,15 @@ public class Result<T, E>
   /// </code>
   /// </summary>
   /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Err</c>.</param>
-  /// <returns>The <c>Ok</c> value if <c>this</c> is <c>Ok</c>; otherwise the result of passing the 
+  /// <returns>The <c>Ok</c> value if <c>this</c> is <c>Ok</c>; otherwise the result of passing the
   /// <c>Err</c> value to <c>op</c>.</returns>
-  public T UnwrapOrElse(Func<E, T> op)
+  public TOk UnwrapOrElse(Func<TErr, TOk> op)
   {
-    if(this.IsOk())
-      return _value!;
+    if (this.IsOk())
+    {
+      return this.val!;
+    }
 
-    return op.Invoke(_err!);
+    return op.Invoke(this.err!);
   }
 }

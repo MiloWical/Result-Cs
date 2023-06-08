@@ -1,18 +1,21 @@
+// Copyright (c) Milo Wical. All rights reserved.
+
 namespace WicalWare.Components.ResultCs;
 
 public class PanicException : Exception
 {
-  private string _message;
-  public override string Message => _message;
+  private string message;
 
   internal PanicException(string errMessage)
   {
-    _message = errMessage;
+    this.message = errMessage;
   }
 
   internal PanicException(string errMessage, Exception innerException)
     : base(errMessage, innerException)
   {
-    _message = $"{errMessage}: {innerException.Message}";
+    this.message = $"{errMessage}: {innerException.Message}";
   }
+
+  public override string Message => this.message;
 }
