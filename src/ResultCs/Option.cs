@@ -29,7 +29,7 @@ public class Option<T>
   // ✓       ✓   ✓    T Unwrap()
   // ✓       ✓   ✓    T UnwrapOr(T def)
   // ✓       ✓   ✓    T UnwrapOrDefault()
-  //                  T UnwrapOrElse(Func<T> f)
+  // ✓       ✓   ✓    T UnwrapOrElse(Func<T> f)
   //                  Option<T> Xor(Option<T> optB)
   //                  Option<(T, U)> Zip<U>(Option<U> other)
   // ✓       ✓   ✓    OptionKind Kind { get; }
@@ -1039,7 +1039,7 @@ public class Option<T>
       return def;
     }
 
-    return this.Unwrap();
+    return this._value!;
   }
 
   /// <summary>
@@ -1079,7 +1079,7 @@ public class Option<T>
       return def;
     }
 
-    return this.Unwrap();
+    return this._value!;
   }
 
   /// <summary>
@@ -1088,16 +1088,33 @@ public class Option<T>
   /// Examples
   ///
   /// <code>
-  /// let k = 10;
-  /// Assert.Equal(Some(4).unwrap_or_else(|| 2 * k), 4);
-  /// Assert.Equal(None.unwrap_or_else(|| 2 * k), 20);
+  /// var k = 10;
+  /// Assert.Equal(4, Option<int>.Some(4).UnwrapOrElse(() => 2 * k));
+  /// Assert.Equal(20, Option<int>.None().UnwrapOrElse(() => 2 * k));
   /// <code>
   /// </summary>
-  /// <param name="f"></param>
-  /// <returns></returns>
+  /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
+  /// <returns>The <c>Some</c> value if <c>this</c> is <c>Some</c>; otherwise the result of invoking <c>f</c>.</returns>
   public T UnwrapOrElse(Func<T> f)
   {
-    throw new NotImplementedException();
+    if(this.IsNone())
+    {
+      if (f is null)
+      {
+        throw new PanicException("Cannot pass a null delegate function to Option.UnwrapOrElse()");
+      }
+
+      var noneResult = f.Invoke();
+
+      if (noneResult is null)
+      {
+        throw new PanicException("The delegate function passed to Option.UnwrapOrElse() cannot return null.");
+      }
+
+      return noneResult;
+    }
+
+    return this._value!;
   }
 
   /// <summary>
