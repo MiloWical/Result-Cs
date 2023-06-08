@@ -30,7 +30,7 @@ public class Option<T>
   // ✓       ✓   ✓    T UnwrapOr(T def)
   // ✓       ✓   ✓    T UnwrapOrDefault()
   // ✓       ✓   ✓    T UnwrapOrElse(Func<T> f)
-  //                  Option<T> Xor(Option<T> optB)
+  // ✓       ✓   ✓    Option<T> Xor(Option<T> optB)
   //                  Option<(T, U)> Zip<U>(Option<U> other)
   // ✓       ✓   ✓    OptionKind Kind { get; }
   //
@@ -956,8 +956,8 @@ public class Option<T>
   /// <returns>An <c>Option<c> of a <c>Result</c> as a <c>Result</c> of an <c>Option<c></returns>
   public Result<Option<U>, E> Transpose<U, E>()
   {
-     if (!typeof(T).IsGenericType || typeof(T).GetGenericTypeDefinition() != typeof(Result<,>))
-        throw new PanicException($"The wrapped type is {_value!.GetType()}; expecting Result<{typeof(U)}, {typeof(E)}>");
+    if (!typeof(T).IsGenericType || typeof(T).GetGenericTypeDefinition() != typeof(Result<,>))
+      throw new PanicException($"The wrapped type is {_value!.GetType()}; expecting Result<{typeof(U)}, {typeof(E)}>");
 
     if (this.IsSome())
     {
@@ -973,12 +973,12 @@ public class Option<T>
 
       Result<U, E>? result = this.Unwrap() as Result<U, E>;
 
-      if(result!.IsErr())
+      if (result!.IsErr())
         return Result<Option<U>, E>.Err(result.UnwrapErr());
 
       return Result<Option<U>, E>.Ok(Option<U>.Some(result.Unwrap()));
     }
-  
+
     return Result<Option<U>, E>.Ok(Option<U>.None());
   }
 
@@ -1031,7 +1031,7 @@ public class Option<T>
   /// <returns>The contained <c>Some</c> value or a provided default.</returns>
   public T UnwrapOr(T def)
   {
-    if(this.IsNone())
+    if (this.IsNone())
     {
       if (def is null)
         throw new PanicException("The default value for Option.UnwrapOr() cannot be null.");
@@ -1069,11 +1069,11 @@ public class Option<T>
   /// <returns>The contained <c>Some</c> value or a default.</returns>
   public T UnwrapOrDefault()
   {
-    if(this.IsNone())
+    if (this.IsNone())
     {
       var def = default(T);
 
-      if(def is null)
+      if (def is null)
         throw new PanicException($"The default value of {typeof(T)} from Option.UnwrapOrDefault() is null.");
 
       return def;
@@ -1097,7 +1097,7 @@ public class Option<T>
   /// <returns>The <c>Some</c> value if <c>this</c> is <c>Some</c>; otherwise the result of invoking <c>f</c>.</returns>
   public T UnwrapOrElse(Func<T> f)
   {
-    if(this.IsNone())
+    if (this.IsNone())
     {
       if (f is null)
       {
@@ -1118,33 +1118,54 @@ public class Option<T>
   }
 
   /// <summary>
-  /// Returns <c>Some</c> if exactly one of <c>self<c>, <c>optb<c> is <c>Some</c>, otherwise returns <c>None</c>.
+  /// Returns <c>Some</c> if exactly one of <c>self<c>, <c>optB<c> is <c>Some</c>, otherwise returns <c>None</c>.
   ///
   /// Examples
   ///
   /// <code>
-  /// let x = Some(2);
-  /// let y: Option<int> = None;
-  /// Assert.Equal(x.xor(y), Some(2));
+  /// var x = Option<int>.Some(2);
+  /// var y = Option<int>.None();
+  /// Assert.Equal(Option<int>.Some(2), x.Xor(y));
   ///
-  /// let x: Option<int> = None;
-  /// let y = Some(2);
-  /// Assert.Equal(x.xor(y), Some(2));
+  /// var x = Option<int>.None();
+  /// var y = Option<int>.Some(2);
+  /// Assert.Equal(Option<int>.Some(2), x.Xor(y));
   ///
-  /// let x = Some(2);
-  /// let y = Some(2);
-  /// Assert.Equal(x.xor(y), None);
+  /// var x = Option<int>.Some(2);
+  /// var y = Option<int>.Some(2);
+  /// Assert.Equal(Option<int>.None(), x.Xor(y));
   ///
-  /// let x: Option<int> = None;
-  /// let y: Option<int> = None;
-  /// Assert.Equal(x.xor(y), None);
+  /// var x = Option<int>.None();
+  /// var y = Option<int>.None();
+  /// Assert.Equal(Option<int>.None(), x.Xor(y));
   /// <code>
   /// </summary>
-  /// <param name="optB"></param>
-  /// <returns></returns>
+  /// <param name="optB">The other <c>Option</c> to evaluate.</param>
+  /// <returns><c>Some</c> if exactly one of <c>self<c>, <c>optB<c> is <c>Some</c>, 
+  /// otherwise returns <c>None</c>.</returns>
   public Option<T> Xor(Option<T> optB)
   {
-    throw new NotImplementedException();
+    if (optB is null)
+    {
+      throw new PanicException("The 'optB' parameter passed to Option.Xor() cannot be null.");
+    }
+
+    if (this.IsSome())
+    {
+      if (optB.IsNone())
+      {
+        return this;
+      }
+
+      return Option<T>.None();
+    }
+
+    if(optB.IsSome())
+    {
+      return optB;
+    }
+
+    return Option<T>.None();
   }
 
   /// <summary>
