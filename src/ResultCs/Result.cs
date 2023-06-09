@@ -25,27 +25,27 @@ namespace WicalWare.Components.ResultCs;
 public class Result<TOk, TErr>
 {
   // Comment Imp Test SignatureResult{U, E}
-  // ✓       ✓   ✓    Result{U, E} And{U}(Result{U, E} optB)
-  // ✓       ✓   ✓    Result{U, E} AndThen{U}(Func{T, Result{U, E}} f)
-  // ✓       ✓   ✓    Option{E} Err()
-  // ✓       ✓   ✓    T Expect(string msg)
-  // ✓       ✓   ✓    E ExpectErr(string msg)
+  // ✓       ✓   ✓    Result<TOkOut, TErr> And<TOkOut>(Result<TOkOut, TErr> res)
+  // ✓       ✓   ✓    Result<TOut, TErr> AndThen<TOut>(Func<TOk, Result<TOut, TErr>> f)
+  // ✓       ✓   ✓    Option<TErr> Err()
+  // ✓       ✓   ✓    TOk Expect(string msg)
+  // ✓       ✓   ✓    TErr ExpectErr(string msg)
   // ✓       ✓   ✓    bool IsErr()
   // ✓       ✓   ✓    bool IsOk()
-  // ✓       ✓   ✓    IEnumerable{Option{T}} Iter()
-  // ✓       ✓   ✓    Result{U, E} Map{U}(Func{T, U} op)
-  // ✓       ✓   ✓    Result{T, F} MapErr{F}(Func{E, F} op)
-  // ✓       ✓   ✓    U MapOr{U}(U def, Func{T, U} f)
-  // ✓       ✓   ✓    U MapOrElse{U}(Func{E, U} def, Func{T, U} f)
-  // ✓       ✓   ✓    Option{T} Ok()
-  // ✓       ✓   ✓    Result{T, F} Or{F}(Result{T, F} res)
-  // ✓       ✓   ✓    Result{T, F} OrElse{F}(Func{E, Result{T, F}} op)
-  // ✓       ✓   ✓    Option{Result{U, E}} Transpose{U}()
-  // ✓       ✓   ✓    T Unwrap()
-  // ✓       ✓   ✓    E UnwrapErr()
-  // ✓       ✓   ✓    T UnwrapOr(T def)
-  // ✓       ✓   ✓    T UnwrapOrDefault()
-  // ✓       ✓   ✓    T UnwrapOrElse(Func{E, T} op)
+  // ✓       ✓   ✓    IEnumerable<Option<TOk>> Iter()
+  // ✓       ✓   ✓    Result<TOut, TErr> Map<TOut>(Func<TOk, TOut> op)
+  // ✓       ✓   ✓    Result<TOk, TOut> MapErr<TOut>(Func<TErr, TOut> op)
+  // ✓       ✓   ✓    TOut MapOr<TOut>(TOut def, Func<TOk, TOut> f)
+  // ✓       ✓   ✓    TOut MapOrElse<TOut>(Func<TErr, TOut> def, Func<TOk, TOut> f)
+  // ✓       ✓   ✓    Option<TOk> Ok()
+  // ✓       ✓   ✓    Result<TOk, TErrOut> Or<TErrOut>(Result<TOk, TErrOut> res)
+  // ✓       ✓   ✓    Result<TOk, TErrOut> OrElse<TErrOut>(Func<TErr, Result<TOk, TErrOut>> op)
+  // ✓       ✓   ✓    Option<Result<TOkOut, TErr>> Transpose<TOkOut>()
+  // ✓       ✓   ✓    TOk Unwrap()
+  // ✓       ✓   ✓    TErr UnwrapErr()
+  // ✓       ✓   ✓    TOk UnwrapOr(TOk def)
+  // ✓       ✓   ✓    TOk UnwrapOrDefault()
+  // ✓       ✓   ✓    TOk UnwrapOrElse(Func<TErr, TOk> op)
   //
   // Experimental signatures (not implemented)
   //                  bool Contains{U}(U x)
@@ -909,14 +909,21 @@ public class Result<TOk, TErr>
   /// </code>
   /// </summary>
   /// <returns>The <c>Ok</c> value if <c>this</c> is <c>Ok</c>; <c>default(T)</c> otherwise.</returns>
-  public TOk? UnwrapOrDefault()
+  public TOk UnwrapOrDefault()
   {
     if (this.IsErr())
     {
-      return default(TOk);
+      var defResult = default(TOk);
+
+      if (defResult is null)
+      {
+        throw new PanicException($"The default value of {typeof(TOk)} from Result.UnwrapOrDefault() is null.");
+      }
+
+      return defResult;
     }
 
-    return this.val;
+    return this.val!;
   }
 
   /// <summary>
