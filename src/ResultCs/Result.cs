@@ -5,41 +5,59 @@ using System.Diagnostics.CodeAnalysis;
 namespace WicalWare.Components.ResultCs;
 
 // https://doc.rust-lang.org/std/result/enum.Result.html
+
+/// <summary>
+/// A wrapper that helps prevent passing <c>null</c> values within code.
+/// 
+/// It can some in 2 different flavors:
+///
+/// <ul>
+/// <li>Ok(TOk), which contains a wrapped value of type <c>TSome</c>.
+/// This value can be extracted from the <c>Option</c> using the <c>Unwrap</c>
+/// functions.</li>
+/// <li>Err(TErr), which contains a wrapped error of the type <c>TErr</c>.
+/// This value can be extracted from the <c>Result</c> using the <c>UnwrapErr</c>
+/// functions.</li>
+/// 
+/// </ul>
+/// </summary>
+/// <typeparam name="TOk">The type of the <c>Ok</c> value for this <c>Result</c></typeparam>
+/// <typeparam name="TErr">The type of the <c>Err</c> value for this <c>Result</c></typeparam>
 public class Result<TOk, TErr>
 {
-  // Comment Imp Test Signature
-  // ✓       ✓   ✓    Result<U, E> And<U>(Result<U, E> optB)
-  // ✓       ✓   ✓    Result<U, E> AndThen<U>(Func<T, Result<U, E>> f)
-  // ✓       ✓   ✓    Option<E> Err()
+  // Comment Imp Test SignatureResult{U, E}
+  // ✓       ✓   ✓    Result{U, E} And{U}(Result{U, E} optB)
+  // ✓       ✓   ✓    Result{U, E} AndThen{U}(Func{T, Result{U, E}} f)
+  // ✓       ✓   ✓    Option{E} Err()
   // ✓       ✓   ✓    T Expect(string msg)
   // ✓       ✓   ✓    E ExpectErr(string msg)
   // ✓       ✓   ✓    bool IsErr()
   // ✓       ✓   ✓    bool IsOk()
-  // ✓       ✓   ✓    IEnumerable<Option<T>> Iter()
-  // ✓       ✓   ✓    Result<U, E> Map<U>(Func<T, U> op)
-  // ✓       ✓   ✓    Result<T, F> MapErr<F>(Func<E, F> op)
-  // ✓       ✓   ✓    U MapOr<U>(U def, Func<T, U> f)
-  // ✓       ✓   ✓    U MapOrElse<U>(Func<E, U> def, Func<T, U> f)
-  // ✓       ✓   ✓    Option<T> Ok()
-  // ✓       ✓   ✓    Result<T, F> Or<F>(Result<T, F> res)
-  // ✓       ✓   ✓    Result<T, F> OrElse<F>(Func<E, Result<T, F>> op)
-  // ✓       ✓   ✓    Option<Result<U, E>> Transpose<U>()
+  // ✓       ✓   ✓    IEnumerable{Option{T}} Iter()
+  // ✓       ✓   ✓    Result{U, E} Map{U}(Func{T, U} op)
+  // ✓       ✓   ✓    Result{T, F} MapErr{F}(Func{E, F} op)
+  // ✓       ✓   ✓    U MapOr{U}(U def, Func{T, U} f)
+  // ✓       ✓   ✓    U MapOrElse{U}(Func{E, U} def, Func{T, U} f)
+  // ✓       ✓   ✓    Option{T} Ok()
+  // ✓       ✓   ✓    Result{T, F} Or{F}(Result{T, F} res)
+  // ✓       ✓   ✓    Result{T, F} OrElse{F}(Func{E, Result{T, F}} op)
+  // ✓       ✓   ✓    Option{Result{U, E}} Transpose{U}()
   // ✓       ✓   ✓    T Unwrap()
   // ✓       ✓   ✓    E UnwrapErr()
   // ✓       ✓   ✓    T UnwrapOr(T def)
   // ✓       ✓   ✓    T UnwrapOrDefault()
-  // ✓       ✓   ✓    T UnwrapOrElse(Func<E, T> op)
+  // ✓       ✓   ✓    T UnwrapOrElse(Func{E, T} op)
   //
   // Experimental signatures (not implemented)
-  //                  bool Contains<U>(U x)
-  //                  bool ContainsErr<F>(F f)
-  //                  Result<T, E> Flatten()
-  //                  Result<T, E> Inspect(Action<T> f)
-  //                  Result<T, E> InspectErr(Action<E> f)
+  //                  bool Contains{U}(U x)
+  //                  bool ContainsErr{F}(F f)
+  //                  Result{T, E} Flatten()
+  //                  Result{T, E} Inspect(Action{T} f)
+  //                  Result{T, E} InspectErr(Action{E} f)
   //                  E IntoErr()
   //                  T IntoOk()
-  //                  bool IsErrAnd(Func<E, bool> f)
-  //                  bool IsOkAnd(Func<T, bool> f)
+  //                  bool IsErrAnd(Func{E, bool} f)
+  //                  bool IsOkAnd(Func{T, bool} f)
 
   // If this Result is Ok, the value wrapped by the response.
   private TOk? val;
@@ -170,31 +188,28 @@ public class Result<TOk, TErr>
   /// <summary>
   /// Asserts whether a result is <c>Ok</c> and returns values accordingly.
   ///
-  /// Arguments passed to <c>And</c> are eagerly evaluated; if you are passing the
+  /// Arguments passed to <c>And</c> are eagerly evaluated; if you are passing the>
   /// result of a function call, it is recommended to use
-  /// <see cref="AndThen"><c>AndThen</c></see>, which is lazily evaluated.
-  ///
-  /// <example>
-  /// Examples
+  /// <see cref="AndThen"/>, which is lazily evaluated.
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// var x = Result<int, string>.Ok(2);
-  /// var y = Result<string, string>.Err("late error");
-  /// Assert.Equal(x.And<string>(y), Result<string, string>.Err("late error"));
+  /// var x = Result{int, string}.Ok(2);
+  /// var y = Result{string, string}.Err("late error");
+  /// Assert.Equal(x.And{string}(y), Result{string, string}.Err("late error"));
   ///
-  /// var x = Result<int, string>.Err("early error");
-  /// var y = Result<string, string>.Ok("foo");
-  /// Assert.Equal(x.And<string>(y), Result<string, string>.Err("early error"));
+  /// var x = Result{int, string}.Err("early error");
+  /// var y = Result{string, string}.Ok("foo");
+  /// Assert.Equal(x.And{string}(y), Result{string, string}.Err("early error"));
   ///
-  /// var x = Result<int, string>.Err("not a 2");
-  /// var y = Result<string, string>.Err("late error");
-  /// Assert.Equal(x.And<string>(y), Result<string, string>.Err("not a 2"));
+  /// var x = Result{int, string}.Err("not a 2");
+  /// var y = Result{string, string}.Err("late error");
+  /// Assert.Equal(x.And{string}(y), Result{string, string}.Err("not a 2"));
   ///
-  /// var x = Result<int, string>.Ok(2);
-  /// var y = Result<string, string>.Ok("different result type");
-  /// Assert.Equal(x.And<string>(y), Result<string, string>.Ok("different result type"));
+  /// var x = Result{int, string}.Ok(2);
+  /// var y = Result{string, string}.Ok("different result type");
+  /// Assert.Equal(x.And{string}(y), Result{string, string}.Ok("different result type"));
   /// </code>
   /// </summary>
   /// <param name="res">The option to return if the current option is <c>Ok</c></param>
@@ -226,7 +241,7 @@ public class Result<TOk, TErr>
   /// Examples
   ///
   /// <code>
-  /// public Result<string, string> SquareThenToString(int x)
+  /// public Result{string, string} SquareThenToString(int x)
   /// {
   ///   try
   ///   {
@@ -237,17 +252,17 @@ public class Result<TOk, TErr>
   ///       product = x*x;
   ///     }
   ///
-  ///     return Result<string, string>.Ok(product.ToString());
+  ///     return Result{string, string}.Ok(product.ToString());
   ///   }
   ///   catch(OverflowException oe)
   ///   {
-  ///     return Result<string, string>.Err("overflowed");
+  ///     return Result{string, string}.Err("overflowed");
   ///   }
   /// }
   ///
-  /// Assert.Equal(Result<int, string>.Ok(2).AndThen(SquareThenToString), Result<string, string>.Ok(4.ToString()));
-  /// Assert.Equal(Result<int, string>.Ok(int.MaxValue).AndThen(SquareThenToString), Result<string, string>.Err("overflowed"));
-  /// Assert.Equal(Result<int, string>.Err("not a number").AndThen(SquareThenToString), Result<string, string>.Err("not a number"));
+  /// Assert.Equal(Result{int, string}.Ok(2).AndThen(SquareThenToString), Result{string, string}.Ok(4.ToString()));
+  /// Assert.Equal(Result{int, string}.Ok(int.MaxValue).AndThen(SquareThenToString), Result{string, string}.Err("overflowed"));
+  /// Assert.Equal(Result{int, string}.Err("not a number").AndThen(SquareThenToString), Result{string, string}.Err("not a number"));
   /// </code>
   ///
   /// Often used to chain fallible operations that may return <c>Err</c>.
@@ -256,12 +271,12 @@ public class Result<TOk, TErr>
   /// using System.IO;
   ///
   /// &#8725;&#8725;Note: on Windows "/" maps to "C:\"
-  /// var rootModifiedTime = Result<DirectoryInfo, string>.Ok(new DirectoryInfo("/")).AndThen(di => Result<DateTime, string>.Ok(di.LastWriteTime));
+  /// var rootModifiedTime = Result{DirectoryInfo, string}.Ok(new DirectoryInfo("/")).AndThen(di =} Result{DateTime, string}.Ok(di.LastWriteTime));
   /// Assert.True(rootModifiedTime.IsOk());
   ///
-  /// var shouldFail = Result<DirectoryInfo, string>.Ok(new DirectoryInfo("/bad/path")).AndThen(di => Result<DateTime, string>.Ok(di.LastWriteTime));
+  /// var shouldFail = Result{DirectoryInfo, string}.Ok(new DirectoryInfo("/bad/path")).AndThen(di =} Result{DateTime, string}.Ok(di.LastWriteTime));
   /// Assert.True(shouldFail.IsErr());
-  /// Assert.TypeOf<Exception>(shouldFail.UnwrapErr());
+  /// Assert.TypeOf{Exception}(shouldFail.UnwrapErr());
   /// </code>
   /// </example>
   /// </summary>
@@ -280,27 +295,23 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Converts from <c>Result<T, E></c> to <c>Option<E></c>.
+  /// Converts from <c>Result{T, E}</c> to <c>Option{E}</c>.
   ///
-  /// Converts <c>self</c> into an <c>Option<E></c>, consuming <c>self</c>,
+  /// Converts <c>self</c> into an <c>Option{E}</c>, consuming <c>self</c>,
   /// and discarding the success value, if any.
-  ///
-  /// <example>
-  /// Examples
-  ///
+  /// 
   /// Basic usage:
   ///
   /// <code>
-  /// var x = Result<int, string>.Ok(2);
-  /// Assert.Equal(x.Err(), Option<string>.None());
+  /// var x = Result{int, string}.Ok(2);
+  /// Assert.Equal(x.Err(), Option{string}.None());
   ///
-  /// var x = Result<int, string>.Err("Nothing here");
-  /// Assert.Equal(x.Err(), Option<string>.Some("Nothing here"));
+  /// var x = Result{int, string}.Err("Nothing here");
+  /// Assert.Equal(x.Err(), Option{string}.Some("Nothing here"));
   /// </code>
-  /// <example>
   /// </summary>
   /// <returns>The <c>Err</c> value of <c>self</c>, wrapped in
-  /// and <c>Option<E></c></returns>
+  /// and <c>Option{E}</c></returns>
   public Option<TErr> Err()
   {
     if (this.IsErr())
@@ -320,30 +331,24 @@ public class Result<TOk, TErr>
   /// case explicitly, or call <c><see cref="UnwrapOr"/></c>,
   /// <c><see cref="UnwrapOrElse"/></c>, or <c><see cref="UnwrapOrDefault"/></c>
   ///
-  /// Panics
-  ///
   /// Panics if the value is an <c>Err</c>, with a panic message including the
   /// passed message, and the content of the <c>Err</c>.
-  ///
-  /// <example>
-  /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// var x = Result<int, string>.Err("emergency failure");
-  /// Assert.Throws<PanicException>(() => x.Expect("Testing expect")); // panics with <c>Testing expect: emergency failure<c>
+  /// var x = Result{int, string}.Err("emergency failure");
+  /// Assert.Throws{PanicException}(() => x.Expect("Testing expect")); // panics with <c>Testing expect: emergency failure</c>
   /// </code>
-  /// </example>
   ///
   /// Recommended Message Style
   ///
   /// We recommend that <c>expect</c> messages are used to describe the reason you
   /// <i>expect</i> the <c>Result</c> should be <c>Ok</c>.
   ///
-  /// </code>
+  /// <code>
   /// var path = Environment.GetEnvironmentVariable("IMPORTANT_PATH")
-  ///     .Expect("env variable <c>IMPORTANT_PATH<c> should be set by <c>wrapper_script.sh<c>");
+  ///     .Expect("env variable <c>IMPORTANT_PATH</c> should be set by <c>wrapper_script.sh</c>");
   /// </code>
   ///
   /// <b>>Hint</b>: If you're having trouble remembering how to phrase expect
@@ -374,21 +379,16 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Returns the contained <c>Err</c> value, consuming the <c>self<c> value.
-  ///
-  /// # Panics
+  /// Returns the contained <c>Err</c> value, consuming the <c>self</c> value.
   ///
   /// Panics if the value is an <c>Ok</c>, with a panic message including the
   /// passed message, and the content of the <c>Ok</c>.
   ///
-  ///
-  /// Examples
-  ///
   /// Basic usage:
   ///
-  /// <code>should_panic
-  /// var x = Result<int, string>.Ok(10);
-  /// x.ExpectErr("Testing ExpectErr"); // panics with <c>Testing ExpectErr: 10<c>
+  /// <code>
+  /// var x = Result{int, string}.Ok(10);
+  /// x.ExpectErr("Testing ExpectErr"); // panics with <c>Testing ExpectErr: 10</c>
   /// </code>
   /// </summary>
   /// <param name="msg">The message to panic with.</param>
@@ -405,42 +405,40 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Returns <c>true<c> if the result is <c>Err</c>.
-  ///
-  /// Examples
+  /// Returns <c>true</c> if the result is <c>Err</c>.
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// var x = Result<int, string>.Ok(-3);
+  /// var x = Result{int, string}.Ok(-3);
   /// Assert.False(x.IsErr());
   ///
-  /// var x = Result<int, string>.Err("Some error message");
+  /// var x = Result{int, string}.Err("Some error message");
   /// Assert.True(x.IsErr());
   /// </code>
   /// </summary>
-  /// <returns><c>true<c> if the result is <c>Err</c></returns>
+  /// <returns><c>true</c> if the result is <c>Err</c></returns>
   public bool IsErr()
   {
     return this.Kind == ResultKind.Err;
   }
 
   /// <summary>
-  /// Returns <c>true<c> if the result is <c>Ok</c>.
+  /// Returns <c>true</c> if the result is <c>Ok</c>.
   ///
   /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
-  /// var x = Result<int, string>.Ok(-3);
+  /// var x = Result{int, string}.Ok(-3);
   /// Assert.True(x.IsOk());
   ///
-  /// var x = Result<int, string>.Err("Some error message");
+  /// var x = Result{int, string}.Err("Some error message");
   /// Assert.False(x.IsOk());
   /// </code>
   /// </summary>
-  /// <returns><c>true<c> if the result is <c>Ok</c></returns>
+  /// <returns><c>true</c> if the result is <c>Ok</c></returns>
   public bool IsOk()
   {
     return this.Kind == ResultKind.Ok;
@@ -451,30 +449,28 @@ public class Result<TOk, TErr>
   ///
   /// The iterator yields one value if the result is <see cref="ResultKind.Ok"/>, otherwise none.
   ///
-  /// Examples
-  ///
   /// Basic usage:
   ///
   /// <code>
-  /// var x = Result<int, string>.Ok(7);
+  /// var x = Result{int, string}.Ok(7);
   /// var iter = x.Iter().GetEnumerator();
   ///
   /// Assert.True(iter.MoveNext());
-  /// Assert.Equal(Option<int>.Some(7), iter.Current);
+  /// Assert.Equal(Option{int}.Some(7), iter.Current);
   /// Assert.False(iter.MoveNext());
   ///
-  /// var x = Result<int, string>.Err("nothing!");
+  /// var x = Result{int, string}.Err("nothing!");
   /// var iter = x.Iter().GetEnumerator();
   ///
   /// Assert.True(iter.MoveNext());
-  /// Assert.Equal(Option<int>.None(), iter.Current);
+  /// Assert.Equal(Option{int}.None(), iter.Current);
   /// Assert.False(iter.MoveNext());
   /// </code>
   /// </summary>
-  /// <returns>An <c>IEnumerable<Option<T>></c> containing a single value.
+  /// <returns>An <c>IEnumerable{Option{T}}</c> containing a single value.
   /// <ul>
-  /// <li>If <c>this</c> is <c>ResultKind.Ok</c>, the value is an <c>OptionKind.Some</c> with the unwrapped value of <c>this</c>
-  /// <li>If <c>this</c> is <c>ResultKind.Ok</c>, the value is an <c>OptionKind.None</c>
+  /// <li>If <c>this</c> is <c>ResultKind.Ok</c>, the value is an <c>OptionKind.Some</c> with the unwrapped value of <c>this</c></li>
+  /// <li>If <c>this</c> is <c>ResultKind.Ok</c>, the value is an <c>OptionKind.None</c></li>
   /// </ul></returns>
   public IEnumerable<Option<TOk>> Iter()
   {
@@ -487,7 +483,7 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Maps a <c>Result<T, E><c> to <c>Result<U, E><c> by applying a function to a
+  /// Maps a <c>Result{T, E}</c> to <c>Result{U, E}</c> by applying a function to a
   /// contained <c>Ok</c> value, leaving an <c>Err</c> value untouched.
   ///
   /// This function can be used to compose the results of two functions.
@@ -501,9 +497,9 @@ public class Result<TOk, TErr>
   ///
   /// foreach(var line in lines.Split('\n'))
   /// {
-  ///   var result = int.TryParse(line, out var num) ? Result<int, string>.Ok(num)  = Result<int, string>.Err($"Could not parse: {line}");
+  ///   var result = int.TryParse(line, out var num) ? Result{int, string}.Ok(num)  = Result{int, string}.Err($"Could not parse: {line}");
   ///
-  ///   var mapped = result.Map(i => i * 2);
+  ///   var mapped = result.Map(i = i * 2);
   ///
   ///   switch (mapped.Kind)
   ///   {
@@ -519,7 +515,7 @@ public class Result<TOk, TErr>
   /// </summary>
   /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
   /// <typeparam name="TOut">The output type of <c>op</c>.</typeparam>
-  /// <returns>A <c>Result</c> that's the output of applying <c>op</op> to the current <c>Result</c>'s <c>Ok</c> value.</returns>
+  /// <returns>A <c>Result</c> that's the output of applying <c>op</c> to the current <c>Result</c>'s <c>Ok</c> value.</returns>
   public Result<TOut, TErr> Map<TOut>(Func<TOk, TOut> op)
   {
     if (this.IsErr())
@@ -531,14 +527,12 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Maps a <c>Result<T, E><c> to <c>Result<T, F><c> by applying a function to a
+  /// Maps a <c>Result{T, E}</c> to <c>Result{T, F}</c> by applying a function to a
   /// contained <c>Err</c> value, leaving an <c>Ok</c> value untouched.
   ///
   /// This function can be used to pass through a successful result while handling
   /// an error.
   ///
-  ///
-  /// Examples
   ///
   /// Basic usage:
   ///
@@ -548,16 +542,16 @@ public class Result<TOk, TErr>
   ///   return $"error code: {x}";
   /// }
   ///
-  /// var x = Result<int, int>.Ok(2);
-  /// Assert.Equal(x.MapErr(stringify), Result<int, string>.Ok(2));
+  /// var x = Result{int, int}.Ok(2);
+  /// Assert.Equal(x.MapErr(stringify), Result{int, string}.Ok(2));
   ///
-  /// var x = Result<int, int>.Err(13);
-  /// Assert.Equal(x.MapErr(stringify), Result<int, string>.Err("error code: 13"));
+  /// var x = Result{int, int}.Err(13);
+  /// Assert.Equal(x.MapErr(stringify), Result{int, string}.Err("error code: 13"));
   /// </code>
   /// </summary>
   /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Err</c>.</param>
   /// <typeparam name="TOut">The output type of <c>op</c>.</typeparam>
-  /// <returns>A <c>Result</c> that's the output of applying <c>op</op> to the current <c>Result</c>'s <c>Err</c> value.</returns>
+  /// <returns>A <c>Result</c> that's the output of applying <c>op</c> to the current <c>Result</c>'s <c>Err</c> value.</returns>
   public Result<TOk, TOut> MapErr<TOut>(Func<TErr, TOut> op)
   {
     if (this.IsOk())
@@ -572,25 +566,25 @@ public class Result<TOk, TErr>
   /// Returns the provided default (if <c>Err</c>), or
   /// applies a function to the contained value (if <c>Ok</c>),
   ///
-  /// Arguments passed to <c>MapOr<c> are eagerly evaluated; if you are passing
+  /// Arguments passed to <c>MapOr</c> are eagerly evaluated; if you are passing
   /// the result of a function call, it is recommended to use <c>MapOrElse</c>,
   /// which is lazily evaluated.
   ///
   /// Examples
   ///
   /// <code>
-  /// var x = Result<string, string>.Ok("foo");
-  /// Assert.Equal(3, x.MapOr(42, v => v.Length));
+  /// var x = Result{string, string}.Ok("foo");
+  /// Assert.Equal(3, x.MapOr(42, v =} v.Length));
   ///
-  /// var x = Result<string, string>.Err("bar");
-  /// Assert.Equal(42, x.MapOr(42, v => v.Length));
+  /// var x = Result{string, string}.Err("bar");
+  /// Assert.Equal(42, x.MapOr(42, v =} v.Length));
   /// </code>
   /// </summary>
   /// <param name="def">The default value to return if <c>this</c> is <c>ResultKind.Err</c>.</param>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
   /// <typeparam name="TOut">The output type of <c>f</c>.</typeparam>
   /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a <c>Result</c> that's the output of applying
-  /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise <c>def</c>.</returns>
+  /// <c>f</c> to the current <c>Result</c>'s <c>Ok</c> value; otherwise <c>def</c>.</returns>
   public TOut MapOr<TOut>(TOut def, Func<TOk, TOut> f)
   {
     if (this.IsErr())
@@ -602,24 +596,21 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Maps a <c>Result<T, E><c> to <c>U<c> by applying fallback function <c>default<c> to
-  /// a contained <c>Err</c> value, or function <c>f<c> to a contained <c>Ok</c> value.
+  /// Maps a <c>Result{T, E}</c> to <c>U</c> by applying fallback function <c>default</c> to
+  /// a contained <c>Err</c> value, or function <c>f</c> to a contained <c>Ok</c> value.
   ///
   /// This function can be used to unpack a successful result
   /// while handling an error.
-  ///
-  ///
-  /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
   /// var k = 21;
   ///
-  /// var x = Result<string, string>.Ok("foo");
+  /// var x = Result{string, string}.Ok("foo");
   /// Assert.Equal(x.MapOrElse(_ => k * 2, v => v.Length), 3);
   ///
-  /// var x = Result<string, string>.Err("bar");
+  /// var x = Result{string, string}.Err("bar");
   /// Assert.Equal(x.MapOrElse(_ => k * 2, v => v.Length), 42);
   /// </code>
   /// </summary>
@@ -628,8 +619,8 @@ public class Result<TOk, TErr>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>ResultKind.Ok</c>.</param>
   /// <typeparam name="TOut">The output type of <c>def</c> and <c>f</c>.</typeparam>
   /// <returns>If <c>this</c> is <c>ResultKind.Ok</c>, a value that's the output of applying
-  /// <c>f</op> to the current <c>Result</c>'s <c>Ok</c> value; otherwise a value that's the
-  /// output of applying <c>def</op> to the current <c>Result</c>'s <c>Err</c> value.</returns>
+  /// <c>f</c> to the current <c>Result</c>'s <c>Ok</c> value; otherwise a value that's the
+  /// output of applying <c>def</c> to the current <c>Result</c>'s <c>Err</c> value.</returns>
   public TOut MapOrElse<TOut>(Func<TErr, TOut> def, Func<TOk, TOut> f)
   {
     if (this.IsErr())
@@ -641,9 +632,9 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Converts from <c>Result<T, E><c> to <c>Option<T></c>.
+  /// Converts from <c>Result{T, E}</c> to <c>Option{T}</c>.
   ///
-  /// Converts <c>self<c> into an <c>Option<T></c>, consuming <c>self<c>,
+  /// Converts <c>self</c> into an <c>Option{T}</c>, consuming <c>self</c>,
   /// and discarding the error, if any.
   ///
   /// Examples
@@ -651,11 +642,11 @@ public class Result<TOk, TErr>
   /// Basic usage:
   ///
   /// <code>
-  /// var x = Result<int, string>.Ok(2);
-  /// Assert.Equal(x.Ok(), Option<int>.Some(2));
+  /// var x = Result{int, string}.Ok(2);
+  /// Assert.Equal(x.Ok(), Option{int}.Some(2));
   ///
-  /// var x = Result<int, string>.Err("Nothing here");
-  /// Assert.Equal(x.Ok(), Option<int>.None());
+  /// var x = Result{int, string}.Err("Nothing here");
+  /// Assert.Equal(x.Ok(), Option{int}.None());
   /// </code>
   /// </summary>
   /// <returns>An <c>Option</c> that contains a <c>Some</c> value if
@@ -671,9 +662,9 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Returns <c>res<c> if the result is <c>Err</c>, otherwise returns the <c>Ok</c> value of <c>self<c>.
+  /// Returns <c>res</c> if the result is <c>Err</c>, otherwise returns the <c>Ok</c> value of <c>self</c>.
   ///
-  /// Arguments passed to <c>Or()<c> are eagerly evaluated; if you are passing the
+  /// Arguments passed to <c>Or()</c> are eagerly evaluated; if you are passing the
   /// result of a function call, it is recommended to use <see cref="OrElse"/>, which is
   /// lazily evaluated.
   ///
@@ -682,27 +673,27 @@ public class Result<TOk, TErr>
   /// Basic usage:
   ///
   /// <code>
-  /// var x = Result<int, string>.Ok(2);
-  /// var y = Result<int, string>.Err("late error");
-  /// Assert.Equal(x.Or(y), Result<int, string>.Ok(2));
+  /// var x = Result{int, string}.Ok(2);
+  /// var y = Result{int, string}.Err("late error");
+  /// Assert.Equal(x.Or(y), Result{int, string}.Ok(2));
   ///
-  /// var x = Result<int, string>.Err("early error");
-  /// var y = Result<int, string>.Ok(2);
-  /// Assert.Equal(x.Or(y), Result<int, string>.Ok(2));
+  /// var x = Result{int, string}.Err("early error");
+  /// var y = Result{int, string}.Ok(2);
+  /// Assert.Equal(x.Or(y), Result{int, string}.Ok(2));
   ///
-  /// var x = Result<int, string>.Err("not a 2");
-  /// var y = Result<int, string>.Err("late error");
-  /// Assert.Equal(x.Or(y), Result<int, string>.Err("late error"));
+  /// var x = Result{int, string}.Err("not a 2");
+  /// var y = Result{int, string}.Err("late error");
+  /// Assert.Equal(x.Or(y), Result{int, string}.Err("late error"));
   ///
-  /// var x = Result<int, string>.Ok(2);
-  /// var y = Result<int, string>.Ok(100);
-  /// Assert.Equal(x.Or(y), Result<int, string>.Ok(2));
+  /// var x = Result{int, string}.Ok(2);
+  /// var y = Result{int, string}.Ok(100);
+  /// Assert.Equal(x.Or(y), Result{int, string}.Ok(2));
   /// </code>
   /// </summary>
   /// <param name="res">The <c>Result</c> to return if <c>this</c> is <c>Err</c>.</param>
   /// <typeparam name="TErrOut">The <c>Err</c> type of the return <c>Result</c>.</typeparam>
-  /// <returns><c>res<c> if the result is <c>Err</c>, otherwise returns the
-  /// <c>Ok</c> value of <c>self<c>.</returns>
+  /// <returns><c>res</c> if the result is <c>Err</c>, otherwise returns the
+  /// <c>Ok</c> value of <c>self</c>.</returns>
   public Result<TOk, TErrOut> Or<TErrOut>(Result<TOk, TErrOut> res)
   {
     if (this.IsErr())
@@ -714,7 +705,7 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Calls <c>op<c> if the result is <c>Err</c>, otherwise returns the <c>Ok</c> value of <c>self<c>.
+  /// Calls <c>op</c> if the result is <c>Err</c>, otherwise returns the <c>Ok</c> value of <c>self</c>.
   ///
   /// This function can be used for control flow based on result values.
   ///
@@ -723,26 +714,26 @@ public class Result<TOk, TErr>
   /// Basic usage:
   ///
   /// <code>
-  /// public Result<int, int> sq(int x)
+  /// public Result{int, int} sq(int x)
   /// {
-  ///   return Result<int, int>.Ok(x * x);
+  ///   return Result{int, int}.Ok(x * x);
   /// }
   ///
-  /// public Result<int, int> err(int x)
+  /// public Result{int, int} err(int x)
   /// {
-  ///   return Result<int, int>.Err(x);
+  ///   return Result{int, int}.Err(x);
   /// }
   ///
-  /// Assert.Equal(Result<int, int>.Ok(2).OrElse(sq).OrElse(sq), Result<int, int>.Ok(2));
-  /// Assert.Equal(Result<int, int>.Ok(2).OrElse(err).OrElse(sq), Result<int, int>.Ok(2));
-  /// Assert.Equal(Result<int, int>.Err(3).OrElse(sq).OrElse(err), Result<int, int>.Ok(9));
-  /// Assert.Equal(Result<int, int>.Err(3).OrElse(err).OrElse(err), Result<int, int>.Err(3));
+  /// Assert.Equal(Result{int, int}.Ok(2).OrElse(sq).OrElse(sq), Result{int, int}.Ok(2));
+  /// Assert.Equal(Result{int, int}.Ok(2).OrElse(err).OrElse(sq), Result{int, int}.Ok(2));
+  /// Assert.Equal(Result{int, int}.Err(3).OrElse(sq).OrElse(err), Result{int, int}.Ok(9));
+  /// Assert.Equal(Result{int, int}.Err(3).OrElse(err).OrElse(err), Result{int, int}.Err(3));
   /// </code>
   /// </summary>
   /// <param name="op">The function to invoke when <c>this</c> is <c>Err</c>.</param>
   /// <typeparam name="TErrOut">The <c>Err</c> return type of <c>op</c>.</typeparam>
   /// <returns>The <c>op</c> result if <c>this</c> is <c>Err</c>; otherwise
-  /// the <c>Ok</c> value of <c>self<c>.</returns>
+  /// the <c>Ok</c> value of <c>self</c>.</returns>
   public Result<TOk, TErrOut> OrElse<TErrOut>(Func<TErr, Result<TOk, TErrOut>> op)
   {
     if (this.IsOk())
@@ -754,24 +745,25 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Transposes a <c>Result<c> of an <c>Option<c> into an <c>Option<c> of a <c>Result<c>.
+  /// Transposes a <c>Result</c> of an <c>Option</c> into an <c>Option</c> of a <c>Result</c>.
   ///
-  /// <c>Ok(None)<c> will be mapped to <c>None<c>.
-  /// <c>Ok(Some)<c> and <c>Err<c> will be mapped to <c>Some(Ok)<c> and <c>Some(Err)<c>.
+  /// <c>Ok(None)</c> will be mapped to <c>None</c>.
+  /// <c>Ok(Some)</c> and <c>Err</c> will be mapped to <c>Some(Ok)</c> and <c>Some(Err)</c>.
   ///
   /// Examples
   ///
   /// <code>
-  ///
-  /// var x = Result<Option<int>, string>.Ok(Option<int>.Some(5));
-  /// var y = Option<Result<int, string>>.Some(Result<int, string>.Ok(5));
+  /// 
+  /// var x = Result{Option{int}, string}.Ok(Option{int}.Some(5));
+  /// var y = Option{Result{int, string}}.Some(Result{int, string}.Ok(5));
   /// Assert.Equal(x.Transpose(), y);
+  /// 
   /// </code>
   /// </summary>
-  /// <typeparam name="TOkOut">The internal type of the <c>Result<Option<>></c>. (Note: this is a
+  /// <typeparam name="TOkOut">The internal type of the <c>Result{Option{}}</c>. (Note: this is a
   /// deviation from the Rust signature because C# doesn't implement enum values the way
   /// Rust does.)</typeparam>
-  /// <returns>A <c>Result<c> of an <c>Option<c> into an <c>Option<c> of a <c>Result<c>.</returns>
+  /// <returns>A <c>Result</c> of an <c>Option</c> into an <c>Option</c> of a <c>Result</c>.</returns>
   public Option<Result<TOkOut, TErr>> Transpose<TOkOut>()
   {
     if (!typeof(TOk).IsGenericType || typeof(TOk).GetGenericTypeDefinition() != typeof(Option<>))
@@ -802,7 +794,7 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Returns the contained <c>Ok</c> value, consuming the <c>self<c> value.
+  /// Returns the contained <c>Ok</c> value, consuming the <c>self</c> value.
   ///
   /// Because this function may panic, its use is generally discouraged.
   /// Instead, prefer to use pattern matching and handle the <c>Err</c>
@@ -814,19 +806,16 @@ public class Result<TOk, TErr>
   /// Panics if the value is an <c>Err</c>, with a panic message provided by the
   /// <c>Err</c>'s value.
   ///
-  ///
-  /// Examples
-  ///
   /// Basic usage:
   ///
   /// <code>
-  /// var x = Result<int, string>.Ok(2);
+  /// var x = Result{int, string}.Ok(2);
   /// Assert.Equal(x.Unwrap(), 2);
   /// </code>
   ///
   /// <code>
-  /// var x = Result<int, string>.Err("emergency failure");
-  /// x.Unwrap(); // panics with <c>emergency failure<c>
+  /// var x = Result{int, string}.Err("emergency failure");
+  /// x.Unwrap(); // panics with <c>emergency failure</c>
   /// </code>
   /// </summary>
   /// <returns>The wrapped <c>Ok</c> value.</returns>
@@ -842,7 +831,7 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Returns the contained <c>Err</c> value, consuming the <c>self<c> value.
+  /// Returns the contained <c>Err</c> value, consuming the <c>self</c> value.
   ///
   /// # Panics
   ///
@@ -852,12 +841,12 @@ public class Result<TOk, TErr>
   /// Examples
   ///
   /// <code>
-  /// var x = Result<int, string>.Ok(2);
-  /// x.UnwrapErr(); // panics with <c>2<c>
+  /// var x = Result{int, string}.Ok(2);
+  /// x.UnwrapErr(); // panics with <c>2</c>
   /// </code>
   ///
   /// <code>
-  /// var x = Result<int, string>.Err("emergency failure");
+  /// var x = Result{int, string}.Err("emergency failure");
   /// Assert.Equal(x.UnwrapErr(), "emergency failure");
   /// </code>
   /// </summary>
@@ -876,20 +865,18 @@ public class Result<TOk, TErr>
   /// <summary>
   /// Returns the contained <c>Ok</c> value or a provided default.
   ///
-  /// Arguments passed to <c>UnwrapOr<c> are eagerly evaluated; if you are passing
+  /// Arguments passed to <c>UnwrapOr</c> are eagerly evaluated; if you are passing
   /// the result of a function call, it is recommended to use <c>UnwrapOrElse</c>,
   /// which is lazily evaluated.
-  ///
-  /// Examples
   ///
   /// Basic usage:
   ///
   /// <code>
   /// var def = 2;
-  /// var x = Result<int, string>.Ok(9);
+  /// var x = Result{int, string}.Ok(9);
   /// Assert.Equal(9, x.UnwrapOr(def));
   ///
-  /// var x = Result<int, string>.Err("error");
+  /// var x = Result{int, string}.Err("error");
   /// Assert.Equal(def, x.UnwrapOr(def));
   /// </code>
   /// </summary>
@@ -908,7 +895,7 @@ public class Result<TOk, TErr>
   /// <summary>
   /// Returns the contained <c>Ok</c> value or a default
   ///
-  /// Consumes the <c>self<c> argument then, if <c>Ok</c>, returns the contained
+  /// Consumes the <c>self</c> argument then, if <c>Ok</c>, returns the contained
   /// value, otherwise if <c>Err</c>, returns the default value for that
   /// type.
   ///
@@ -942,8 +929,6 @@ public class Result<TOk, TErr>
   /// <summary>
   /// Returns the contained <c>Ok</c> value or computes it from a closure.
   ///
-  /// Examples
-  ///
   /// Basic usage:
   ///
   /// <code>
@@ -952,8 +937,8 @@ public class Result<TOk, TErr>
   ///   return x.Length;
   /// }
   ///
-  /// Assert.Equal(2, Result<int, string>.Ok(2).UnwrapOrElse(Count));
-  /// Assert.Equal(3, Result<int, string>.Err("foo").UnwrapOrElse(Count));
+  /// Assert.Equal(2, Result{int, string}.Ok(2).UnwrapOrElse(Count));
+  /// Assert.Equal(3, Result{int, string}.Err("foo").UnwrapOrElse(Count));
   /// </code>
   /// </summary>
   /// <param name="op">The function to be applied to the value if <c>this</c> is <c>ResultKind.Err</c>.</param>
