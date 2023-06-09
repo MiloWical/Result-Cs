@@ -231,9 +231,6 @@ public class Option<TSome>
   ///
   /// Some languages call this operation flatmap.
   ///
-  /// <example>
-  /// Examples
-  ///
   /// <code>
   /// public Option{string} SqThenToString(int x)
   /// {
@@ -257,7 +254,6 @@ public class Option<TSome>
   /// var item_2_0 = GetRow(arr_2D, 2).AndThen(row => GetElement(row, 0));
   /// Assert.Equal(Option{string}.None(), item_2_0);
   /// </code>
-  /// </example>
   /// </summary>
   /// <param name="f">The function to call with the unwrapped value of <c>self</c>.</param>
   /// <typeparam name="TOut">The underlying type of the result of <c>f</c>.</typeparam>
@@ -329,7 +325,7 @@ public class Option<TSome>
   ///   value), and
   /// - <c>None</c> if <c>predicate</c> returns <c>false</c>.
   ///
-  /// You can imagine the <c>Option{T}</c> being an iterator over one or zero elements.
+  /// You can imagine the <c>Option{TSome}</c> being an iterator over one or zero elements.
   /// <c>filter()</c> lets you decide which elements to keep.
   ///
   /// <code>
@@ -368,7 +364,7 @@ public class Option<TSome>
   }
 
   /// <summary>
-  /// Converts from <c>Option{Option{T}}</c> to <c>Option{T}</c>.
+  /// Converts from <c>Option{Option{TSome}}</c> to <c>Option{TSome}</c>.
   ///
   /// Basic usage:
   ///
@@ -608,7 +604,7 @@ public class Option<TSome>
   }
 
   /// <summary>
-  /// Maps an <c>Option{T}</c> to <c>Option{U}</c> by applying a function to a contained value.
+  /// Maps an <c>Option{TSome}</c> to <c>Option{TOut}</c> by applying a function to a contained value.
   ///
   /// Examples
   ///
@@ -789,7 +785,7 @@ public class Option<TSome>
   }
 
   /// <summary>
-  /// Transforms the <c>Option{T}</c> into a <c>Result{T, E}</c>, mapping <c>Some(v)</c> to
+  /// Transforms the <c>Option{TSome}</c> into a <c>Result{TSome, TErr}</c>, mapping <c>Some(v)</c> to
   /// <c>Ok(v)</c> and <c>None</c> to <c>Err(err)</c>.
   ///
   /// <code>

@@ -236,9 +236,6 @@ public class Result<TOk, TErr>
   ///
   /// This function can be used for control flow based on <c>Result</c> values.
   ///
-  /// <example>
-  /// Examples
-  ///
   /// <code>
   /// public Result{string, string} SquareThenToString(int x)
   /// {
@@ -277,7 +274,6 @@ public class Result<TOk, TErr>
   /// Assert.True(shouldFail.IsErr());
   /// Assert.TypeOf{Exception}(shouldFail.UnwrapErr());
   /// </code>
-  /// </example>
   /// </summary>
   /// <param name="f">The function to call to evaluate the current <c>Result</c>.</param>
   /// <typeparam name="TOut">The underlying type of the result of calling <c>f</c>.</typeparam>
@@ -294,9 +290,9 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Converts from <c>Result{T, E}</c> to <c>Option{E}</c>.
+  /// Converts from <c>Result{TOk, TErr}</c> to <c>Option{TErr}</c>.
   ///
-  /// Converts <c>self</c> into an <c>Option{E}</c>, consuming <c>self</c>,
+  /// Converts <c>self</c> into an <c>Option{TErr}</c>, consuming <c>self</c>,
   /// and discarding the success value, if any.
   ///
   /// Basic usage:
@@ -310,7 +306,7 @@ public class Result<TOk, TErr>
   /// </code>
   /// </summary>
   /// <returns>The <c>Err</c> value of <c>self</c>, wrapped in
-  /// and <c>Option{E}</c>.</returns>
+  /// an <c>Option{TErr}</c>.</returns>
   public Option<TErr> Err()
   {
     if (this.IsErr())
@@ -482,7 +478,7 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Maps a <c>Result{T, E}</c> to <c>Result{U, E}</c> by applying a function to a
+  /// Maps a <c>Result{TOk, TErr}</c> to <c>Result{TOut, TErr}</c> by applying a function to a
   /// contained <c>Ok</c> value, leaving an <c>Err</c> value untouched.
   ///
   /// This function can be used to compose the results of two functions.
@@ -526,12 +522,11 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Maps a <c>Result{T, E}</c> to <c>Result{T, F}</c> by applying a function to a
+  /// Maps a <c>Result{TOk, TErr}</c> to <c>Result{TOk, TOut}</c> by applying a function to a
   /// contained <c>Err</c> value, leaving an <c>Ok</c> value untouched.
   ///
   /// This function can be used to pass through a successful result while handling
   /// an error.
-  ///
   ///
   /// Basic usage:
   ///
@@ -593,7 +588,7 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Maps a <c>Result{T, E}</c> to <c>U</c> by applying fallback function <c>default</c> to
+  /// Maps a <c>Result{TOk, TErr}</c> to <c>TOut</c> by applying fallback function <c>default</c> to
   /// a contained <c>Err</c> value, or function <c>f</c> to a contained <c>Ok</c> value.
   ///
   /// This function can be used to unpack a successful result
@@ -629,12 +624,10 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Converts from <c>Result{T, E}</c> to <c>Option{T}</c>.
+  /// Converts from <c>Result{TOk, TErr}</c> to <c>Option{TOk}</c>.
   ///
-  /// Converts <c>self</c> into an <c>Option{T}</c>, consuming <c>self</c>,
+  /// Converts <c>self</c> into an <c>Option{TOk}</c>, consuming <c>self</c>,
   /// and discarding the error, if any.
-  ///
-  /// Examples
   ///
   /// Basic usage:
   ///
@@ -664,8 +657,6 @@ public class Result<TOk, TErr>
   /// Arguments passed to <c>Or()</c> are eagerly evaluated; if you are passing the
   /// result of a function call, it is recommended to use <see cref="OrElse"/>, which is
   /// lazily evaluated.
-  ///
-  /// Examples
   ///
   /// Basic usage:
   ///
@@ -705,8 +696,6 @@ public class Result<TOk, TErr>
   /// Calls <c>op</c> if the result is <c>Err</c>, otherwise returns the <c>Ok</c> value of <c>self</c>.
   ///
   /// This function can be used for control flow based on result values.
-  ///
-  /// Examples
   ///
   /// Basic usage:
   ///
@@ -748,11 +737,9 @@ public class Result<TOk, TErr>
   /// <c>Ok(Some)</c> and <c>Err</c> will be mapped to <c>Some(Ok)</c> and <c>Some(Err)</c>.
   ///
   /// <code>
-  ///
   /// var x = Result{Option{int}, string}.Ok(Option{int}.Some(5));
   /// var y = Option{Result{int, string}}.Some(Result{int, string}.Ok(5));
   /// Assert.Equal(x.Transpose(), y);
-  ///
   /// </code>
   /// </summary>
   /// <typeparam name="TOkOut">The internal type of the <c>Result{Option{}}</c>. (Note: this is a
