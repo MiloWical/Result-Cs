@@ -8,8 +8,8 @@ namespace WicalWare.Components.ResultCs;
 
 /// <summary>
 /// A wrapper that helps prevent passing <c>null</c> values within code.
-/// 
-/// It can some in 2 different flavors:
+///
+/// It can some in 2 different flavors.
 ///
 /// <ul>
 /// <li>None, which indicates that there was no value contained.</li>
@@ -18,7 +18,7 @@ namespace WicalWare.Components.ResultCs;
 /// functions.</li>
 /// </ul>
 /// </summary>
-/// <typeparam name="TSome">The type of the <c>Some</c> value for this <c>Option</c></typeparam>
+/// <typeparam name="TSome">The type of the <c>Some</c> value for this <c>Option</c>.</typeparam>
 public class Option<TSome>
 {
   // Comment Imp Test Sig
@@ -64,16 +64,16 @@ public class Option<TSome>
   private TSome? val;
 
   /// <summary>
-  /// The <see cref="OptionKind"/> of the current <c>Option</c>.
+  /// Gets the <see cref="OptionKind"/> of the current <c>Option</c>.
   /// </summary>
   public OptionKind Kind { get; private set; }
 
   /// <summary>
   /// Convenience override of the <c>==</c> operator.
   /// </summary>
-  /// <param name="opt1">The first <c>Option</c> to compare</param>
-  /// <param name="opt2">The second <c>Option</c> to compare</param>
-  /// <returns>The result of <c>opt1.Equals(opt2)</c></returns>
+  /// <param name="opt1">The first <c>Option</c> to compare.</param>
+  /// <param name="opt2">The second <c>Option</c> to compare.</param>
+  /// <returns>The result of <c>opt1.Equals(opt2)</c>.</returns>
   public static bool operator ==(Option<TSome> opt1, Option<TSome> opt2)
   {
     if (opt1 is null)
@@ -92,9 +92,9 @@ public class Option<TSome>
   /// <summary>
   /// Convenience override of the <c>!=</c> operator.
   /// </summary>
-  /// <param name="opt1">The first <c>Option</c> to compare</param>
-  /// <param name="opt2">The second <c>Option</c> to compare</param>
-  /// <returns>The result of <c>!opt1.Equals(opt2)</c></returns>
+  /// <param name="opt1">The first <c>Option</c> to compare.</param>
+  /// <param name="opt2">The second <c>Option</c> to compare.</param>
+  /// <returns>The result of <c>!opt1.Equals(opt2)</c>.</returns>
   public static bool operator !=(Option<TSome> opt1, Option<TSome> opt2) => !(opt1 == opt2);
 
   /// <summary>
@@ -102,7 +102,7 @@ public class Option<TSome>
   ///
   /// The value passed is not permitted to be <c>null</c>.
   /// </summary>
-  /// <param name="value">The value to wrap in the <c>Option</c></param>
+  /// <param name="value">The value to wrap in the <c>Option</c>.</param>
   /// <returns>The <c>Option</c> of kind <c>Some</c> with the provided value wrapped.</returns>
   public static Option<TSome> Some(TSome value)
   {
@@ -132,7 +132,7 @@ public class Option<TSome>
   /// <summary>
   /// Tests two <c>Option</c> objects for equality.
   ///
-  /// Overrides <see cref="Object.Equals(object?)"/>.
+  /// Overrides <see cref="object.Equals(object?)"/>.
   /// </summary>
   /// <param name="other">The <c>Option</c> to test <c>this</c> against.</param>
   /// <returns><c>true</c> if one of the following is true:
@@ -140,7 +140,7 @@ public class Option<TSome>
   /// <li>The two <c>Option</c> objects are <c>Some</c> and their wrapped values are the same</li>
   /// <li>The two <c>Option</c> objects are <c>None</c></li>
   /// </ul>
-  /// <c>false</c> otherwise</returns>
+  /// <c>false</c> otherwise.</returns>
   public override bool Equals(object? other)
   {
     if (other is null)
@@ -179,9 +179,9 @@ public class Option<TSome>
   }
 
   /// <summary>
-  /// Override of <see cref="Object.GetHashCode()"/>.
+  /// Override of <see cref="object.GetHashCode()"/>.
   /// </summary>
-  /// <returns><c>base.GetHashCode()</c></returns>
+  /// <returns><c>base.GetHashCode()</c>.</returns>
   public override int GetHashCode() => base.GetHashCode();
 
   /// <summary>
@@ -211,8 +211,8 @@ public class Option<TSome>
   /// </code>
   /// </example>
   /// </summary>
-  /// <param name="optB">The option to return if the current option is <c>None</c></param>
-  /// <typeparam name="TOut">The type of <c>optB</c></typeparam>
+  /// <param name="optB">The option to return if the current option is <c>None</c>.</param>
+  /// <typeparam name="TOut">The type of <c>optB</c>.</typeparam>
   /// <returns>Returns <c>None</c>if the option is <c>None</c>,
   /// otherwise returns <c>optB</c>.</returns>
   public Option<TOut> And<TOut>(Option<TOut> optB)
@@ -259,8 +259,8 @@ public class Option<TSome>
   /// </code>
   /// </example>
   /// </summary>
-  /// <param name="f">The function to call with the unwrapped value of <c>self</c></param>
-  /// <typeparam name="TOut">The underlying type of the result of <c>f</c></typeparam>
+  /// <param name="f">The function to call with the unwrapped value of <c>self</c>.</param>
+  /// <typeparam name="TOut">The underlying type of the result of <c>f</c>.</typeparam>
   /// <returns>Returns <c>None</c> if the option is <c>None</c>,
   /// otherwise calls <c>f</c> with the wrapped value and returns the result.</returns>
   public Option<TOut> AndThen<TOut>(Func<TSome, Option<TOut>> f)
@@ -278,8 +278,6 @@ public class Option<TSome>
   ///
   /// Panics if the value is a <c>None</c> with a custom panic message provided by
   /// <c>msg</c>.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Option{string}.Some("value");
@@ -334,8 +332,6 @@ public class Option<TSome>
   /// You can imagine the <c>Option{T}</c> being an iterator over one or zero elements.
   /// <c>filter()</c> lets you decide which elements to keep.
   ///
-  /// Examples
-  ///
   /// <code>
   /// public bool IsEven(int n)
   /// {
@@ -373,8 +369,6 @@ public class Option<TSome>
 
   /// <summary>
   /// Converts from <c>Option{Option{T}}</c> to <c>Option{T}</c>.
-  ///
-  /// Examples
   ///
   /// Basic usage:
   ///
@@ -420,8 +414,6 @@ public class Option<TSome>
   /// return a mutable reference to the contained value due to differences in
   /// how the languages work.
   ///
-  /// Examples
-  ///
   /// <code>
   /// var x = Option{int}.None();
   /// var y = x.GetOrInsert(5);
@@ -452,8 +444,6 @@ public class Option<TSome>
   /// Note: This differs from the original implementation because it doesn't
   /// return a mutable reference to the contained value due to differences in
   /// how the languages work.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Option{int}.None();
@@ -497,8 +487,6 @@ public class Option<TSome>
   /// return a mutable reference to the contained value due to differences in
   /// how the languages work.
   ///
-  /// # Example
-  ///
   /// <code>
   /// var opt = Option{int}.None();
   /// var val = opt.Insert(1);
@@ -526,8 +514,6 @@ public class Option<TSome>
   /// <summary>
   /// Returns <c>true</c> if the option is a <c>None</c> value.
   ///
-  /// Examples
-  ///
   /// <code>
   /// var x = Option{int}.Some(2);
   /// Assert.False(x.IsNone());
@@ -543,8 +529,6 @@ public class Option<TSome>
   /// <summary>
   /// Returns <c>true</c> if the option is a <c>Some</c> value.
   ///
-  /// Examples
-  ///
   /// <code>
   /// Option{int} x = Option.Some(2);
   /// Assert.True(x.IsSome());
@@ -559,8 +543,6 @@ public class Option<TSome>
 
   /// <summary>
   /// Returns <c>true</c> if the option is a <c>Some</c> and the value inside of it matches a predicate.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Option{int}.Some(2);
@@ -593,8 +575,6 @@ public class Option<TSome>
 
   /// <summary>
   /// Returns an iterator over the possibly contained value.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Option{int}.Some(4);
@@ -632,8 +612,8 @@ public class Option<TSome>
   ///
   /// Examples
   ///
-  /// Converts an <code>Option{string}</code> into an <code>Option{int}</code>, consuming
-  /// the original:
+  /// Converts an <c>Option{string}</c> into an <c>Option{int}</c>, consuming
+  /// the original.
   ///
   /// <code>
   /// var maybeSomeString = Option{string}.Some("Hello, World!");
@@ -644,7 +624,7 @@ public class Option<TSome>
   /// </code>
   /// </summary>
   /// <param name="f">The function to be applied to the value if <c>this</c> is <c>OptionKind.Some</c>.</param>
-  /// <typeparam name="TOut">The return type of <c>f</c>.s</typeparam>
+  /// <typeparam name="TOut">The return type of <c>f</c>.</typeparam>
   /// <returns>If <c>this</c> is <c>OptionKind.Some</c>, an <c>Option</c> containing the output of <c>f</c>
   /// applied to <c>this</c>; an <c>OptionKind.None</c> otherwise.</returns>
   public Option<TOut> Map<TOut>(Func<TSome, TOut> f)
@@ -676,8 +656,6 @@ public class Option<TSome>
   /// Arguments passed to <c>MapOr</c> are eagerly evaluated; if you are passing
   /// the result of a function call, it is recommended to use <c>MapOrElse</c>,
   /// which is lazily evaluated.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Option{string}.Some("foo");
@@ -722,8 +700,6 @@ public class Option<TSome>
   /// <summary>
   /// Computes a default function result (if none), or
   /// applies a different function to the contained value (if any).
-  ///
-  /// Examples
   ///
   /// <code>
   /// const int k = 21;
@@ -784,8 +760,6 @@ public class Option<TSome>
   /// result of a function call, it is recommended to use <c>OkOrElse</c>, which is
   /// lazily evaluated.
   ///
-  /// Examples
-  ///
   /// <code>
   /// var x = Option{string}.Some("foo");
   /// Assert.Equal(Result{string, int}.Ok("foo"), x.OkOr(0));
@@ -817,8 +791,6 @@ public class Option<TSome>
   /// <summary>
   /// Transforms the <c>Option{T}</c> into a <c>Result{T, E}</c>, mapping <c>Some(v)</c> to
   /// <c>Ok(v)</c> and <c>None</c> to <c>Err(err)</c>.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Option{string}.Some("foo");
@@ -863,8 +835,6 @@ public class Option<TSome>
   /// result of a function call, it is recommended to use <c>OrElse</c>, which is
   /// lazily evaluated.
   ///
-  /// Examples
-  ///
   /// <code>
   /// var x = Option{int}.Some(2);
   /// var y = Option{int}.None();
@@ -883,7 +853,7 @@ public class Option<TSome>
   /// Assert.Equal(Option{int}.None(), x.Or(y));
   /// </code>
   /// </summary>
-  /// <param name="optB">The value to return if <c>this</c> is <c>OptionKind.None</c></param>
+  /// <param name="optB">The value to return if <c>this</c> is <c>OptionKind.None</c>.</param>
   /// <returns><c>this</c> if <c>this</c> if <c>OptionKind.Some</c>, <c>optB</c> otherwise.</returns>
   public Option<TSome> Or(Option<TSome> optB)
   {
@@ -903,8 +873,6 @@ public class Option<TSome>
   /// <summary>
   /// Returns the option if it contains a value, otherwise calls <c>f</c> and
   /// returns the result.
-  ///
-  /// Examples
   ///
   /// <code>
   /// public Option{string} Nobody() => Option{string}.None();
@@ -943,8 +911,6 @@ public class Option<TSome>
   /// Replaces the actual value in the option by the value given in parameter,
   /// returning the old value if present,
   /// leaving a <c>Some</c> in its place without deinitializing either one.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Option{int}.Some(2);
@@ -988,8 +954,6 @@ public class Option<TSome>
   /// <summary>
   /// Takes the value out of the option, leaving a <c>None</c> in its place.
   ///
-  /// Examples
-  ///
   /// <code>
   /// var x = Option{int}.Some(2);
   /// var y = x.Take();
@@ -1026,8 +990,6 @@ public class Option<TSome>
   /// <c>Some(Ok)</c> and <c>Some(Err)</c> will be mapped to
   /// <c>Ok(Some)</c> and <c>Err</c>.
   ///
-  /// Examples
-  ///
   /// <code>
   /// var x = Result{Option{int}, string}.Ok(Option{int}.Some(5));
   /// var y = Option{Result{int, string}}.Some(Result{int, string}.Ok(5));
@@ -1038,7 +1000,7 @@ public class Option<TSome>
   /// deviation from the Rust signature because C# doesn't implement enum values the way
   /// Rust does.)</typeparam>
   /// <typeparam name="TErr">The type of the error for the <c>Result</c>.</typeparam>
-  /// <returns>An <c>Option</c> of a <c>Result</c> as a <c>Result</c> of an <c>Option</c></returns>
+  /// <returns>An <c>Option</c> of a <c>Result</c> as a <c>Result</c> of an <c>Option</c>.</returns>
   public Result<Option<TOut>, TErr> Transpose<TOut, TErr>()
   {
     if (!typeof(TSome).IsGenericType || typeof(TSome).GetGenericTypeDefinition() != typeof(Result<,>))
@@ -1083,9 +1045,7 @@ public class Option<TSome>
   /// case explicitly, or call <c>UnwrapOr</c>, <c>UnwrapOrElse</c>, or
   /// <c>UnwrapOrDefault</c>.
   ///
-  /// Throws <exception cref="PanicException"/> if the self value equals <c>None</c>.
-  ///
-  /// Examples
+  /// Throws <exception cref="PanicException"> if the self value equals <c>None</c></exception>.
   ///
   /// <code>
   /// var x = Option{string}.Some("air");
@@ -1115,11 +1075,11 @@ public class Option<TSome>
   /// the result of a function call, it is recommended to use <c>UnwrapOrElse</c>,
   /// which is lazily evaluated.
   ///
-  /// Examples
-  ///
   /// <code>
+  ///
   /// Assert.Equal("car", Option{string}.Some("car").UnwrapOr("bike"));
   /// Assert.Equal("bike", Option{string}.None().UnwrapOr("bike"));
+  ///
   /// </code>
   /// </summary>
   /// <param name="def">The default value of type <c>T</c> to return.</param>
@@ -1184,8 +1144,6 @@ public class Option<TSome>
   /// <summary>
   /// Returns the contained <c>Some</c> value or computes it from a closure.
   ///
-  /// Examples
-  ///
   /// <code>
   /// var k = 10;
   /// Assert.Equal(4, Option{int}.Some(4).UnwrapOrElse(() => 2 * k));
@@ -1218,8 +1176,6 @@ public class Option<TSome>
 
   /// <summary>
   /// Returns <c>Some</c> if exactly one of <c>self</c>, <c>optB</c> is <c>Some</c>, otherwise returns <c>None</c>.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Option{int}.Some(2);
@@ -1273,8 +1229,6 @@ public class Option<TSome>
   /// If <c>self</c> is <c>Some(s)</c> and <c>other</c> is <c>Some(o)</c>, this method returns <c>Some((s, o))</c>.
   /// Otherwise, <c>None</c> is returned.
   ///
-  /// Examples
-  ///
   /// <code>
   /// var x = Option{int}.Some(1);
   /// var y = Option{string}.Some("hi");
@@ -1285,7 +1239,7 @@ public class Option<TSome>
   /// </code>
   /// </summary>
   /// <param name="other">The other <c>Option</c> to zip with <c>this</c>.</param>
-  /// <typeparam name="TOut">The type of the tuple of the output <c>Option</c></typeparam>
+  /// <typeparam name="TOut">The type of the tuple of the output <c>Option</c>.</typeparam>
   /// <returns>If <c>self</c> is <c>Some(s)</c> and <c>other</c> is <c>Some(o)</c>, this method returns <c>Some((s, o))</c>.
   /// Otherwise, <c>None</c> is returned.</returns>
   public Option<(TSome, TOut)> Zip<TOut>(Option<TOut> other)

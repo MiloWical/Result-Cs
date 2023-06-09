@@ -8,8 +8,8 @@ namespace WicalWare.Components.ResultCs;
 
 /// <summary>
 /// A wrapper that helps prevent passing <c>null</c> values within code.
-/// 
-/// It can some in 2 different flavors:
+///
+/// It can some in 2 different flavors.
 ///
 /// <ul>
 /// <li>Ok(TOk), which contains a wrapped value of type <c>TSome</c>.
@@ -18,11 +18,10 @@ namespace WicalWare.Components.ResultCs;
 /// <li>Err(TErr), which contains a wrapped error of the type <c>TErr</c>.
 /// This value can be extracted from the <c>Result</c> using the <c>UnwrapErr</c>
 /// functions.</li>
-/// 
 /// </ul>
 /// </summary>
-/// <typeparam name="TOk">The type of the <c>Ok</c> value for this <c>Result</c></typeparam>
-/// <typeparam name="TErr">The type of the <c>Err</c> value for this <c>Result</c></typeparam>
+/// <typeparam name="TOk">The type of the <c>Ok</c> value for this <c>Result</c>.</typeparam>
+/// <typeparam name="TErr">The type of the <c>Err</c> value for this <c>Result</c>.</typeparam>
 public class Result<TOk, TErr>
 {
   // Comment Imp Test SignatureResult{U, E}
@@ -66,16 +65,16 @@ public class Result<TOk, TErr>
   private TErr? err;
 
   /// <summary>
-  /// The <see cref="ResultKind"/> of the current <c>Result</c>.
+  /// Gets the <see cref="ResultKind"/> of the current <c>Result</c>.
   /// </summary>
   public ResultKind Kind { get; private set; }
 
   /// <summary>
   /// Convenience override of the <c>==</c> operator.
   /// </summary>
-  /// <param name="res1">The first <c>Result</c> to compare</param>
-  /// <param name="res2">The second <c>Result</c> to compare</param>
-  /// <returns>The result of <c>res1.Equals(res2)</c></returns>
+  /// <param name="res1">The first <c>Result</c> to compare.</param>
+  /// <param name="res2">The second <c>Result</c> to compare.</param>
+  /// <returns>The result of <c>res1.Equals(res2)</c>.</returns>
   public static bool operator ==(Result<TOk, TErr> res1, Result<TOk, TErr> res2)
   {
     if (res1 is null)
@@ -94,9 +93,9 @@ public class Result<TOk, TErr>
   /// <summary>
   /// Convenience override of the <c>!=</c> operator.
   /// </summary>
-  /// <param name="res1">The first <c>Result</c> to compare</param>
-  /// <param name="res2">The second <c>Result</c> to compare</param>
-  /// <returns>The result of <c>!res1.Equals(res2)</c></returns>
+  /// <param name="res1">The first <c>Result</c> to compare.</param>
+  /// <param name="res2">The second <c>Result</c> to compare.</param>
+  /// <returns>The result of <c>!res1.Equals(res2)</c>.</returns>
   public static bool operator !=(Result<TOk, TErr> res1, Result<TOk, TErr> res2) => !(res1 == res2);
 
   /// <summary>
@@ -104,7 +103,7 @@ public class Result<TOk, TErr>
   ///
   /// The value passed is not permitted to be <c>null</c>.
   /// </summary>
-  /// <param name="value">The value to wrap in the <c>Result</c></param>
+  /// <param name="value">The value to wrap in the <c>Result</c>.</param>
   /// <returns>The <c>Result</c> of kind <c>Ok</c> with the provided value wrapped.</returns>
   public static Result<TOk, TErr> Ok(TOk value)
   {
@@ -122,7 +121,7 @@ public class Result<TOk, TErr>
   ///
   /// The error passed is not permitted to be <c>null</c>.
   /// </summary>
-  /// <param name="err">The error to wrap in the <c>Result</c></param>
+  /// <param name="err">The error to wrap in the <c>Result</c>.</param>
   /// <returns>The <c>Result</c> of kind <c>Err</c> with the provided error wrapped.</returns>
   public static Result<TOk, TErr> Err(TErr err)
   {
@@ -138,15 +137,15 @@ public class Result<TOk, TErr>
   /// <summary>
   /// Tests two <c>Result</c> objects for equality.
   ///
-  /// Overrides <see cref="Object.Equals(object?)"/>.
+  /// Overrides <see cref="object.Equals(object?)"/>.
   /// </summary>
   /// <param name="other">The <c>Result</c> to test <c>this</c> against.</param>
   /// <returns><c>true</c> if one of the following is true:
   /// <ul>
-  /// <li>The two <c>Result</c> objects are <c>Ok</c> and their wrapped values are the same</li>
-  /// <li>The two <c>Result</c> objects are <c>Err</c></li>
+  /// <li>The two <c>Result</c> objects are <c>Ok</c> and their wrapped values are the same.</li>
+  /// <li>The two <c>Result</c> objects are <c>Err</c>.</li>
   /// </ul>
-  /// <c>false</c> otherwise</returns>
+  /// <c>false</c> otherwise.</returns>
   public override bool Equals(object? other)
   {
     if (other is null)
@@ -180,9 +179,9 @@ public class Result<TOk, TErr>
   }
 
   /// <summary>
-  /// Override of <see cref="Object.GetHashCode()"/>.
+  /// Override of <see cref="object.GetHashCode()"/>.
   /// </summary>
-  /// <returns><c>base.GetHashCode()</c></returns>
+  /// <returns><c>base.GetHashCode()</c>.</returns>
   public override int GetHashCode() => base.GetHashCode();
 
   /// <summary>
@@ -212,8 +211,8 @@ public class Result<TOk, TErr>
   /// Assert.Equal(x.And{string}(y), Result{string, string}.Ok("different result type"));
   /// </code>
   /// </summary>
-  /// <param name="res">The option to return if the current option is <c>Ok</c></param>
-  /// <typeparam name="TOkOut">The underlying type of <c>res</c></typeparam>
+  /// <param name="res">The option to return if the current option is <c>Ok</c>.</param>
+  /// <typeparam name="TOkOut">The underlying type of <c>res</c>.</typeparam>
   /// <returns>Returns <c>res</c> if the result is <c>Ok</c>,
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
   public Result<TOkOut, TErr> And<TOkOut>(Result<TOkOut, TErr> res)
@@ -280,8 +279,8 @@ public class Result<TOk, TErr>
   /// </code>
   /// </example>
   /// </summary>
-  /// <param name="f">The function to call to evaluate the current <c>Result</c></param>
-  /// <typeparam name="TOut">The underlying type of the result of calling <c>f</c></typeparam>
+  /// <param name="f">The function to call to evaluate the current <c>Result</c>.</param>
+  /// <typeparam name="TOut">The underlying type of the result of calling <c>f</c>.</typeparam>
   /// <returns>The result of calling <c>f</c>,
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
   public Result<TOut, TErr> AndThen<TOut>(Func<TOk, Result<TOut, TErr>> f)
@@ -299,7 +298,7 @@ public class Result<TOk, TErr>
   ///
   /// Converts <c>self</c> into an <c>Option{E}</c>, consuming <c>self</c>,
   /// and discarding the success value, if any.
-  /// 
+  ///
   /// Basic usage:
   ///
   /// <code>
@@ -311,7 +310,7 @@ public class Result<TOk, TErr>
   /// </code>
   /// </summary>
   /// <returns>The <c>Err</c> value of <c>self</c>, wrapped in
-  /// and <c>Option{E}</c></returns>
+  /// and <c>Option{E}</c>.</returns>
   public Option<TErr> Err()
   {
     if (this.IsErr())
@@ -361,7 +360,7 @@ public class Result<TOk, TErr>
   /// Styles</see>.
   /// </summary>
   /// <param name="msg">The message to panic with.</param>
-  /// <returns>The unwrapped value of <c>self</c></returns>
+  /// <returns>The unwrapped value of <c>self</c>.</returns>
   [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "StyleCop doesn't respect the null-forgiving operator (!)")]
   public TOk Expect(string msg)
   {
@@ -392,7 +391,7 @@ public class Result<TOk, TErr>
   /// </code>
   /// </summary>
   /// <param name="msg">The message to panic with.</param>
-  /// <returns>The unwrapped value of <c>self</c></returns>
+  /// <returns>The unwrapped value of <c>self</c>.</returns>
   [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "StyleCop doesn't respect the null-forgiving operator (!)")]
   public TErr ExpectErr(string msg)
   {
@@ -417,7 +416,7 @@ public class Result<TOk, TErr>
   /// Assert.True(x.IsErr());
   /// </code>
   /// </summary>
-  /// <returns><c>true</c> if the result is <c>Err</c></returns>
+  /// <returns><c>true</c> if the result is <c>Err</c>.</returns>
   public bool IsErr()
   {
     return this.Kind == ResultKind.Err;
@@ -438,7 +437,7 @@ public class Result<TOk, TErr>
   /// Assert.False(x.IsOk());
   /// </code>
   /// </summary>
-  /// <returns><c>true</c> if the result is <c>Ok</c></returns>
+  /// <returns><c>true</c> if the result is <c>Ok</c>.</returns>
   public bool IsOk()
   {
     return this.Kind == ResultKind.Ok;
@@ -569,8 +568,6 @@ public class Result<TOk, TErr>
   /// Arguments passed to <c>MapOr</c> are eagerly evaluated; if you are passing
   /// the result of a function call, it is recommended to use <c>MapOrElse</c>,
   /// which is lazily evaluated.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Result{string, string}.Ok("foo");
@@ -750,14 +747,12 @@ public class Result<TOk, TErr>
   /// <c>Ok(None)</c> will be mapped to <c>None</c>.
   /// <c>Ok(Some)</c> and <c>Err</c> will be mapped to <c>Some(Ok)</c> and <c>Some(Err)</c>.
   ///
-  /// Examples
-  ///
   /// <code>
-  /// 
+  ///
   /// var x = Result{Option{int}, string}.Ok(Option{int}.Some(5));
   /// var y = Option{Result{int, string}}.Some(Result{int, string}.Ok(5));
   /// Assert.Equal(x.Transpose(), y);
-  /// 
+  ///
   /// </code>
   /// </summary>
   /// <typeparam name="TOkOut">The internal type of the <c>Result{Option{}}</c>. (Note: this is a
@@ -837,8 +832,6 @@ public class Result<TOk, TErr>
   ///
   /// Panics if the value is an <c>Ok</c>, with a custom panic message provided
   /// by the <c>Ok</c>'s value.
-  ///
-  /// Examples
   ///
   /// <code>
   /// var x = Result{int, string}.Ok(2);
