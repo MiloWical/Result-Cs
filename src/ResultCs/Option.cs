@@ -78,12 +78,12 @@ public class Option<TSome>
   {
     if (opt1 is null)
     {
-      if (opt2 is null)
-      {
-        return true;
-      }
+      throw new PanicException($"Cannot compare a null Option<{typeof(TSome)}> for equality to another Option<{typeof(TSome)}>.");
+    }
 
-      return false;
+    if (opt2 is null)
+    {
+      throw new PanicException($"Cannot compare an Option<{typeof(TSome)}> for equality to a null Option<{typeof(TSome)}>.");
     }
 
     return opt1.Equals(opt2);
@@ -106,7 +106,10 @@ public class Option<TSome>
   /// <returns>The <c>Option</c> of kind <c>Some</c> with the provided value wrapped.</returns>
   public static Option<TSome> Some(TSome value)
   {
-    ArgumentNullException.ThrowIfNull(value);
+    if (value is null)
+    {
+      throw new PanicException($"Cannot create a new Option<{typeof(TSome)}>.{nameof(Option<TSome>.Some)}() with null {typeof(TSome)} value.");
+    }
 
     var option = new Option<TSome>();
     option.val = value;
@@ -145,7 +148,7 @@ public class Option<TSome>
   {
     if (other is null)
     {
-      return false;
+      throw new PanicException($"The object parameter passed to Option<{typeof(TSome)}>.{nameof(this.Equals)}() cannot be null.");
     }
 
     var otherOption = (Option<TSome>)other;
@@ -162,12 +165,7 @@ public class Option<TSome>
 
     if (this.val is null)
     {
-      if (otherOption.Unwrap() is null)
-      {
-        return true;
-      }
-
-      return false;
+      throw new PanicException($"The Some value wrapped by the Option<{typeof(TSome)}> instance cannot be null.");
     }
 
     if (this.val.Equals(otherOption.Unwrap()))
@@ -217,6 +215,11 @@ public class Option<TSome>
   /// otherwise returns <c>optB</c>.</returns>
   public Option<TOut> And<TOut>(Option<TOut> optB)
   {
+    if (optB is null)
+    {
+      throw new PanicException($"Cannot pass a null optB value to Option<{typeof(TSome)}>.{nameof(this.And)}<{typeof(TOut)}>()");
+    }
+
     if (this.IsNone())
     {
       return Option<TOut>.None();
@@ -261,6 +264,11 @@ public class Option<TSome>
   /// otherwise calls <c>f</c> with the wrapped value and returns the result.</returns>
   public Option<TOut> AndThen<TOut>(Func<TSome, Option<TOut>> f)
   {
+    if (f is null)
+    {
+      throw new PanicException($"Cannot pass a null function delegate to Option<{typeof(TSome)}>.{nameof(this.AndThen)}<{typeof(TOut)}>()");
+    }
+
     if (this.IsNone())
     {
       return Option<TOut>.None();
@@ -309,6 +317,11 @@ public class Option<TSome>
   /// <returns>The wrapped <c>Some</c> value.</returns>
   public TSome Expect(string message)
   {
+    if (message is null)
+    {
+      throw new PanicException($"Cannot pass a null message value to Option<{typeof(TSome)}>.{nameof(this.Expect)}()");
+    }
+
     if (this.IsNone())
     {
       throw new PanicException(message);
@@ -350,6 +363,11 @@ public class Option<TSome>
   /// <c>false</c> otherwise.</returns>
   public Option<TSome> Filter(Func<TSome, bool> predicate)
   {
+    if (predicate is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Option<{typeof(TSome)}>.{nameof(this.Filter)}()");
+    }
+
     if (this.IsNone())
     {
       return Option<TSome>.None();
@@ -422,7 +440,10 @@ public class Option<TSome>
   /// <returns>The value contained in <c>this</c>.</returns>
   public TSome GetOrInsert(TSome value)
   {
-    ArgumentNullException.ThrowIfNull(value);
+    if (value is null)
+    {
+      throw new PanicException($"Cannot pass a null value to Option<{typeof(TSome)}>.{nameof(this.GetOrInsert)}()");
+    }
 
     if (this.IsNone())
     {
@@ -453,7 +474,10 @@ public class Option<TSome>
   /// <returns>The value contained in <c>this</c>.</returns>
   public TSome GetOrInsertWith(Func<TSome> f)
   {
-    ArgumentNullException.ThrowIfNull(f);
+    if (f is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Option<{typeof(TSome)}>.{nameof(this.GetOrInsertWith)}()");
+    }
 
     if (this.IsNone())
     {
@@ -499,7 +523,10 @@ public class Option<TSome>
   /// <returns>The new value contained in <c>this</c>.</returns>
   public TSome Insert(TSome value)
   {
-    ArgumentNullException.ThrowIfNull(value);
+    if (value is null)
+    {
+      throw new PanicException($"Cannot pass a null value to Option<{typeof(TSome)}>.{nameof(this.Insert)}()");
+    }
 
     this.val = value;
     this.Kind = OptionKind.Some;
@@ -561,6 +588,11 @@ public class Option<TSome>
   /// <c>false</c> otherwise.</returns>
   public bool IsSomeAnd(Func<TSome, bool> f)
   {
+    if (f is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Option<{typeof(TSome)}>.{nameof(this.IsSomeAnd)}()");
+    }
+
     if (this.IsNone())
     {
       return false;
@@ -625,21 +657,21 @@ public class Option<TSome>
   /// applied to <c>this</c>; an <c>OptionKind.None</c> otherwise.</returns>
   public Option<TOut> Map<TOut>(Func<TSome, TOut> f)
   {
+    if (f is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Option<{typeof(TSome)}>.{nameof(this.Map)}<{typeof(TOut)}>()");
+    }
+
     if (this.IsNone())
     {
       return Option<TOut>.None();
-    }
-
-    if (f is null)
-    {
-      throw new PanicException("Cannot call Option.Map() with a null delegate.");
     }
 
     var result = f.Invoke(this.Unwrap());
 
     if (result is null)
     {
-      throw new PanicException("Output of Options.Map() delegate function cannot be null.");
+      throw new PanicException($"Output of Option<{typeof(TSome)}>.{nameof(this.Map)}<{typeof(TOut)}>() delegate function cannot be null.");
     }
 
     return Option<TOut>.Some(result);
@@ -668,26 +700,26 @@ public class Option<TSome>
   /// <c>f</c> to the current <c>Options</c>'s <c>Some</c> value; otherwise <c>def</c>.</returns>
   public TOut MapOr<TOut>(TOut def, Func<TSome, TOut> f)
   {
-    if (this.IsNone())
+    if (def is null)
     {
-      if (def is null)
-      {
-        throw new PanicException("The default return value for Option.MapOr() cannot be null.");
-      }
-
-      return def;
+      throw new PanicException($"Cannot pass a null default value to Option<{typeof(TSome)}>.{nameof(this.MapOr)}<{typeof(TOut)}>().");
     }
 
     if (f is null)
     {
-      throw new PanicException("Cannot call Option.MapOr() with a null delegate.");
+      throw new PanicException($"Cannot pass a null delegate function to Option<{typeof(TSome)}>.{nameof(this.MapOr)}<{typeof(TOut)}>().");
+    }
+
+    if (this.IsNone())
+    {
+      return def;
     }
 
     var result = f.Invoke(this.Unwrap());
 
     if (result is null)
     {
-      throw new PanicException("Output of Options.MapOr() delegate function cannot be null.");
+      throw new PanicException($"Output of Option<{typeof(TSome)}>.{nameof(this.MapOr)}<{typeof(TOut)}>() delegate function cannot be null.");
     }
 
     return result;
@@ -716,33 +748,33 @@ public class Option<TSome>
   /// invoking <c>def</c>.</returns>
   public TOut MapOrElse<TOut>(Func<TOut> def, Func<TSome, TOut> f)
   {
-    if (this.IsNone())
+    if (def is null)
     {
-      if (def is null)
-      {
-        throw new PanicException("The default delegate for Option.MapOrElse() cannot be null.");
-      }
-
-      var noneResult = def.Invoke();
-
-      if (noneResult is null)
-      {
-        throw new PanicException("The default delegate for Option.MapOrElse() cannot return null.");
-      }
-
-      return noneResult;
+      throw new PanicException($"Cannot pass a null default value to Option<{typeof(TSome)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>().");
     }
 
     if (f is null)
     {
-      throw new PanicException("Cannot call Option.MapOrElse() with a null delegate.");
+      throw new PanicException($"Cannot pass a null delegate function to Option<{typeof(TSome)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>().");
+    }
+
+    if (this.IsNone())
+    {
+      var noneResult = def.Invoke();
+
+      if (noneResult is null)
+      {
+        throw new PanicException($"The default delegate for Option<{typeof(TSome)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>() cannot return null.");
+      }
+
+      return noneResult;
     }
 
     var someResult = f.Invoke(this.Unwrap());
 
     if (someResult is null)
     {
-      throw new PanicException("Output of Options.MapOrElse() delegate function cannot be null.");
+      throw new PanicException($"Output of Option<{typeof(TSome)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>() delegate function cannot be null.");
     }
 
     return someResult;
@@ -771,13 +803,13 @@ public class Option<TSome>
   /// value of <c>err</c>.</returns>
   public Result<TSome, TErr> OkOr<TErr>(TErr err)
   {
+    if (err is null)
+    {
+      throw new PanicException($"Option<{typeof(TSome)}>.{nameof(this.OkOr)}<{typeof(TErr)}>() cannot be passed a null error value.");
+    }
+
     if (this.IsNone())
     {
-      if (err is null)
-      {
-        throw new PanicException("Option.OkOr() cannot be passed a null error value.");
-      }
-
       return Result<TSome, TErr>.Err(err);
     }
 
@@ -804,18 +836,18 @@ public class Option<TSome>
   /// value resulting from calling <c>err</c>.</returns>
   public Result<TSome, TErr> OkOrElse<TErr>(Func<TErr> err)
   {
+    if (err is null)
+    {
+      throw new PanicException($"Option<{typeof(TSome)}>.{nameof(this.OkOrElse)}<{typeof(TErr)}>() cannot be passed a null error delegate.");
+    }
+
     if (this.IsNone())
     {
-      if (err is null)
-      {
-        throw new PanicException("Option.OkOrElse() cannot be passed a null error delegate.");
-      }
-
       var errValue = err.Invoke();
 
       if (errValue is null)
       {
-        throw new PanicException("The error delegate for Option.OkOrElse() cannot return a null value.");
+        throw new PanicException($"The error delegate for Option<{typeof(TSome)}>.{nameof(this.OkOrElse)}<{typeof(TErr)}>() cannot return a null value.");
       }
 
       return Result<TSome, TErr>.Err(errValue);
@@ -853,13 +885,13 @@ public class Option<TSome>
   /// <returns><c>this</c> if <c>this</c> if <c>OptionKind.Some</c>, <c>optB</c> otherwise.</returns>
   public Option<TSome> Or(Option<TSome> optB)
   {
+    if (optB is null)
+    {
+      throw new PanicException($"Cannot pass a null alternative value to Option<{typeof(TSome)}>.{nameof(this.Or)}().");
+    }
+
     if (this.IsNone())
     {
-      if (optB is null)
-      {
-        throw new PanicException("Cannot pass a null alternative value to Option.Or().");
-      }
-
       return optB;
     }
 
@@ -883,18 +915,18 @@ public class Option<TSome>
   /// <returns>The result of <c>f</c> if <c>this</c> is <c>None</c>; otherwise <c>self</c>.</returns>
   public Option<TSome> OrElse(Func<Option<TSome>> f)
   {
+    if (f is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Option<{typeof(TSome)}>.{nameof(this.OrElse)}().");
+    }
+
     if (this.IsNone())
     {
-      if (f is null)
-      {
-        throw new PanicException("Cannot pass a null delegate function to Option.OrElse().");
-      }
-
       var noneValue = f.Invoke();
 
       if (noneValue is null)
       {
-        throw new PanicException("The delegate function of Option.OrElse(0 cannot return null.)");
+        throw new PanicException($"The delegate function of Option<{typeof(TSome)}>.{nameof(this.OrElse)}() cannot return null.)");
       }
 
       return noneValue;
@@ -927,7 +959,7 @@ public class Option<TSome>
   {
     if (value is null)
     {
-      throw new PanicException("Cannot pass a null value to Option.Replace().");
+      throw new PanicException($"Cannot pass a null value to Option<{typeof(TSome)}>.{nameof(this.Replace)}().");
     }
 
     Option<TSome> oldOpt;
@@ -1001,7 +1033,7 @@ public class Option<TSome>
   {
     if (!typeof(TSome).IsGenericType || typeof(TSome).GetGenericTypeDefinition() != typeof(Result<,>))
     {
-      throw new PanicException($"The wrapped type is {this.val!.GetType()}; expecting Result<{typeof(TOut)}, {typeof(TErr)}>");
+      throw new PanicException($"The wrapped type is {this.val!.GetType()}; expecting Result<{typeof(TOut)}, {typeof(TErr)}> from Option<{typeof(TSome)}>.{nameof(this.Transpose)}().");
     }
 
     if (this.IsSome())
@@ -1010,14 +1042,14 @@ public class Option<TSome>
 
       if (typeof(TOut) != okType)
       {
-        throw new PanicException($"The wrapped value type {okType} not assignable to type parameter {typeof(TOut)}");
+        throw new PanicException($"The wrapped value type {okType} not assignable to type parameter {typeof(TOut)} from Option<{typeof(TSome)}>.{nameof(this.Transpose)}().");
       }
 
       var errType = typeof(TSome).GetGenericArguments()[1];
 
       if (typeof(TErr) != errType)
       {
-        throw new PanicException($"The wrapped error type {errType} not assignable to type parameter {typeof(TErr)}");
+        throw new PanicException($"The wrapped error type {errType} not assignable to type parameter {typeof(TErr)} from Option<{typeof(TSome)}>.{nameof(this.Transpose)}().");
       }
 
       Result<TOut, TErr>? result = this.Unwrap() as Result<TOut, TErr>;
@@ -1058,7 +1090,7 @@ public class Option<TSome>
   {
     if (this.IsNone())
     {
-      throw new PanicException("Attempted to call Option.Unwrap() on a None value.");
+      throw new PanicException($"Attempted to call from Option<{typeof(TSome)}>.{nameof(this.Unwrap)}() on a None value.");
     }
 
     return this.val!;
@@ -1082,13 +1114,13 @@ public class Option<TSome>
   /// <returns>The contained <c>Some</c> value or a provided default.</returns>
   public TSome UnwrapOr(TSome def)
   {
+    if (def is null)
+    {
+      throw new PanicException($"The default value for Option<{typeof(TSome)}>.{nameof(this.UnwrapOr)}() cannot be null.");
+    }
+
     if (this.IsNone())
     {
-      if (def is null)
-      {
-        throw new PanicException("The default value for Option.UnwrapOr() cannot be null.");
-      }
-
       return def;
     }
 
@@ -1128,7 +1160,7 @@ public class Option<TSome>
 
       if (def is null)
       {
-        throw new PanicException($"The default value of {typeof(TSome)} from Option.UnwrapOrDefault() is null.");
+        throw new PanicException($"The default value of {typeof(TSome)} for Option<{typeof(TSome)}>.{nameof(this.UnwrapOrDefault)}() is null.");
       }
 
       return def;
@@ -1150,18 +1182,18 @@ public class Option<TSome>
   /// <returns>The <c>Some</c> value if <c>this</c> is <c>Some</c>; otherwise the result of invoking <c>f</c>.</returns>
   public TSome UnwrapOrElse(Func<TSome> f)
   {
+    if (f is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Option<{typeof(TSome)}>.{nameof(this.UnwrapOrElse)}()");
+    }
+
     if (this.IsNone())
     {
-      if (f is null)
-      {
-        throw new PanicException("Cannot pass a null delegate function to Option.UnwrapOrElse()");
-      }
-
       var noneResult = f.Invoke();
 
       if (noneResult is null)
       {
-        throw new PanicException("The delegate function passed to Option.UnwrapOrElse() cannot return null.");
+        throw new PanicException($"The delegate function passed to Option<{typeof(TSome)}>.{nameof(this.UnwrapOrElse)}() cannot return null.");
       }
 
       return noneResult;
@@ -1198,7 +1230,7 @@ public class Option<TSome>
   {
     if (optB is null)
     {
-      throw new PanicException("The 'optB' parameter passed to Option.Xor() cannot be null.");
+      throw new PanicException($"The 'optB' parameter passed to Option<{typeof(TSome)}>.{nameof(this.Xor)}() cannot be null.");
     }
 
     if (this.IsSome())
@@ -1242,7 +1274,7 @@ public class Option<TSome>
   {
     if (other is null)
     {
-      throw new PanicException("Cannot pass a null 'other' parameter to Option.Zip().");
+      throw new PanicException($"Cannot pass a null 'other' parameter to Option<{typeof(TSome)}>.{nameof(this.Zip)}<{typeof(TOut)}>().");
     }
 
     if (this.IsNone() || other.IsNone())

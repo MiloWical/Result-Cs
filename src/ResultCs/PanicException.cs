@@ -17,6 +17,11 @@ public class PanicException : Exception
   /// <param name="errMessage">The panic message that the exception contains.</param>
   internal PanicException(string errMessage)
   {
+    if (this.message is null)
+    {
+      throw new PanicException("Message argument passed to the PanicException constructor cannot be null.");
+    }
+
     this.message = errMessage;
   }
 
@@ -28,6 +33,16 @@ public class PanicException : Exception
   internal PanicException(string errMessage, Exception innerException)
     : base(errMessage, innerException)
   {
+    if (this.message is null)
+    {
+      throw new PanicException("Message argument passed to the PanicException constructor cannot be null.");
+    }
+
+    if (innerException is null)
+    {
+      throw new PanicException("Inner exception argument passed to the PanicException constructor cannot be null.");
+    }
+
     this.message = $"{errMessage}: {innerException.Message}";
   }
 
