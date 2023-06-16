@@ -154,7 +154,7 @@ public class Result<TOk, TErr>
   /// <c>false</c> otherwise.</returns>
   public override bool Equals(object? other)
   {
-    if (err is null)
+    if (other is null)
     {
       throw new PanicException($"The object parameter passed to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.Equals)}() cannot be null.");
     }
