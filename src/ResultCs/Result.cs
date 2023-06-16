@@ -302,7 +302,14 @@ public class Result<TOk, TErr>
       return Result<TOut, TErr>.Err(this.UnwrapErr());
     }
 
-    return f.Invoke(this.Unwrap());
+    var result = f.Invoke(this.Unwrap());
+
+    if (result is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.AndThen)}<{typeof(TOut)}>() delegate function cannot be null.");
+    }
+
+    return result;
   }
 
   /// <summary>
@@ -549,7 +556,14 @@ public class Result<TOk, TErr>
       return Result<TOut, TErr>.Err(this.UnwrapErr());
     }
 
-    return Result<TOut, TErr>.Ok(op.Invoke(this.Unwrap()));
+    var result = op.Invoke(this.Unwrap());
+
+    if (result is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.Map)}<{typeof(TOut)}>() delegate function cannot be null.");
+    }
+
+    return Result<TOut, TErr>.Ok(result);
   }
 
   /// <summary>
@@ -589,7 +603,14 @@ public class Result<TOk, TErr>
       return Result<TOk, TOut>.Ok(this.Unwrap());
     }
 
-    return Result<TOk, TOut>.Err(op.Invoke(this.UnwrapErr()));
+    var result = op.Invoke(this.UnwrapErr());
+
+    if (result is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapErr)}<{typeof(TOut)}>() delegate function cannot be null.");
+    }
+
+    return Result<TOk, TOut>.Err(result);
   }
 
   /// <summary>
@@ -630,7 +651,14 @@ public class Result<TOk, TErr>
       return def;
     }
 
-    return f.Invoke(this.Unwrap());
+    var result = f.Invoke(this.Unwrap());
+
+    if (result is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOr)}<{typeof(TOut)}>() delegate function cannot be null.");
+    }
+
+    return result;
   }
 
   /// <summary>
@@ -673,10 +701,24 @@ public class Result<TOk, TErr>
 
     if (this.IsErr())
     {
-      return def.Invoke(this.UnwrapErr());
+      var errResult = def.Invoke(this.UnwrapErr());
+
+      if (errResult is null)
+      {
+        throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>() default delegate function cannot be null.");
+      }
+
+      return errResult;
     }
 
-    return f.Invoke(this.Unwrap());
+    var okResult = f.Invoke(this.Unwrap());
+
+    if (okResult is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>() mapping delegate function cannot be null.");
+    }
+
+    return okResult;
   }
 
   /// <summary>
@@ -793,7 +835,14 @@ public class Result<TOk, TErr>
       return Result<TOk, TErrOut>.Ok(this.Unwrap());
     }
 
-    return op.Invoke(this.UnwrapErr());
+    var errResult = op.Invoke(this.UnwrapErr());
+
+    if (errResult is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.OrElse)}<{typeof(TErrOut)}>() delegate function cannot be null.");
+    }
+
+    return errResult;
   }
 
   /// <summary>
@@ -1014,6 +1063,13 @@ public class Result<TOk, TErr>
       return this.val!;
     }
 
-    return op.Invoke(this.err!);
+    var errResult = op.Invoke(this.err!);
+
+    if (errResult is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.UnwrapOrElse)}() delegate function cannot be null.");
+    }
+
+    return errResult;
   }
 }
