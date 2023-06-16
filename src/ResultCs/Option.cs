@@ -319,7 +319,7 @@ public class Option<TSome>
   {
     if (message is null)
     {
-      throw new PanicException($"Cannot pass a null message value to Option<{typeof(TSome)}>.{nameof(this.Expect)}()");
+      throw new PanicException($"Cannot pass a null message value to Option<{typeof(TSome)}>.{nameof(this.Expect)}().");
     }
 
     if (this.IsNone())
