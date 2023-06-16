@@ -274,7 +274,14 @@ public class Option<TSome>
       return Option<TOut>.None();
     }
 
-    return f.Invoke(this.Unwrap());
+    var result = f.Invoke(this.Unwrap());
+
+    if (result is null)
+    {
+      throw new PanicException($"Output of Option<{typeof(TSome)}>.{nameof(this.AndThen)}<{typeof(TOut)}>() delegate function cannot be null.");
+    }
+
+    return result;
   }
 
   /// <summary>
