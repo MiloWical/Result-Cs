@@ -79,12 +79,12 @@ public class Result<TOk, TErr>
   {
     if (res1 is null)
     {
-      if (res2 is null)
-      {
-        return true;
-      }
+      throw new PanicException($"Cannot compare a null Result<{typeof(TOk)}, {typeof(TErr)}> for equality to another Result<{typeof(TOk)}, {typeof(TErr)}>.");
+    }
 
-      return false;
+    if (res2 is null)
+    {
+      throw new PanicException($"Cannot compare an Result<{typeof(TOk)}, {typeof(TErr)}> for equality to a null Result<{typeof(TOk)}, {typeof(TErr)}>.");
     }
 
     return res1.Equals(res2);
@@ -107,7 +107,10 @@ public class Result<TOk, TErr>
   /// <returns>The <c>Result</c> of kind <c>Ok</c> with the provided value wrapped.</returns>
   public static Result<TOk, TErr> Ok(TOk value)
   {
-    ArgumentNullException.ThrowIfNull(value);
+    if (value is null)
+    {
+      throw new PanicException($"Cannot pass a null value to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(Result<TOk, TErr>.Ok)}().");
+    }
 
     var result = new Result<TOk, TErr>();
     result.val = value;
@@ -125,7 +128,10 @@ public class Result<TOk, TErr>
   /// <returns>The <c>Result</c> of kind <c>Err</c> with the provided error wrapped.</returns>
   public static Result<TOk, TErr> Err(TErr err)
   {
-    ArgumentNullException.ThrowIfNull(err);
+    if (err is null)
+    {
+      throw new PanicException($"Cannot pass a null error to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(Result<TOk, TErr>.Err)}().");
+    }
 
     var result = new Result<TOk, TErr>();
     result.err = err;
@@ -150,7 +156,7 @@ public class Result<TOk, TErr>
   {
     if (other is null)
     {
-      return false;
+      throw new PanicException($"The object parameter passed to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.Equals)}() cannot be null.");
     }
 
     if (other is not Result<TOk, TErr>)
@@ -217,6 +223,11 @@ public class Result<TOk, TErr>
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
   public Result<TOkOut, TErr> And<TOkOut>(Result<TOkOut, TErr> res)
   {
+    if (res is null)
+    {
+      throw new PanicException($"Cannot pass a null result value to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.And)}<{typeof(TOkOut)}>().");
+    }
+
     if (this.Kind == ResultKind.Err)
     {
       return Result<TOkOut, TErr>.Err(this.err!);
@@ -281,12 +292,24 @@ public class Result<TOk, TErr>
   /// otherwise returns the <c>Err</c> value of <c>self</c>.</returns>
   public Result<TOut, TErr> AndThen<TOut>(Func<TOk, Result<TOut, TErr>> f)
   {
+    if (f is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.AndThen)}<{typeof(TOut)}>().");
+    }
+
     if (this.IsErr())
     {
       return Result<TOut, TErr>.Err(this.UnwrapErr());
     }
 
-    return f.Invoke(this.Unwrap());
+    var result = f.Invoke(this.Unwrap());
+
+    if (result is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.AndThen)}<{typeof(TOut)}>() delegate function cannot be null.");
+    }
+
+    return result;
   }
 
   /// <summary>
@@ -360,6 +383,11 @@ public class Result<TOk, TErr>
   [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "StyleCop doesn't respect the null-forgiving operator (!)")]
   public TOk Expect(string msg)
   {
+    if (msg is null)
+    {
+      throw new PanicException($"Cannot pass a null message value to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.Expect)}().");
+    }
+
     if (this.IsOk())
     {
       return this.Unwrap();
@@ -391,6 +419,11 @@ public class Result<TOk, TErr>
   [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009:ClosingParenthesisMustBeSpacedCorrectly", Justification = "StyleCop doesn't respect the null-forgiving operator (!)")]
   public TErr ExpectErr(string msg)
   {
+    if (msg is null)
+    {
+      throw new PanicException($"Cannot pass a null message value to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.ExpectErr)}().");
+    }
+
     if (this.IsErr())
     {
       return this.UnwrapErr();
@@ -513,12 +546,24 @@ public class Result<TOk, TErr>
   /// <returns>A <c>Result</c> that's the output of applying <c>op</c> to the current <c>Result</c>'s <c>Ok</c> value.</returns>
   public Result<TOut, TErr> Map<TOut>(Func<TOk, TOut> op)
   {
+    if (op is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.Map)}<{typeof(TOut)}>().");
+    }
+
     if (this.IsErr())
     {
       return Result<TOut, TErr>.Err(this.UnwrapErr());
     }
 
-    return Result<TOut, TErr>.Ok(op.Invoke(this.Unwrap()));
+    var result = op.Invoke(this.Unwrap());
+
+    if (result is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.Map)}<{typeof(TOut)}>() delegate function cannot be null.");
+    }
+
+    return Result<TOut, TErr>.Ok(result);
   }
 
   /// <summary>
@@ -548,12 +593,24 @@ public class Result<TOk, TErr>
   /// <returns>A <c>Result</c> that's the output of applying <c>op</c> to the current <c>Result</c>'s <c>Err</c> value.</returns>
   public Result<TOk, TOut> MapErr<TOut>(Func<TErr, TOut> op)
   {
+    if (op is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapErr)}<{typeof(TOut)}>().");
+    }
+
     if (this.IsOk())
     {
       return Result<TOk, TOut>.Ok(this.Unwrap());
     }
 
-    return Result<TOk, TOut>.Err(op.Invoke(this.UnwrapErr()));
+    var result = op.Invoke(this.UnwrapErr());
+
+    if (result is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapErr)}<{typeof(TOut)}>() delegate function cannot be null.");
+    }
+
+    return Result<TOk, TOut>.Err(result);
   }
 
   /// <summary>
@@ -579,12 +636,29 @@ public class Result<TOk, TErr>
   /// <c>f</c> to the current <c>Result</c>'s <c>Ok</c> value; otherwise <c>def</c>.</returns>
   public TOut MapOr<TOut>(TOut def, Func<TOk, TOut> f)
   {
+    if (def is null)
+    {
+      throw new PanicException($"Cannot pass a null default value to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOr)}<{typeof(TOut)}>().");
+    }
+
+    if (f is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOr)}<{typeof(TOut)}>().");
+    }
+
     if (this.IsErr())
     {
       return def;
     }
 
-    return f.Invoke(this.Unwrap());
+    var result = f.Invoke(this.Unwrap());
+
+    if (result is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOr)}<{typeof(TOut)}>() delegate function cannot be null.");
+    }
+
+    return result;
   }
 
   /// <summary>
@@ -615,12 +689,36 @@ public class Result<TOk, TErr>
   /// output of applying <c>def</c> to the current <c>Result</c>'s <c>Err</c> value.</returns>
   public TOut MapOrElse<TOut>(Func<TErr, TOut> def, Func<TOk, TOut> f)
   {
-    if (this.IsErr())
+    if (def is null)
     {
-      return def.Invoke(this.UnwrapErr());
+      throw new PanicException($"Cannot pass a null default delegate function to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>().");
     }
 
-    return f.Invoke(this.Unwrap());
+    if (f is null)
+    {
+      throw new PanicException($"Cannot pass a null mapping delegate function to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>().");
+    }
+
+    if (this.IsErr())
+    {
+      var errResult = def.Invoke(this.UnwrapErr());
+
+      if (errResult is null)
+      {
+        throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>() default delegate function cannot be null.");
+      }
+
+      return errResult;
+    }
+
+    var okResult = f.Invoke(this.Unwrap());
+
+    if (okResult is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.MapOrElse)}<{typeof(TOut)}>() mapping delegate function cannot be null.");
+    }
+
+    return okResult;
   }
 
   /// <summary>
@@ -684,6 +782,11 @@ public class Result<TOk, TErr>
   /// <c>Ok</c> value of <c>self</c>.</returns>
   public Result<TOk, TErrOut> Or<TErrOut>(Result<TOk, TErrOut> res)
   {
+    if (res is null)
+    {
+      throw new PanicException($"Cannot pass a null default result value to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.Or)}<{typeof(TErrOut)}>().");
+    }
+
     if (this.IsErr())
     {
       return res;
@@ -722,12 +825,24 @@ public class Result<TOk, TErr>
   /// the <c>Ok</c> value of <c>self</c>.</returns>
   public Result<TOk, TErrOut> OrElse<TErrOut>(Func<TErr, Result<TOk, TErrOut>> op)
   {
+    if (op is null)
+    {
+      throw new PanicException($"Cannot pass a null default result delegate function to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.OrElse)}<{typeof(TErrOut)}>().");
+    }
+
     if (this.IsOk())
     {
       return Result<TOk, TErrOut>.Ok(this.Unwrap());
     }
 
-    return op.Invoke(this.UnwrapErr());
+    var errResult = op.Invoke(this.UnwrapErr());
+
+    if (errResult is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.OrElse)}<{typeof(TErrOut)}>() delegate function cannot be null.");
+    }
+
+    return errResult;
   }
 
   /// <summary>
@@ -750,7 +865,7 @@ public class Result<TOk, TErr>
   {
     if (!typeof(TOk).IsGenericType || typeof(TOk).GetGenericTypeDefinition() != typeof(Option<>))
     {
-      throw new PanicException($"The wrapped type is {this.val!.GetType()}; expecting Option<{typeof(TOkOut)}>");
+      throw new PanicException($"The wrapped type is {this.val!.GetType()}; expecting Result<{typeof(TOkOut)}, {typeof(TErr)}> from Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.Transpose)}<{typeof(TOkOut)}>().");
     }
 
     if (this.IsOk())
@@ -759,7 +874,7 @@ public class Result<TOk, TErr>
 
       if (typeof(TOkOut) != optionType)
       {
-        throw new PanicException($"The wrapped value is {optionType} not assignable to type parameter {typeof(TOkOut)}");
+        throw new PanicException($"The wrapped value is {optionType} not assignable to type parameter {typeof(TOkOut)} from Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.Transpose)}<{typeof(TOkOut)}>().");
       }
 
       Option<TOkOut>? option = this.Unwrap() as Option<TOkOut>;
@@ -864,6 +979,11 @@ public class Result<TOk, TErr>
   /// <returns>The <c>Ok</c> value if <c>this</c> is <c>Ok</c>; <c>def</c> otherwise.</returns>
   public TOk UnwrapOr(TOk def)
   {
+    if (def is null)
+    {
+      throw new PanicException($"Cannot pass a null default value to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.UnwrapOr)}().");
+    }
+
     if (this.IsErr())
     {
       return def;
@@ -904,7 +1024,7 @@ public class Result<TOk, TErr>
 
       if (defResult is null)
       {
-        throw new PanicException($"The default value of {typeof(TOk)} from Result.UnwrapOrDefault() is null.");
+        throw new PanicException($"The default value of type {typeof(TOk)} from Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.UnwrapOrDefault)}() is null.");
       }
 
       return defResult;
@@ -933,11 +1053,23 @@ public class Result<TOk, TErr>
   /// <c>Err</c> value to <c>op</c>.</returns>
   public TOk UnwrapOrElse(Func<TErr, TOk> op)
   {
+    if (op is null)
+    {
+      throw new PanicException($"Cannot pass a null delegate function to Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.UnwrapOrElse)}().");
+    }
+
     if (this.IsOk())
     {
       return this.val!;
     }
 
-    return op.Invoke(this.err!);
+    var errResult = op.Invoke(this.err!);
+
+    if (errResult is null)
+    {
+      throw new PanicException($"Output of Result<{typeof(TOk)}, {typeof(TErr)}>.{nameof(this.UnwrapOrElse)}() delegate function cannot be null.");
+    }
+
+    return errResult;
   }
 }
