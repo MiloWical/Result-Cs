@@ -17,7 +17,7 @@ public class PanicException : Exception
   /// <param name="errMessage">The panic message that the exception contains.</param>
   internal PanicException(string errMessage)
   {
-    if (this.message is null)
+    if (errMessage is null)
     {
       throw new PanicException("Message argument passed to the PanicException constructor cannot be null.");
     }

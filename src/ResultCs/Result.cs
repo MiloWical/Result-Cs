@@ -9,7 +9,7 @@ namespace WicalWare.Components.ResultCs;
 /// <summary>
 /// A wrapper that helps prevent passing <c>null</c> values within code.
 ///
-/// It can some in 2 different flavors.
+/// It can come in 2 different flavors.
 ///
 /// <ul>
 /// <li>Ok(TOk), which contains a wrapped value of type <c>TSome</c>.
