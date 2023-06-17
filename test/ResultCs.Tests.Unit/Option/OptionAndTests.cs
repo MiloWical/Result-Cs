@@ -11,7 +11,7 @@ public class OptionAndTests
   [InlineData("foo", 2, 2)]
   [InlineData(2, "bar", "bar")]
   [InlineData("foo", null, null)]
-  public void AndTests(object? val1, object? val2, object? expectedValue)
+  public void OptionAndTest(object? val1, object? val2, object? expectedValue)
   {
     var x = ToOption<object?>(val1);
     var y = ToOption<object?>(val2);
@@ -21,7 +21,7 @@ public class OptionAndTests
   }
 
   [Fact]
-  public void AndMismatchedTypeTest()
+  public void OptionAndMismatchedTypeTest()
   {
     var x = Option<int>.Some(2);
     var y = Option<string>.Some("foo");
@@ -34,5 +34,11 @@ public class OptionAndTests
     Assert.True(y.And<bool>(z).IsNone());
     Assert.True(z.And<int>(x).IsNone());
     Assert.True(z.And<string>(y).IsNone());
+  }
+
+  [Fact]
+  public void OptionAndNullParamTest()
+  {
+    Assert.Throws<PanicException>(() => Option<string>.None().And<string>(null!));
   }
 }

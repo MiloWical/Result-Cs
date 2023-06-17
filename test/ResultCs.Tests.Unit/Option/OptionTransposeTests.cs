@@ -35,30 +35,30 @@ public class OptionTransposeTests
   }
 
   [Fact]
-  public void ResultTransposeOkUnassignableOkTypeTest()
+  public void OptionTransposeSomeUnassignableResultOkTypeTest()
   {
     Assert.Throws<PanicException>(() => Option<string>.Some("5").Transpose<int, string>());   
   }
 
   [Fact]
-  public void ResultTransposeUnassignableResultOkTypeTest()
+  public void OptionTransposeUnassignableResultOkTypeTest()
   {
     Assert.Throws<PanicException>(() => Option<Result<int, int>>.Some(Result<int, int>.Ok(5)).Transpose<string, int>());   
   }
 
   [Fact]
-  public void ResultTransposeUnassignableResultErrTypeTest()
+  public void OptionTransposeUnassignableResultErrTypeTest()
   {
     Assert.Throws<PanicException>(() => Option<Result<int, int>>.Some(Result<int, int>.Ok(5)).Transpose<int, string>());   
   }
 
-  // [Fact]
-  // public void ResultTransposeErrSomeTest()
-  // {
-  //   var x = Result<Option<int>, string>.Err("Bad mojo");
-  //   var y = Option<Result<int, string>>.Some(Result<int, string>.Err("Bad mojo"));
-  //   var transpose = x.Transpose<int>();
+  [Fact]
+  public void OptionTransposeResultErrSomeTest()
+  {
+    var x = Result<Option<int>, string>.Err("Bad mojo");
+    var y = Option<Result<int, string>>.Some(Result<int, string>.Err("Bad mojo"));
+    var transpose = x.Transpose<int>();
 
-  //   Assert.True(y.Equals(transpose));
-  // }
+    Assert.True(y.Equals(transpose));
+  }
 }

@@ -22,4 +22,10 @@ public class OptionIsSomeAndTests
     var x = Option<int>.None();
     Assert.False(x.IsSomeAnd(x => x > 1));
   }
+
+  [Fact]
+  public void OptionIsSomeAndNullDelegateTest()
+  {
+    Assert.Throws<PanicException>(() => Option<string>.Some(string.Empty).IsSomeAnd(null!));
+  }
 }

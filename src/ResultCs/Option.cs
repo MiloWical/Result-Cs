@@ -64,6 +64,16 @@ public class Option<TSome>
   private TSome? val;
 
   /// <summary>
+  /// Initializes a new instance of the <see cref="Option{TSome}"/> class.
+  ///
+  /// This is internal to prevent external users from directly instantiating
+  /// this class without using the static convenience methods.
+  /// </summary>
+  internal Option()
+  {
+  }
+
+  /// <summary>
   /// Gets the <see cref="OptionKind"/> of the current <c>Option</c>.
   /// </summary>
   public OptionKind Kind { get; private set; }
