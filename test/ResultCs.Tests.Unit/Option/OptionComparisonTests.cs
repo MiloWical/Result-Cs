@@ -39,10 +39,8 @@ public class OptionComparisonTests
   public void SomeNullValueThrowsException()
   {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-    var thrownException = Assert.Throws<ArgumentNullException>(() => Option<string>.Some(null));
+    var thrownException = Assert.Throws<PanicException>(() => Option<string>.Some(null));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-
-    Assert.Equal("value", thrownException.ParamName);
   }
 
   [Fact]

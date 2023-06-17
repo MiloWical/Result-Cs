@@ -25,7 +25,7 @@ public class OptionGetOrInsertTests
   [Fact]
   public void OptionGetOrInsertNullValueTest()
   {
-    Assert.Throws<ArgumentNullException>(() => Option<string>.None().GetOrInsert(null!));
-    Assert.Throws<ArgumentNullException>(() => Option<string>.Some(string.Empty).GetOrInsert(null!));
+    Assert.Throws<PanicException>(() => Option<string>.None().GetOrInsert(null!));
+    Assert.Throws<PanicException>(() => Option<string>.Some(string.Empty).GetOrInsert(null!));
   }
 }
