@@ -4,6 +4,6 @@
 
 using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("ResultCs.Tests.Unit")]
+[assembly: InternalsVisibleTo("ResultCs.Tests.Unit")]
 
 #endif
