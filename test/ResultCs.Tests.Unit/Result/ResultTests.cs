@@ -124,4 +124,28 @@ public class ResultTests
     Assert.Equal(y.GetHashCode(), y.GetHashCode());
     Assert.NotEqual(x.GetHashCode(), y.GetHashCode());
   }
+
+  [Fact]
+  public void ResultEqualityOperatorLeftOperandNullTest()
+  {
+    Assert.Throws<PanicException>(() => null! == Result<string, string>.Ok(string.Empty));
+  }
+
+  [Fact]
+  public void ResultEqualityOperatorRightOperandNullTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Ok(string.Empty) == null!);
+  }
+
+  [Fact]
+  public void ResultInequalityOperatorLeftOperandNullTest()
+  {
+    Assert.Throws<PanicException>(() => null! != Result<string, string>.Ok(string.Empty));
+  }
+
+  [Fact]
+  public void ResultInequalityOperatorRightOperandNullTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Ok(string.Empty) != null!);
+  }
 }

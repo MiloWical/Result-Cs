@@ -38,4 +38,16 @@ public class ResultAndThenTests
       return Result<string, string>.Err("overflowed");
     }
   }
+
+  [Fact]
+  public void ResultAndThenNullDelegateTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Ok(string.Empty).AndThen<string>(null!));
+  }
+
+  [Fact]
+  public void ResultAndThenDelegateReturnsNullTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Ok(string.Empty).AndThen<string>(_ => null!));
+  }
 }

@@ -15,6 +15,17 @@ public class ResultMapErrTests
     var x = Result<int, int>.Err(13);
     Assert.Equal(x.MapErr(Stringify), Result<int, string>.Err("error code: 13"));
   }
+  [Fact]
+  public void ResultMapErrNullDelegateTest()
+  {
+    Assert.Throws<PanicException>(() => Result<int, int>.Err(1).MapErr<int>(null!));
+  }
+
+  [Fact]
+  public void ResultMapErrDelegateReturnsNullTest()
+  {
+    Assert.Throws<PanicException>(() => Result<int, int>.Err(1).MapErr<int?>(_ => null!));
+  }
 
   private string Stringify(int x)
   {

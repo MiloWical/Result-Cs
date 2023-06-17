@@ -20,6 +20,12 @@ public class ResultUnwrapOrDefaultTests
     Assert.Equal(0, badYear);
   }
 
+  [Fact]
+  public void ResultUnwrapOrDefaultNullTypeDefaultTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Err(string.Empty).UnwrapOrDefault());
+  }
+
   private Result<int, string> Parse(string input)
   {
     if(int.TryParse(input, out int parsedInput))

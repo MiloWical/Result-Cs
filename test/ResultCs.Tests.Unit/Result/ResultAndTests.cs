@@ -42,4 +42,10 @@ public class ResultAndTests
     var y = Result<string, string>.Ok("different result type");
     Assert.Equal(x.And<string>(y), Result<string, string>.Ok("different result type"));
   }
+
+  [Fact]
+  public void ResultAndNullDefaultValueTest()
+  {
+    Assert.Throws<PanicException>(() => Result<int, string>.Ok(2).And<string>(null!));
+  }
 }

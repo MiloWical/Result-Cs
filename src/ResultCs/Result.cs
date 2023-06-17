@@ -84,7 +84,7 @@ public class Result<TOk, TErr>
 
     if (res2 is null)
     {
-      throw new PanicException($"Cannot compare an Result<{typeof(TOk)}, {typeof(TErr)}> for equality to a null Result<{typeof(TOk)}, {typeof(TErr)}>.");
+      throw new PanicException($"Cannot compare a Result<{typeof(TOk)}, {typeof(TErr)}> for equality to a null Result<{typeof(TOk)}, {typeof(TErr)}>.");
     }
 
     return res1.Equals(res2);

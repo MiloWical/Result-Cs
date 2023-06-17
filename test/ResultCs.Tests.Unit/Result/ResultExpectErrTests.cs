@@ -22,4 +22,10 @@ public class ResultExpectErrTests
     Assert.Contains(okValue.ToString(), output.Message);
     Assert.Contains(panicMessage, output.Message);
   }
+
+  [Fact]
+  public void ResultExpectErrNullMessageTest()
+  {
+    Assert.Throws<PanicException>(() => Result<int, string>.Ok(okValue).ExpectErr(null!));
+  }
 }

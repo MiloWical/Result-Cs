@@ -43,4 +43,12 @@ public class ResultTransposeTests
 
     Assert.True(y.Equals(transpose));
   }
+
+  [Fact]
+  public void ResultTransposeTypeMismatchTest()
+  {
+    var res = Result<Option<string>, string>.Ok(Option<string>.Some("value"));
+
+    Assert.Throws<PanicException>(() => res.Transpose<int>());
+  }
 }
