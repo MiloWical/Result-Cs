@@ -10,7 +10,7 @@ public class OptionComparisonTests
   [InlineData(null, 1, false)]
   [InlineData(1, null, false)]
   [InlineData(1, 2, false)]
-  public void EqualsTest(int? val1, int? val2, bool expectedResult)
+  public void OptionEqualsTest(int? val1, int? val2, bool expectedResult)
   {
     var x = ToOption<int?>(val1);
     var y = ToOption<int?>(val2);
@@ -19,7 +19,7 @@ public class OptionComparisonTests
   }
 
   [Fact]
-  public void SomeKindReturnValue()
+  public void OptionSomeKindReturnValue()
   {
     Option<string> option = Option<string>.Some(string.Empty);
 
@@ -27,7 +27,7 @@ public class OptionComparisonTests
   }
 
   [Fact]
-  public void SomeUnwrapReturnValue()
+  public void OptionSomeUnwrapReturnValue()
   {
     var testString = Guid.NewGuid().ToString();
     Option<string> option = Option<string>.Some(testString);
@@ -36,31 +36,29 @@ public class OptionComparisonTests
   }
 
   [Fact]
-  public void SomeNullValueThrowsException()
+  public void OptionSomeNullValueThrowsException()
   {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-    var thrownException = Assert.Throws<ArgumentNullException>(() => Option<string>.Some(null));
+    var thrownException = Assert.Throws<PanicException>(() => Option<string>.Some(null));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-
-    Assert.Equal("value", thrownException.ParamName);
   }
 
   [Fact]
-  public void NoneKindReturnValue()
+  public void OptionNoneKindReturnValue()
   {
     Option<string> option = Option<string>.None();
     Assert.Equal(OptionKind.None, option.Kind);
   }
 
   [Fact]
-  public void NoneUnwrapThrowsException()
+  public void OptionNoneUnwrapThrowsException()
   {
     Option<string> option = Option<string>.None();
     Assert.Throws<PanicException>(() => option.Unwrap());
   }
 
   [Fact]
-  public void SomeIsSomeIsNoneTest()
+  public void OptionSomeIsSomeIsNoneTest()
   {
     var option = Option<string>.Some(string.Empty);
 
@@ -69,7 +67,7 @@ public class OptionComparisonTests
   }
 
   [Fact]
-  public void NoneIsSomeIsNoneTest()
+  public void OptionNoneIsSomeIsNoneTest()
   {
     var option = Option<string>.None();
 

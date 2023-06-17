@@ -9,7 +9,7 @@ namespace WicalWare.Components.ResultCs;
 /// <summary>
 /// A wrapper that helps prevent passing <c>null</c> values within code.
 ///
-/// It can some in 2 different flavors.
+/// It can come in 2 different flavors.
 ///
 /// <ul>
 /// <li>None, which indicates that there was no value contained.</li>
@@ -62,6 +62,16 @@ public class Option<TSome>
 
   // If this Option is Some, the value wrapped by the response.
   private TSome? val;
+
+  /// <summary>
+  /// Initializes a new instance of the <see cref="Option{TSome}"/> class.
+  ///
+  /// This is internal to prevent external users from directly instantiating
+  /// this class without using the static convenience methods.
+  /// </summary>
+  internal Option()
+  {
+  }
 
   /// <summary>
   /// Gets the <see cref="OptionKind"/> of the current <c>Option</c>.

@@ -17,4 +17,10 @@ public class ResultUnwrapOrTests
     var x = Result<int, string>.Err("error");
     Assert.Equal(def, x.UnwrapOr(def));
   }
+
+  [Fact]
+  public void ResultUnwrapOrNullDefaultTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Err("error").UnwrapOr(null!));
+  }
 }

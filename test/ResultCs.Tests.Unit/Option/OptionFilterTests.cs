@@ -20,6 +20,12 @@ public class OptionFilterTests
     Assert.Equal(Option<int>.None(), Option<int>.None().Filter(IsEven));
   }
 
+  [Fact]
+  public void OptionFilterNullPredicateTest()
+  {
+    Assert.Throws<PanicException>(() => Option<string>.Some(string.Empty).Filter(null!));
+  }
+
   private bool IsEven(int n)
   {
     return (n % 2) == 0;

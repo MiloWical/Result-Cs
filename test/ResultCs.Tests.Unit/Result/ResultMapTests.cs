@@ -25,4 +25,15 @@ public class ResultMapTests
     }
   }
 
+  [Fact]
+  public void ResultMapNullDelegateTest()
+  {
+    Assert.Throws<PanicException>(() => Result<int, int>.Ok(1).Map<int>(null!));
+  }
+
+  [Fact]
+  public void ResultMapDelegateReturnsNullTest()
+  {
+    Assert.Throws<PanicException>(() => Result<int, int>.Ok(1).Map<int?>(_ => null!));
+  }
 }

@@ -25,8 +25,8 @@ public class OptionGetOrInsertWithTests
   [Fact]
   public void OptionGetOrInsertWithNullDelegateTest()
   {
-    Assert.Throws<ArgumentNullException>(() => Option<string>.None().GetOrInsertWith(null!));
-    Assert.Throws<ArgumentNullException>(() => Option<string>.Some(string.Empty).GetOrInsertWith(null!));
+    Assert.Throws<PanicException>(() => Option<string>.None().GetOrInsertWith(null!));
+    Assert.Throws<PanicException>(() => Option<string>.Some(string.Empty).GetOrInsertWith(null!));
   }
 
   [Fact]

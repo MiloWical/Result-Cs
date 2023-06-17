@@ -9,7 +9,7 @@ namespace WicalWare.Components.ResultCs;
 /// <summary>
 /// A wrapper that helps prevent passing <c>null</c> values within code.
 ///
-/// It can some in 2 different flavors.
+/// It can come in 2 different flavors.
 ///
 /// <ul>
 /// <li>Ok(TOk), which contains a wrapped value of type <c>TSome</c>.
@@ -84,7 +84,7 @@ public class Result<TOk, TErr>
 
     if (res2 is null)
     {
-      throw new PanicException($"Cannot compare an Result<{typeof(TOk)}, {typeof(TErr)}> for equality to a null Result<{typeof(TOk)}, {typeof(TErr)}>.");
+      throw new PanicException($"Cannot compare a Result<{typeof(TOk)}, {typeof(TErr)}> for equality to a null Result<{typeof(TOk)}, {typeof(TErr)}>.");
     }
 
     return res1.Equals(res2);

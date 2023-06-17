@@ -22,12 +22,18 @@ public class ResultExpectTests
   }
 
   [Fact]
-  public void ResultsExpectErrExceptionTest()
+  public void ResultExpectErrExceptionTest()
   {
     PanicException response = Assert.Throws<PanicException>(() => Result<string, Exception>.Err(new Exception(errMessage)).Expect(panicMessage));
 
     Assert.IsType<Exception>(response.InnerException);
     Assert.Contains(errMessage, response.Message);
     Assert.Contains(panicMessage, response.Message);
+  }
+
+  [Fact]
+  public void ResultExpectNullMessageTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Ok(string.Empty).Expect(null!));
   }
 }

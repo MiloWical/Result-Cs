@@ -17,4 +17,8 @@
     <AdditionalFiles Include=".stylecop/stylecop.json" />
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DefineConstants>RELEASE</DefineConstants>
+  </PropertyGroup>
+
 </Project>

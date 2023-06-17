@@ -13,7 +13,7 @@ public class ResultTests
   [Fact]
   public void ResultOkWithNullParamTest()
   {
-    Assert.Throws<ArgumentNullException>(() => Result<int?, string>.Ok(null));
+    Assert.Throws<PanicException>(() => Result<int?, string>.Ok(null));
   }
 
   [Fact]
@@ -27,7 +27,7 @@ public class ResultTests
   [Fact]
   public void ResultErrWithNullParamTest()
   {
-    Assert.Throws<ArgumentNullException>(() => Result<int?, string>.Err(null!));
+    Assert.Throws<PanicException>(() => Result<int?, string>.Err(null!));
   }
 
   [Fact]
@@ -76,7 +76,7 @@ public class ResultTests
   {
     var x = Result<int, string>.Ok(1);
 
-    Assert.False(x.Equals(null));
+    Assert.Throws<PanicException>(() => x.Equals(null));
   }
 
   [Fact]
@@ -123,5 +123,29 @@ public class ResultTests
     Assert.Equal(x.GetHashCode(), x.GetHashCode());
     Assert.Equal(y.GetHashCode(), y.GetHashCode());
     Assert.NotEqual(x.GetHashCode(), y.GetHashCode());
+  }
+
+  [Fact]
+  public void ResultEqualityOperatorLeftOperandNullTest()
+  {
+    Assert.Throws<PanicException>(() => null! == Result<string, string>.Ok(string.Empty));
+  }
+
+  [Fact]
+  public void ResultEqualityOperatorRightOperandNullTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Ok(string.Empty) == null!);
+  }
+
+  [Fact]
+  public void ResultInequalityOperatorLeftOperandNullTest()
+  {
+    Assert.Throws<PanicException>(() => null! != Result<string, string>.Ok(string.Empty));
+  }
+
+  [Fact]
+  public void ResultInequalityOperatorRightOperandNullTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Ok(string.Empty) != null!);
   }
 }

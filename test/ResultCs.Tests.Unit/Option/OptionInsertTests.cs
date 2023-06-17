@@ -23,7 +23,7 @@ public class OptionInsertTests
   [Fact]
   public void OptionInsertNullValueTest()
   {
-    Assert.Throws<ArgumentNullException>(() => Option<string>.None().Insert(null!));
-    Assert.Throws<ArgumentNullException>(() => Option<string>.Some(string.Empty).Insert(null!));
+    Assert.Throws<PanicException>(() => Option<string>.None().Insert(null!));
+    Assert.Throws<PanicException>(() => Option<string>.Some(string.Empty).Insert(null!));
   }
 }

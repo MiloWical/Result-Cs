@@ -14,6 +14,18 @@ public class ResultUnwrapOrElseTests
     Assert.Equal(3, Result<int, string>.Err("foo").UnwrapOrElse(Count));
   }
 
+  [Fact]
+  public void ResultUnwrapOrElseNullDelegateTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Err("foo").UnwrapOrElse(null!));
+  }
+
+  [Fact]
+  public void ResultUnwrapOrElseDelegateReturnsNullTest()
+  {
+    Assert.Throws<PanicException>(() => Result<string, string>.Err("foo").UnwrapOrElse(_ => null!));
+  }
+
   private int Count(string x)
   {
     return x.Length;

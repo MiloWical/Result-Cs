@@ -19,4 +19,10 @@ public class OptionExpectTests
     var thrownException = Assert.Throws<PanicException>(() => x.Expect(message)); // panics with <c>fruits are healthy<c>
     Assert.Equal(message, thrownException.Message);
   }
+
+  [Fact]
+  public void OptionExpectNullMessageTest()
+  {
+    Assert.Throws<PanicException>(() => Option<string>.None().Expect(null!));
+  }
 }

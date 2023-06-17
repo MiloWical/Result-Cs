@@ -37,6 +37,18 @@ public class OptionAndThenTests
     Assert.Equal(Option<string>.None(), item_2_0);
   }
 
+  [Fact]
+  public void OptionAndThenNullDelegateTest()
+  {
+    Assert.Throws<PanicException>(() => Option<string>.None().AndThen<string>(null!));
+  }
+
+  [Fact]
+  public void OptionAndThenDelegateReturnsNullTest()
+  {
+    Assert.Throws<PanicException>(() => Option<string>.Some(string.Empty).AndThen<string>(_ => null!));
+  }
+
   private Option<string> SqThenToString(int x)
   {
     try
