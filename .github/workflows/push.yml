@@ -55,8 +55,8 @@ jobs:
     - name: Write Coverage Badges to Job Summary
       run: |
         cat '![Line Coverage]\(${{ github.workspace }}/CodeCoverage/badge_linecoverage.svg\)' >> $GITHUB_STEP_SUMMARY && \
-        cat '![Branch Coverage]\(${{ github.workspace }}/CodeCoverage/badge_branchcoverage.svg\) >> $GITHUB_STEP_SUMMARY && \
-        cat '![Method Coverage]\(${{ github.workspace }}/CodeCoverage/badge_methodcoverage.svg\) >> $GITHUB_STEP_SUMMARY
+        cat '![Branch Coverage]\(${{ github.workspace }}/CodeCoverage/badge_branchcoverage.svg\)' >> $GITHUB_STEP_SUMMARY && \
+        cat '![Method Coverage]\(${{ github.workspace }}/CodeCoverage/badge_methodcoverage.svg\)' >> $GITHUB_STEP_SUMMARY
 
     - name: Write Coverage Summary to Job Summary
       run: cat ${{ github.workspace }}/CodeCoverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
