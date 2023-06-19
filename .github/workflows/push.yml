@@ -42,18 +42,15 @@ jobs:
       run: dotnet build ./src/ResultCs/ResultCs.csproj
 
     - name: Run ResultCs Unit Tests
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj
+      run: dotnet test /p:CollectCoverage=true /p:Threshold=80 /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj
 
     - name: Run ResultCs Integration Tests
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
+      run: dotnet test /p:CollectCoverage=true /p:Threshold=80 /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
     - name: Create code coverage report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool
-        reportgenerator -reports:${{ github.workspace }}/**/lcov.info -targetdir:${{ github.workspace }}/CodeCoverage -reporttypes:'MarkdownSummaryGithub;MarkdownDeltaSummary'
-        
+        reportgenerator -reports:${{ github.workspace }}/**/lcov.info -targetdir:${{ github.workspace }}/CodeCoverage -reporttypes:'MarkdownSummaryGithub'
+
     - name: Write Coverage Summary to Job Summary
       run: cat ${{ github.workspace }}/CodeCoverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
-
-    - name: Write Delta Summary to Job Summary
-      run: cat ${{ github.workspace }}/CodeCoverage/DeltaSummary.md >> $GITHUB_STEP_SUMMARY
