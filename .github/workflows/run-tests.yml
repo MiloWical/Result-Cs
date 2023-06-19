@@ -1,10 +1,14 @@
+on: workflow_call
+
 name: 'Run ${{ inputs.suite }} Tests'
-description: 'Runs the specified testing suite and uploads the test ResultCs.'
-inputs:
-  suite:
-    description: 'The test suite to run (e.g. Unit).'
-    required: true
-runs:
+# description: 'Runs the specified testing suite and uploads the test ResultCs.'
+# inputs:
+#   suite:
+#     description: 'The test suite to run (e.g. Unit).'
+#     required: true
+
+jobs:
+  steps:
   - name: 'Run ResultCs ${{ inputs.suite }} Tests'
     run: dotnet test --logger trx --results-directory "TestResults-${{ inputs.suite }}-${{ matrix.dotnet-version }}" .test/ResultCs.Tests.${{ inputs.suite }}/ResultCs.Tests.${{ inputs.suite }}.csproj
   
