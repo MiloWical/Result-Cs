@@ -42,7 +42,7 @@ jobs:
       run: dotnet build ./src/ResultCs/ResultCs.csproj
 
     - name: Run ResultCs Unit Tests
-      run: dotnet test --logger trx --results-directory "TestResults-Unit-${{ matrix.dotnet-version }}" .test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj
+      run: dotnet test --logger trx --results-directory "TestResults-Unit-${{ matrix.dotnet-version }}" ./test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj
     
     - name: Upload Unit Test Results
       uses: actions/upload-artifact@v3
@@ -52,7 +52,7 @@ jobs:
       if: ${{ always() }}
 
     - name: Run ResultCs Integration Tests
-      run: dotnet test --logger trx --results-directory "TestResults-Integration-${{ matrix.dotnet-version }}" .test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
+      run: dotnet test --logger trx --results-directory "TestResults-Integration-${{ matrix.dotnet-version }}" ./test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
     - name: Upload Integration Test Results
       uses: actions/upload-artifact@v3
