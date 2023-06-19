@@ -31,7 +31,7 @@ jobs:
       with:
         path: ~/.nuget/packages
         # Look to see if there is a cache hit for the corresponding requirements file
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        key: ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
         restore-keys: |
           ${{ runner.os }}-nuget
 
