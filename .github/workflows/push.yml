@@ -59,11 +59,11 @@ jobs:
     - name: Create code coverage report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool
-        reportgenerator -reports:$(Agent.WorkFolder)/**/lcov.info -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:'HTML;Badges'
+        reportgenerator -reports:${{ github.workspace }}/**/lcov.info -targetdir:${{ github.workspace }}/CodeCoverage -reporttypes:'HTML;Badges'
 
     - name: Upload Test Results
       uses: actions/upload-artifact@v3
       with:
         name: dotnet-test-results-${{ matrix.dotnet-version }}
-        path: $(Build.SourcesDirectory)/CodeCoverage
+        path: ${{ github.workspace }}/CodeCoverage
       if: ${{ always() }}
