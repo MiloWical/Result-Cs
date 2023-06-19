@@ -2,6 +2,61 @@ name: 'Branch Build'
 run-name: 'Branch Build for '
 
 on: push
+
+permissions:
+  pull-requests: read
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  checkout:
-    uses: ./.github/workflows/checkout.yml
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.x', '7.0.x' ]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3  
+
+    - name: Set Up .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    
+    - name: Configure Dependency Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
+
+    - name: Restore ResultCs Dependencies
+      run: dotnet restore ./src/ResultCs/ResultCs.csproj
+
+    - name: Build ResultCs
+      run: dotnet build ./src/ResultCs/ResultCs.csproj
+
+    - name: Run ResultCs Unit Tests
+      run: dotnet test --logger trx --results-directory "TestResults-Unit-${{ matrix.dotnet-version }}" .test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj
+    
+    - name: Upload Unit Test Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: dotnet-unit-test-results-${{ matrix.dotnet-version }}
+        path: TestResults-Unit-${{ matrix.dotnet-version }}
+      if: ${{ always() }}
+
+    - name: Run ResultCs Integration Tests
+      run: dotnet test --logger trx --results-directory "TestResults-Integration-${{ matrix.dotnet-version }}" .test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
+
+    - name: Upload Integration Test Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: dotnet-integration-test-results-${{ matrix.dotnet-version }}
+        path: TestResults-Integration-${{ matrix.dotnet-version }}
+      if: ${{ always() }}
