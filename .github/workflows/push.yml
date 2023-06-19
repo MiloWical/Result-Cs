@@ -1,5 +1,5 @@
 name: 'Branch Build'
-run-name: 'Branch Build for '
+run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 
 on: push
 
@@ -33,7 +33,7 @@ jobs:
         # Look to see if there is a cache hit for the corresponding requirements file
         key: ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
         restore-keys: |
-          ${{ runner.os }}-nuget
+          ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
 
     - name: Restore ResultCs Dependencies
       run: dotnet restore ./src/ResultCs/ResultCs.csproj
@@ -56,9 +56,14 @@ jobs:
       # run: dotnet test --logger trx --results-directory "TestResults-Integration-${{ matrix.dotnet-version }}" ./test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
       run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
-    - name: Upload Integration Test Results
+    - name: Create code coverage report
+      run: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool
+        reportgenerator -reports:$(Agent.WorkFolder)/**/lcov.info -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:'HTML;Badges'
+
+    - name: Upload Test Results
       uses: actions/upload-artifact@v3
       with:
-        name: dotnet-integration-test-results-${{ matrix.dotnet-version }}
-        path: ./test/ResultCs.Tests.Integration/TestResults/lcov.info
+        name: dotnet-test-results-${{ matrix.dotnet-version }}
+        path: $(Build.SourcesDirectory)/CodeCoverage
       if: ${{ always() }}
