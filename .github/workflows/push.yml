@@ -1,9 +1,7 @@
 name: 'Branch Build'
+run-name: 'Branch Build for '
 
 on: push
 jobs:
-  my-job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: my-step
-        run: echo "Hello World!"
+  checkout:
+    uses: ./.github/workflows/checkout.yml
