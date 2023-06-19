@@ -1,4 +1,0 @@
-# on: workflow_call
-
-# name: 'Set Up .NET Configuration'
-# description: 'Sets up the .NET versions and '

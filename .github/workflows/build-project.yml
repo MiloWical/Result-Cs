@@ -1,8 +1,0 @@
-name: Build ResultCs
-description: Restores dependencies and builds ResultCs.
-runs:
-  - name: Restore ResultCs Dependencies
-    run: dotnet restore ./src/ResultCs/ResultCs.csproj
-
-  - name: Build ResultCs
-    run: dotnet build ./src/ResultCs/ResultCs.csproj
