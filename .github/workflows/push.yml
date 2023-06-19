@@ -53,10 +53,7 @@ jobs:
         reportgenerator -reports:${{ github.workspace }}/**/lcov.info -targetdir:${{ github.workspace }}/CodeCoverage -reporttypes:'MarkdownSummaryGithub;Badges'
 
     - name: Write Coverage Badges to Job Summary
-      run: |
-        echo "<html>$(cat ${{ github.workspace }}/CodeCoverage/badge_linecoverage.svg)</html>" >> $GITHUB_STEP_SUMMARY && \
-        echo "<html>$(${{ github.workspace }}/CodeCoverage/badge_branchcoverage.svg)</html>" >> $GITHUB_STEP_SUMMARY && \
-        echo "<html>$(${{ github.workspace }}/CodeCoverage/badge_methodcoverage.svg)</html>" >> $GITHUB_STEP_SUMMARY
-
+      run: echo "<html>$(cat ${{ github.workspace }}/CodeCoverage/badge_linecoverage.svg)</html>" >> $GITHUB_STEP_SUMMARY
+        
     - name: Write Coverage Summary to Job Summary
       run: cat ${{ github.workspace }}/CodeCoverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
