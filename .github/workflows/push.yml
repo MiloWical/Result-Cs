@@ -52,5 +52,11 @@ jobs:
         dotnet tool install -g dotnet-reportgenerator-globaltool
         reportgenerator -reports:${{ github.workspace }}/**/lcov.info -targetdir:${{ github.workspace }}/CodeCoverage -reporttypes:'MarkdownSummaryGithub'
 
+    - name: Write Line Coverage Badge to Job Summary
+      run: echo '![Line Code Coverage]('$(./badge-url.sh Line ${{ github.workspace }}/CodeCoverage/SummaryGithub.md)')' >> $GITHUB_STEP_SUMMAR
+
+    - name: Write Branch Coverage Badge to Job Summary
+      run: echo '![Branch Code Coverage]('$(./badge-url.sh Branch ${{ github.workspace }}/CodeCoverage/SummaryGithub.md)')' >> $GITHUB_STEP_SUMMAR
+
     - name: Write Coverage Summary to Job Summary
       run: cat ${{ github.workspace }}/CodeCoverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
