@@ -14,7 +14,7 @@ on:
         description: "The test projects to run."
         required: false
         type: string
-        default: [ ]:
+        default: [ ]
       test-coverage-threshold:
         description: "The code coverage threshold for the test projects. [Default = 80]"
         required: false
