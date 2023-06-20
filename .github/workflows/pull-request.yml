@@ -2,9 +2,8 @@ name: 'Pull Request Build'
 run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 
 on:
-  workflow_run:
-    workflows: ['CodeQL']
-    types: [completed]
+  pull_request:
+    branches: [ "main" ]
 
 permissions:
   pull-requests: read
