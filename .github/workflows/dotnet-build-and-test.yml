@@ -1,0 +1,70 @@
+on: 
+  workflow_call:
+    inputs:
+      dotnet-version:
+        description: "List of the .NET versions used to build the project."
+        required: false
+        type: string
+        default: [ '6.0.x', '7.0.x' ]
+      project:
+        description: "The C# project to build."
+        required: true
+        type: string
+      test-project:
+        description: "The test projects to run."
+        required: false
+        type: string
+        default: [ ]:
+      test-coverage-threshold:
+        description: "The code coverage threshold for the test projects. [Default = 80]"
+        required: false
+        type: number
+        default: 80
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ${{ inputs.dotnet-version }}
+        test-project: ${{ inputs.test-project }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3  
+
+    - name: Set Up .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    
+    - name: Configure Dependency Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
+
+    - name: Restore ${{ inputs.project }} Dependencies
+      run: dotnet restore ${{ inputs.project }}
+
+    - name: Build ${{ inputs.project }}
+      run: dotnet build ${{ inputs.project }}
+
+    - name: Run ${{ matrix.test-project }}
+      run: dotnet test /p:CollectCoverage=true /p:Threshold=${{ inputs.test-coverage-threshold }} /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ${{ matrix.test-project }}
+
+    - name: Create code coverage report
+      run: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool
+        reportgenerator -reports:${{ github.workspace }}/**/lcov.info -targetdir:${{ github.workspace }}/CodeCoverage -reporttypes:'MarkdownSummaryGithub'
+
+    - name: Write Line Coverage Badge to Job Summary
+      run: echo '![Line Code Coverage]('$(${{ github.workspace }}/.github/workflows/badge-url.sh Line ${{ github.workspace }}/CodeCoverage/SummaryGithub.md)')' >> $GITHUB_STEP_SUMMARY
+
+    - name: Write Branch Coverage Badge to Job Summary
+      run: echo '![Branch Code Coverage]('$(${{ github.workspace }}/.github/workflows/badge-url.sh Branch ${{ github.workspace }}/CodeCoverage/SummaryGithub.md)')' >> $GITHUB_STEP_SUMMARY
+
+    - name: Write Coverage Summary to Job Summary
+      run: cat ${{ github.workspace }}/CodeCoverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
