@@ -13,7 +13,50 @@ concurrency:
 
 jobs:
   build-and-test:
-    uses: ./.github/workflows/dotnet-build-and-test.yml
-    with:
-      project: src/ResultCs/ResultCs.csproj
-      test-project: [ test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj, test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj ]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.x', '7.0.x' ]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3  
+
+    - name: Set Up .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    
+    - name: Configure Dependency Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
+
+    - name: Restore ResultCs Dependencies
+      run: dotnet restore ./src/ResultCs/ResultCs.csproj
+
+    - name: Build ResultCs
+      run: dotnet build ./src/ResultCs/ResultCs.csproj
+
+    - name: Run ResultCs Unit Tests
+      run: dotnet test /p:CollectCoverage=true /p:Threshold=80 /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj
+
+    - name: Run ResultCs Integration Tests
+      run: dotnet test /p:CollectCoverage=true /p:Threshold=80 /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
+
+    - name: Create code coverage report
+      run: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool
+        reportgenerator -reports:${{ github.workspace }}/**/lcov.info -targetdir:${{ github.workspace }}/CodeCoverage -reporttypes:'MarkdownSummaryGithub'
+
+    - name: Write Line Coverage Badge to Job Summary
+      run: echo '![Line Code Coverage]('$(${{ github.workspace }}/.github/workflows/badge-url.sh Line ${{ github.workspace }}/CodeCoverage/SummaryGithub.md)')' >> $GITHUB_STEP_SUMMARY
+
+    - name: Write Branch Coverage Badge to Job Summary
+      run: echo '![Branch Code Coverage]('$(${{ github.workspace }}/.github/workflows/badge-url.sh Branch ${{ github.workspace }}/CodeCoverage/SummaryGithub.md)')' >> $GITHUB_STEP_SUMMARY
+
+    - name: Write Coverage Summary to Job Summary
+      run: cat ${{ github.workspace }}/CodeCoverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
