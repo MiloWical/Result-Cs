@@ -1,7 +1,11 @@
 name: 'Branch Build'
 run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 
-on: push
+on: 
+  push:
+    branches:
+      exclude:
+      - main
 
 permissions:
   pull-requests: read
