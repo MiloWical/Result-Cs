@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-test:
+  pull-request-build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
