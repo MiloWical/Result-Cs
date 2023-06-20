@@ -3,8 +3,7 @@ run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 
 on: 
   push:
-    branches:
-      exclude:
+    branches-ignore:
       - main
 
 permissions:
