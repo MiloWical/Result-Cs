@@ -26,11 +26,11 @@ The Rust paradigm for avoiding `null` as a concept involves the use of using enu
 
 ### Enumerations
 
-One of the distinctions between Rust and C# is that C# doesn't have the notion of enums that can optionally carry values. The implementation of this pattern still uses the concept of enums for defining the context that underlying value represents, but has to implement it in the manner the C# language dictates.
+One of the distinctions between Rust and C# is that C# doesn't have the notion of enums that can optionally carry values. The implementation of this pattern still uses the concept of enums for defining the context that the underlying value represents, but has to implement it in the manner the C# language dictates.
 
 ### Memory Management
 
-Another distinction is that C# uses a garbage collector for memory management, so understanding the concepts of ownership and mutability are largely transparent to the C# developer, while Rust developers are acutely (and at times painfully) aware of them. Consequently, many of the Rust idioms for managing ownership and consumption of values don't apply so the corresponding interfaces in the Rust API have been left out to simplify the C# API surface area.
+Another distinction is that C# uses a garbage collector for memory management, so understanding the concepts of ownership and mutability are largely transparent to the C# developer; Rust developers, on the other hand, are acutely (and at times painfully) aware of them. Consequently, many of the Rust idioms for managing ownership and consumption of values don't apply, so the corresponding interfaces in the Rust API have been left out to simplify the C# API surface area.
 
 ### Experimental Functions
 
@@ -48,7 +48,7 @@ The simplest value implemented in this library is the `Option<T>` type. It consi
 
 - `None`: Indicates that the `Option` has no usable value (closest to the intuitive notion of `null`)
 
-- `Some`: Indicates that the `Option` has a value that can be "unwrapped" (Rust idiom) to get to the internal value, which will never be `null`.
+- `Some`: Indicates that the `Option` has a value of type `T` that can be "unwrapped" (Rust idiom) to get to the internal value, which will never be `null`.
 
 #### `Option` Example
 
@@ -84,7 +84,7 @@ public static class NullSafeExtensions
 
 ### `Result<T, E>`
 
-The `Result<T, E>` type is slightly more complex than the `Option<T>` type, though the general thought processes are directly applicable. The `Result` can have one of two types:
+The `Result<T, E>` type is slightly more complex than the `Option<T>` type, though the general thought processes are directly applicable. The `Result` can wrap values of one of two types:
 
 - `T`: The wrapped type to return in the event the resulting value has semantic value.
 
@@ -152,6 +152,6 @@ To maintain a reasonable level of parity with the Rust mechanics of dealing with
 
 ## Parting Words
 
-The entire notion of being able to program away a class of problems that has caused so much havoc in the computer science and software engineering worlds is alluring to mme to say the least. I feel like those of us in the trenches have a great opportunity to further our craft and make the (software) world a better, safer place. 
+The entire notion of being able to program away a class of problems that has caused so much havoc in the computer science and software engineering worlds is alluring to me to say the least. I feel like those of us in the trenches have a great opportunity to further our craft and make the (software) world a better, safer place. 
 
 Keep calm, code on, and rock out. :metal:
