@@ -59,7 +59,7 @@ jobs:
       - name: Commit Docs
         run: |
           git add '${{ github.workspace }}/docs/'
-          git commit -m 'Generated documentation for ${{ github.ref_name }} (${{ github.sha }})'
+          git commit -allow-empty -m 'Generated documentation for ${{ github.ref_name }} (${{ github.sha }})'
           git push -u origin '${{ github.ref_name }}-docs'
 
       # - name: Create Pull Request
