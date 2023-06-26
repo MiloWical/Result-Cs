@@ -45,6 +45,7 @@ jobs:
       - name: Create Branch
         run: |
           git checkout -b '${{ github.ref_name }}-docs'
+          git branch --set-upstream-to='origin/${{ github.ref_name }}-docs' '${{ github.ref_name }}-docs'
           git pull
           ls
 
