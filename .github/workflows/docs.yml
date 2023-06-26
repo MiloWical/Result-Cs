@@ -35,10 +35,10 @@ jobs:
       - name: Configure GitHub
         env:
             SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        # git config --global pull.rebase true
         run: |
             git config --global user.email "milo.wical@gmail.com"
             git config --global user.name "J.A.R.V.I.S. [GitHub Actions]"
-            git config --global pull.rebase true
 
       - name: Checkout
         uses: actions/checkout@v3
