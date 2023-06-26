@@ -3,8 +3,7 @@ run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 
 on: 
   push:
-    branches-ignore:
-      - main
+    branches-ignore: ["main", "**-docs"]
 
 permissions:
   pull-requests: read

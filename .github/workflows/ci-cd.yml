@@ -1,8 +1,8 @@
-name: 'Pull Request Build'
+name: 'Main CI/CD Pipeline'
 run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
     branches-ignore: ["**-docs"]
 
@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  pull-request-build-and-test:
+  ci-cd-build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
