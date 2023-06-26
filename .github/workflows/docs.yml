@@ -38,6 +38,7 @@ jobs:
         run: |
             git config --global user.email "milo.wical@gmail.com"
             git config --global user.name "J.A.R.V.I.S. [GitHub Actions]"
+            git config --global pull.ff true
 
       - name: Checkout
         uses: actions/checkout@v3
