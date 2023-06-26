@@ -46,9 +46,8 @@ jobs:
       # git checkout -b '${{ github.ref_name }}-docs'
       - name: Create Branch
         run: | 
-          git branch --set-upstream-to='origin/${{ github.ref_name }}-docs' '${{ github.ref_name }}-docs'
-          git fetch
-          git pull
+          git branch '${{ github.ref_name }}-docs'
+          git pull origin '${{ github.ref_name }}-docs'
           ls
 
       # - name: Clean up old docs
