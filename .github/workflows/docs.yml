@@ -44,10 +44,10 @@ jobs:
 
       - name: Create Branch
         run: |
+          git fetch origin
           git checkout -b '${{ github.ref_name }}-docs'
-          # git pull origin '${{ github.ref_name }}-docs' --ff-only
-          git fetch 'origin/'${{ github.ref_name }}-docs'
-          git pull 'origin/'${{ github.ref_name }}-docs'
+          # git pull origin '${{ github.ref_name }}-docs' --ff-only         
+          git pull '${{ github.ref_name }}-docs'
 
       # - name: Clean up old docs
       #   run: rm -rf '${{ github.workspace }}/docs'
