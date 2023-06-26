@@ -44,8 +44,8 @@ jobs:
 
       - name: Create Branch
         run: |
-          git fetch origin
           git checkout -b '${{ github.ref_name }}-docs'
+          git pull
           ls
 
       # - name: Clean up old docs
