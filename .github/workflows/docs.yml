@@ -43,7 +43,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Create Branch
-        run: git checkout -b  '${{ github.ref_name }}-docs'
+        run: |
+          git checkout -b '${{ github.ref_name }}-docs'
+          git pull origin '${{ github.ref_name }}-docs'
 
       - name: Clean up old docs
         run: rm -rf '${{ github.workspace }}/docs'
