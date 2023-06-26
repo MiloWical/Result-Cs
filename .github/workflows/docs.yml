@@ -45,10 +45,10 @@ jobs:
 
       - name: Create Branch
         run: | 
-          git fetch
-          git checkout -b '${{ github.ref_name }}-docs'
+          # git checkout -b '${{ github.ref_name }}-docs'
           git branch --set-upstream-to='origin/${{ github.ref_name }}-docs' '${{ github.ref_name }}-docs'
-          git pull --allow-unrelated-histories
+          git fetch
+          git pull
           ls
 
       # - name: Clean up old docs
