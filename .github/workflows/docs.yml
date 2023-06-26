@@ -41,3 +41,20 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Create Branch
+        run: git checkout -b  '${{ github.ref_name }}-docs'
+
+      - name: Clean up old docs
+        run: rmdir -fR '${{ github.workspace }}/docs'
+
+      - name: Copy Files
+        run: |
+          mkdir '${{ github.workspace }}/docs'
+          cp '${{ github.workspace }}/README.md' '${{ github.workspace }}/docs'
+
+      - name: Commit Docs
+        run: |
+          git add '${{ github.workspace }}/docs/'
+          git commit -m 'Generated documentation for ${{ github.ref_name }} (${{ github.sha }})'
+          git push -u origin '${{ github.ref_name }}-docs'
