@@ -48,19 +48,19 @@ jobs:
           git checkout '${{ github.ref_name }}-docs' 2>/dev/null || git checkout -b '${{ github.ref_name }}-docs' 
           ls
 
-      # - name: Clean up old docs
-      #   run: rm -rf '${{ github.workspace }}/docs'
+      - name: Clean up old docs
+        run: rm -rf '${{ github.workspace }}/docs'
 
-      # - name: Copy Files
-      #   run: |
-      #     mkdir '${{ github.workspace }}/docs'
-      #     cp '${{ github.workspace }}/README.md' '${{ github.workspace }}/docs'
+      - name: Copy Files
+        run: |
+          mkdir '${{ github.workspace }}/docs'
+          cp '${{ github.workspace }}/README.md' '${{ github.workspace }}/docs'
 
-      # - name: Commit Docs
-      #   run: |
-      #     git add '${{ github.workspace }}/docs/'
-      #     git commit -m 'Generated documentation for ${{ github.ref_name }} (${{ github.sha }})'
-      #     git push -u origin '${{ github.ref_name }}-docs'
+      - name: Commit Docs
+        run: |
+          git add '${{ github.workspace }}/docs/'
+          git commit -m 'Generated documentation for ${{ github.ref_name }} (${{ github.sha }})'
+          git push -u origin '${{ github.ref_name }}-docs'
 
-      # # - name: Create Pull Request
-      # #   run: git request-pull origin/master ${{ github.ref_name }}
+      # - name: Create Pull Request
+      #   run: git request-pull origin/master ${{ github.ref_name }}
