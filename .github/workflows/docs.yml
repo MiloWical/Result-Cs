@@ -47,6 +47,7 @@ jobs:
           git checkout -b '${{ github.ref_name }}-docs'
           # git pull origin '${{ github.ref_name }}-docs' --ff-only
           git fetch origin
+          git pull origin
 
       # - name: Clean up old docs
       #   run: rm -rf '${{ github.workspace }}/docs'
