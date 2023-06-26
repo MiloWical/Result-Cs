@@ -46,7 +46,7 @@ jobs:
         run: git checkout -b  '${{ github.ref_name }}-docs'
 
       - name: Clean up old docs
-        run: rmdir -fR '${{ github.workspace }}/docs'
+        run: rm -rf '${{ github.workspace }}/docs'
 
       - name: Copy Files
         run: |
