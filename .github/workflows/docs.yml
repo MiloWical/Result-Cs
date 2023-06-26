@@ -63,4 +63,6 @@ jobs:
           git push -u origin '${{ github.ref_name }}-docs'
 
       - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr create --title "Automated Documentation Generation" --body "Created documentation for GitHub pages."
