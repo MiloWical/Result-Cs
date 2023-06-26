@@ -45,8 +45,7 @@ jobs:
       - name: Create Branch
         run: | 
           git fetch
-          git checkout '${{ github.ref_name }}-docs' 2>/dev/null || git checkout -b '${{ github.ref_name }}-docs' 
-          git pull
+          $(git checkout '${{ github.ref_name }}-docs' && git pull) 2>/dev/null || git checkout -b '${{ github.ref_name }}-docs' 
 
       - name: Clean up old docs
         run: rm -rf '${{ github.workspace }}/docs'
