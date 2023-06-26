@@ -43,9 +43,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      # git checkout -b '${{ github.ref_name }}-docs'
       - name: Create Branch
         run: | 
-          # git checkout -b '${{ github.ref_name }}-docs'
           git branch --set-upstream-to='origin/${{ github.ref_name }}-docs' '${{ github.ref_name }}-docs'
           git fetch
           git pull
