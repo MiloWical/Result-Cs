@@ -68,12 +68,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr create --title "Automated Documentation Generation" --body "Created documentation for GitHub Pages."
 
-      - name: Approve Pull Request
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr review --approve
+      # - name: Approve Pull Request
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: gh pr review --approve
 
       - name: Merge Pull Request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge --admin --delete-branch --subject "Merge Automatically Generated Documentation" --body "Merging documentation generated for GitHub Pages."
+        run: gh pr merge --admin --merge --delete-branch --subject "Merge Automatically Generated Documentation" --body "Merging documentation generated for GitHub Pages."
