@@ -47,15 +47,33 @@ jobs:
         run: | 
           git fetch
           git checkout '${{ github.ref_name }}-docs' 2>/dev/null || git checkout -b '${{ github.ref_name }}-docs' 
-          ls
 
       - name: Clean up old docs
         run: rm -rf '${{ github.workspace }}/docs'
 
-      - name: Copy Files
+      - name: DocFx
         run: |
+          dotnet tool update -g docfx
           mkdir '${{ github.workspace }}/docs'
-          cp '${{ github.workspace }}/README.md' '${{ github.workspace }}/docs'
+          cd '${{ github.workspace }}/.docfx'
+          docfx init --quiet
+          cp -f ./docfx.json ./docfx_project/docfx.json
+
+      - name: Copy DocFx Files
+        run: |
+          cp -f '${{ github.workspace }}/README.md' '${{ github.workspace }}/.docfx/docfx_project/index.md'
+
+      - name: Run DocFx
+        run: |
+          cd '${{ github.workspace }}/.docfx'
+          docfx ./docfx_project/docfx.json
+
+      - name: Copy Site Files
+        run: |
+          ls '${{ github.workspace }}/.docfx/docfx_project/_site'
+          find '${{ github.workspace }}/.docfx/docfx_project/_site' -type f -exec cp {} '${{ github.workspace }}/docs/' \;
+          cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/api' '${{ github.workspace }}/docs/api'
+          cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/public' '${{ github.workspace }}/docs/public'
 
       - name: Commit Docs
         run: |
