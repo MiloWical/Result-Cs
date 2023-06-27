@@ -47,7 +47,6 @@ jobs:
         run: | 
           git fetch
           git checkout '${{ github.ref_name }}-docs' 2>/dev/null || git checkout -b '${{ github.ref_name }}-docs' 
-          ls
 
       - name: Clean up old docs
         run: rm -rf '${{ github.workspace }}/docs'
@@ -56,6 +55,7 @@ jobs:
         run: |
           mkdir '${{ github.workspace }}/docs'
           cp '${{ github.workspace }}/README.md' '${{ github.workspace }}/docs'
+          cp -r '${{ github.workspace }}/.readme' '${{ github.workspace }}/docs/.readme'
 
       - name: Commit Docs
         run: |
