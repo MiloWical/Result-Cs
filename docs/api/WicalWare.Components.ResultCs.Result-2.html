@@ -1,0 +1,1577 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class Result&lt;TOk, TErr&gt;
+ </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class Result&lt;TOk, TErr&gt;
+ ">
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/MiloWical/Result-Cs/new/DocFx-docs/apiSpec/new?filename=WicalWare_Components_ResultCs_Result_2.md&amp;value=---%0Auid%3A%20WicalWare.Components.ResultCs.Result%602%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">
+  </head>
+
+  <script type="module">
+    import options from './../public/main.js'
+    import { init } from './../public/docfx.min.js'
+    init(options)
+  </script>
+
+  <script>
+    const theme = localStorage.getItem('theme') || 'auto'
+    document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+  </script>
+
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="">
+            
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" style="margin-top: -.65em; margin-left: -.8em" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="WicalWare.Components.ResultCs.Result`2">
+
+
+
+  <h1 id="WicalWare_Components_ResultCs_Result_2" data-uid="WicalWare.Components.ResultCs.Result`2" class="text-break">
+    Class Result&lt;TOk, TErr&gt;
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L25"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WicalWare.html">WicalWare</a>.<a class="xref" href="WicalWare.Components.html">Components</a>.<a class="xref" href="WicalWare.Components.ResultCs.html">ResultCs</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>ResultCs.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>A wrapper that helps prevent passing <code>null</code> values within code.</p>
+<p>It can come in 2 different flavors.</p>
+<ul>
+<li>Ok(TOk), which contains a wrapped value of type <code>TSome</code>.
+This value can be extracted from the <code>Option</code> using the <code>Unwrap</code>
+functions.</li>
+<li>Err(TErr), which contains a wrapped error of the type <code>TErr</code>.
+This value can be extracted from the <code>Result</code> using the <code>UnwrapErr</code>
+functions.</li>
+</ul>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Result&lt;TOk, TErr&gt;</code></pre>
+  </div>
+
+
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOk</code></dt>
+    <dd><p>The type of the <code>Ok</code> value for this <code>Result</code>.</p>
+</dd>
+    <dt><code>TErr</code></dt>
+    <dd><p>The type of the <code>Err</code> value for this <code>Result</code>.</p>
+</dd>
+  </dl>
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">Result&lt;TOk, TErr&gt;</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist derived">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Kind_" data-uid="WicalWare.Components.ResultCs.Result`2.Kind*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Kind" data-uid="WicalWare.Components.ResultCs.Result`2.Kind">
+  Kind
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L70"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Gets the <a class="xref" href="WicalWare.Components.ResultCs.ResultKind.html">ResultKind</a> of the current <code>Result</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ResultKind Kind { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.ResultKind.html">ResultKind</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_AndThen_" data-uid="WicalWare.Components.ResultCs.Result`2.AndThen*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_AndThen__1_System_Func__0_WicalWare_Components_ResultCs_Result___0__1___" data-uid="WicalWare.Components.ResultCs.Result`2.AndThen``1(System.Func{`0,WicalWare.Components.ResultCs.Result{``0,`1}})">
+  AndThen&lt;TOut&gt;(Func&lt;TOk, Result&lt;TOut, TErr&gt;&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L293"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calls <code>op</code> if the result is <code>Ok</code>,
+otherwise returns the <code>Err</code> value of <code>self</code>.</p>
+<p>This function can be used for control flow based on <code>Result</code> values.</p>
+<pre><code class="lang-csharp">public Result{string, string} SquareThenToString(int x)
+{
+  try
+  {
+    int product;
+
+    checked
+    {
+      product = x*x;
+    }
+
+    return Result{string, string}.Ok(product.ToString());
+  }
+  catch(OverflowException oe)
+  {
+    return Result{string, string}.Err("overflowed");
+  }
+}
+
+Assert.Equal(Result{int, string}.Ok(2).AndThen(SquareThenToString), Result{string, string}.Ok(4.ToString()));
+Assert.Equal(Result{int, string}.Ok(int.MaxValue).AndThen(SquareThenToString), Result{string, string}.Err("overflowed"));
+Assert.Equal(Result{int, string}.Err("not a number").AndThen(SquareThenToString), Result{string, string}.Err("not a number"));</code></pre>
+<p>Often used to chain fallible operations that may return <code>Err</code>.</p>
+<pre><code class="lang-csharp">using System.IO;
+
+∕∕Note: on Windows "/" maps to "C:\"
+var rootModifiedTime = Result{DirectoryInfo, string}.Ok(new DirectoryInfo("/")).AndThen(di =} Result{DateTime, string}.Ok(di.LastWriteTime));
+Assert.True(rootModifiedTime.IsOk());
+
+var shouldFail = Result{DirectoryInfo, string}.Ok(new DirectoryInfo("/bad/path")).AndThen(di =} Result{DateTime, string}.Ok(di.LastWriteTime));
+Assert.True(shouldFail.IsErr());
+Assert.TypeOf{Exception}(shouldFail.UnwrapErr());</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Result&lt;TOut, TErr&gt; AndThen&lt;TOut&gt;(Func&lt;TOk, Result&lt;TOut, TErr&gt;&gt; f)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>f</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;TOk, <a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOut, TErr&gt;&gt;</dt>
+    <dd><p>The function to call to evaluate the current <code>Result</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOut, TErr&gt;</dt>
+    <dd><p>The result of calling <code>f</code>,
+otherwise returns the <code>Err</code> value of <code>self</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOut</code></dt>
+    <dd><p>The underlying type of the result of calling <code>f</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_And_" data-uid="WicalWare.Components.ResultCs.Result`2.And*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_And__1_WicalWare_Components_ResultCs_Result___0__1__" data-uid="WicalWare.Components.ResultCs.Result`2.And``1(WicalWare.Components.ResultCs.Result{``0,`1})">
+  And&lt;TOkOut&gt;(Result&lt;TOkOut, TErr&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L224"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Asserts whether a result is <code>Ok</code> and returns values accordingly.</p>
+<p>Arguments passed to <code>And</code> are eagerly evaluated; if you are passing the&gt;
+result of a function call, it is recommended to use
+<a class="xref" href="WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_AndThen__1_System_Func__0_WicalWare_Components_ResultCs_Result___0__1___">AndThen&lt;TOut&gt;(Func&lt;TOk, Result&lt;TOut, TErr&gt;&gt;)</a>, which is lazily evaluated.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(2);
+var y = Result{string, string}.Err("late error");
+Assert.Equal(x.And{string}(y), Result{string, string}.Err("late error"));
+
+var x = Result{int, string}.Err("early error");
+var y = Result{string, string}.Ok("foo");
+Assert.Equal(x.And{string}(y), Result{string, string}.Err("early error"));
+
+var x = Result{int, string}.Err("not a 2");
+var y = Result{string, string}.Err("late error");
+Assert.Equal(x.And{string}(y), Result{string, string}.Err("not a 2"));
+
+var x = Result{int, string}.Ok(2);
+var y = Result{string, string}.Ok("different result type");
+Assert.Equal(x.And{string}(y), Result{string, string}.Ok("different result type"));</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Result&lt;TOkOut, TErr&gt; And&lt;TOkOut&gt;(Result&lt;TOkOut, TErr&gt; res)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>res</code> <a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOkOut, TErr&gt;</dt>
+    <dd><p>The option to return if the current option is <code>Ok</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOkOut, TErr&gt;</dt>
+    <dd><p>Returns <code>res</code> if the result is <code>Ok</code>,
+otherwise returns the <code>Err</code> value of <code>self</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOkOut</code></dt>
+    <dd><p>The underlying type of <code>res</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Equals_" data-uid="WicalWare.Components.ResultCs.Result`2.Equals*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Equals_System_Object_" data-uid="WicalWare.Components.ResultCs.Result`2.Equals(System.Object)">
+  Equals(object?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L155"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Tests two <code>Result</code> objects for equality.</p>
+<p>Overrides <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">Equals(object)</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object? other)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>other</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></dt>
+    <dd><p>The <code>Result</code> to test <code>this</code> against.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if one of the following is true:
+<ul>
+<li>The two <code>Result</code> objects are <code>Ok</code> and their wrapped values are the same.</li>
+<li>The two <code>Result</code> objects are <code>Err</code>.</li>
+</ul>
+<code>false</code> otherwise.
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Err_" data-uid="WicalWare.Components.ResultCs.Result`2.Err*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Err" data-uid="WicalWare.Components.ResultCs.Result`2.Err">
+  Err()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L333"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Converts from <code>Result{TOk, TErr}</code> to <code>Option{TErr}</code>.</p>
+<p>Converts <code>self</code> into an <code>Option{TErr}</code>, consuming <code>self</code>,
+and discarding the success value, if any.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(2);
+Assert.Equal(x.Err(), Option{string}.None());
+
+var x = Result{int, string}.Err("Nothing here");
+Assert.Equal(x.Err(), Option{string}.Some("Nothing here"));</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Option&lt;TErr&gt; Err()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Option-1.html">Option</a>&lt;TErr&gt;</dt>
+    <dd><p>The <code>Err</code> value of <code>self</code>, wrapped in
+an <code>Option{TErr}</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Err_" data-uid="WicalWare.Components.ResultCs.Result`2.Err*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Err__1_" data-uid="WicalWare.Components.ResultCs.Result`2.Err(`1)">
+  Err(TErr)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L129"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a <code>Result</code> with a <code>ResultKind</code> of <a class="xref" href="WicalWare.Components.ResultCs.ResultKind.html#WicalWare_Components_ResultCs_ResultKind_Err">Err</a>.</p>
+<p>The error passed is not permitted to be <code>null</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Result&lt;TOk, TErr&gt; Err(TErr err)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>err</code> <span class="xref">TErr</span></dt>
+    <dd><p>The error to wrap in the <code>Result</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErr&gt;</dt>
+    <dd><p>The <code>Result</code> of kind <code>Err</code> with the provided error wrapped.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Expect_" data-uid="WicalWare.Components.ResultCs.Result`2.Expect*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Expect_System_String_" data-uid="WicalWare.Components.ResultCs.Result`2.Expect(System.String)">
+  Expect(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L383"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Obtains the underlying value of <code>Ok</code>, throwing <code>Err</code> as
+an exception (panicking) if <code>self</code> is not <code>Ok</code>.</p>
+<p>Because this function may panic, its use is generally discouraged.
+Instead, prefer to use pattern matching and handle the <code>Err</code>
+case explicitly, or call <code><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOr__0_">UnwrapOr(TOk)</a></code>,
+<code><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrElse_System_Func__1__0__">UnwrapOrElse(Func&lt;TErr, TOk&gt;)</a></code>, or <code><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrDefault">UnwrapOrDefault()</a></code></p>
+<p>Panics if the value is an <code>Err</code>, with a panic message including the
+passed message, and the content of the <code>Err</code>.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Err("emergency failure");
+Assert.Throws{PanicException}(() =&gt; x.Expect("Testing expect")); // panics with Testing expect: emergency failure</code></pre>
+<p>Recommended Message Style</p>
+<p>We recommend that <code>expect</code> messages are used to describe the reason you
+<i>expect</i> the <code>Result</code> should be <code>Ok</code>.</p>
+<pre><code class="lang-csharp">var path = Environment.GetEnvironmentVariable("IMPORTANT_PATH")
+    .Expect("env variable IMPORTANT_PATH should be set by wrapper_script.sh");</code></pre>
+<p><b>&gt;Hint</b>: If you're having trouble remembering how to phrase expect
+error messages remember to focus on the word &quot;should&quot; as in &quot;env
+variable should be set by blah&quot; or &quot;the given binary should be available
+and executable by the current user&quot;.</p>
+<p>For more detail on expect message styles and the reasoning behind our recommendation please
+refer to the section on <a href="https://doc.rust-lang.org/std/error/index.html#common-message-styles">Common Message
+Styles</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TOk Expect(string msg)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>msg</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to panic with.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TOk</span></dt>
+    <dd><p>The unwrapped value of <code>self</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_ExpectErr_" data-uid="WicalWare.Components.ResultCs.Result`2.ExpectErr*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_ExpectErr_System_String_" data-uid="WicalWare.Components.ResultCs.Result`2.ExpectErr(System.String)">
+  ExpectErr(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L419"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the contained <code>Err</code> value, consuming the <code>self</code> value.</p>
+<p>Panics if the value is an <code>Ok</code>, with a panic message including the
+passed message, and the content of the <code>Ok</code>.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(10);
+x.ExpectErr("Testing ExpectErr"); // panics with Testing ExpectErr: 10</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TErr ExpectErr(string msg)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>msg</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>The message to panic with.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TErr</span></dt>
+    <dd><p>The unwrapped value of <code>self</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_GetHashCode_" data-uid="WicalWare.Components.ResultCs.Result`2.GetHashCode*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_GetHashCode" data-uid="WicalWare.Components.ResultCs.Result`2.GetHashCode">
+  GetHashCode()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L191"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Override of <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">GetHashCode()</a>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p><code>base.GetHashCode()</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_IsErr_" data-uid="WicalWare.Components.ResultCs.Result`2.IsErr*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_IsErr" data-uid="WicalWare.Components.ResultCs.Result`2.IsErr">
+  IsErr()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L449"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns <code>true</code> if the result is <code>Err</code>.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(-3);
+Assert.False(x.IsErr());
+
+var x = Result{int, string}.Err("Some error message");
+Assert.True(x.IsErr());</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsErr()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if the result is <code>Err</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_IsOk_" data-uid="WicalWare.Components.ResultCs.Result`2.IsOk*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_IsOk" data-uid="WicalWare.Components.ResultCs.Result`2.IsOk">
+  IsOk()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L470"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns <code>true</code> if the result is <code>Ok</code>.</p>
+<p>Examples</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(-3);
+Assert.True(x.IsOk());
+
+var x = Result{int, string}.Err("Some error message");
+Assert.False(x.IsOk());</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsOk()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p><code>true</code> if the result is <code>Ok</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Iter_" data-uid="WicalWare.Components.ResultCs.Result`2.Iter*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Iter" data-uid="WicalWare.Components.ResultCs.Result`2.Iter">
+  Iter()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L503"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns an enumerable over the possibly contained value.</p>
+<p>The iterator yields one value if the result is <a class="xref" href="WicalWare.Components.ResultCs.ResultKind.html#WicalWare_Components_ResultCs_ResultKind_Ok">Ok</a>, otherwise none.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(7);
+var iter = x.Iter().GetEnumerator();
+
+Assert.True(iter.MoveNext());
+Assert.Equal(Option{int}.Some(7), iter.Current);
+Assert.False(iter.MoveNext());
+
+var x = Result{int, string}.Err("nothing!");
+var iter = x.Iter().GetEnumerator();
+
+Assert.True(iter.MoveNext());
+Assert.Equal(Option{int}.None(), iter.Current);
+Assert.False(iter.MoveNext());</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;Option&lt;TOk&gt;&gt; Iter()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1">IEnumerable</a>&lt;<a class="xref" href="WicalWare.Components.ResultCs.Option-1.html">Option</a>&lt;TOk&gt;&gt;</dt>
+    <dd><p>An <code>IEnumerable{Option{T}}</code> containing a single value.
+<ul>
+<li>If <code>this</code> is <code>ResultKind.Ok</code>, the value is an <code>OptionKind.Some</code> with the unwrapped value of <code>this</code></li>
+<li>If <code>this</code> is <code>ResultKind.Ok</code>, the value is an <code>OptionKind.None</code></li>
+</ul>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_MapErr_" data-uid="WicalWare.Components.ResultCs.Result`2.MapErr*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_MapErr__1_System_Func__1___0__" data-uid="WicalWare.Components.ResultCs.Result`2.MapErr``1(System.Func{`1,``0})">
+  MapErr&lt;TOut&gt;(Func&lt;TErr, TOut&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L594"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Maps a <code>Result{TOk, TErr}</code> to <code>Result{TOk, TOut}</code> by applying a function to a
+contained <code>Err</code> value, leaving an <code>Ok</code> value untouched.</p>
+<p>This function can be used to pass through a successful result while handling
+an error.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">public string stringify(int x)
+{
+  return $"error code: {x}";
+}
+
+var x = Result{int, int}.Ok(2);
+Assert.Equal(x.MapErr(stringify), Result{int, string}.Ok(2));
+
+var x = Result{int, int}.Err(13);
+Assert.Equal(x.MapErr(stringify), Result{int, string}.Err("error code: 13"));</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Result&lt;TOk, TOut&gt; MapErr&lt;TOut&gt;(Func&lt;TErr, TOut&gt; op)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;TErr, TOut&gt;</dt>
+    <dd><p>The function to be applied to the value if <code>this</code> is <code>ResultKind.Err</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TOut&gt;</dt>
+    <dd><p>A <code>Result</code> that's the output of applying <code>op</code> to the current <code>Result</code>'s <code>Err</code> value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOut</code></dt>
+    <dd><p>The output type of <code>op</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_MapOrElse_" data-uid="WicalWare.Components.ResultCs.Result`2.MapOrElse*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_MapOrElse__1_System_Func__1___0__System_Func__0___0__" data-uid="WicalWare.Components.ResultCs.Result`2.MapOrElse``1(System.Func{`1,``0},System.Func{`0,``0})">
+  MapOrElse&lt;TOut&gt;(Func&lt;TErr, TOut&gt;, Func&lt;TOk, TOut&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L690"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Maps a <code>Result{TOk, TErr}</code> to <code>TOut</code> by applying fallback function <code>default</code> to
+a contained <code>Err</code> value, or function <code>f</code> to a contained <code>Ok</code> value.</p>
+<p>This function can be used to unpack a successful result
+while handling an error.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var k = 21;
+
+var x = Result{string, string}.Ok("foo");
+Assert.Equal(x.MapOrElse(_ =&gt; k * 2, v =&gt; v.Length), 3);
+
+var x = Result{string, string}.Err("bar");
+Assert.Equal(x.MapOrElse(_ =&gt; k * 2, v =&gt; v.Length), 42);</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TOut MapOrElse&lt;TOut&gt;(Func&lt;TErr, TOut&gt; def, Func&lt;TOk, TOut&gt; f)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>def</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;TErr, TOut&gt;</dt>
+    <dd><p>The default function to invoke on the <code>Err</code> value
+if <code>this</code> is <code>ResultKind.Err</code>.</p>
+</dd>
+    <dt><code>f</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;TOk, TOut&gt;</dt>
+    <dd><p>The function to be applied to the value if <code>this</code> is <code>ResultKind.Ok</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TOut</span></dt>
+    <dd><p>If <code>this</code> is <code>ResultKind.Ok</code>, a value that's the output of applying
+<code>f</code> to the current <code>Result</code>'s <code>Ok</code> value; otherwise a value that's the
+output of applying <code>def</code> to the current <code>Result</code>'s <code>Err</code> value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOut</code></dt>
+    <dd><p>The output type of <code>def</code> and <code>f</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_MapOr_" data-uid="WicalWare.Components.ResultCs.Result`2.MapOr*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_MapOr__1___0_System_Func__0___0__" data-uid="WicalWare.Components.ResultCs.Result`2.MapOr``1(``0,System.Func{`0,``0})">
+  MapOr&lt;TOut&gt;(TOut, Func&lt;TOk, TOut&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L637"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the provided default (if <code>Err</code>), or
+applies a function to the contained value (if <code>Ok</code>),</p>
+<p>Arguments passed to <code>MapOr</code> are eagerly evaluated; if you are passing
+the result of a function call, it is recommended to use <code>MapOrElse</code>,
+which is lazily evaluated.</p>
+<pre><code class="lang-csharp">var x = Result{string, string}.Ok("foo");
+Assert.Equal(3, x.MapOr(42, v =} v.Length));
+
+var x = Result{string, string}.Err("bar");
+Assert.Equal(42, x.MapOr(42, v =} v.Length));</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TOut MapOr&lt;TOut&gt;(TOut def, Func&lt;TOk, TOut&gt; f)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>def</code> <span class="xref">TOut</span></dt>
+    <dd><p>The default value to return if <code>this</code> is <code>ResultKind.Err</code>.</p>
+</dd>
+    <dt><code>f</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;TOk, TOut&gt;</dt>
+    <dd><p>The function to be applied to the value if <code>this</code> is <code>ResultKind.Ok</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TOut</span></dt>
+    <dd><p>If <code>this</code> is <code>ResultKind.Ok</code>, a <code>Result</code> that's the output of applying
+<code>f</code> to the current <code>Result</code>'s <code>Ok</code> value; otherwise <code>def</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOut</code></dt>
+    <dd><p>The output type of <code>f</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Map_" data-uid="WicalWare.Components.ResultCs.Result`2.Map*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Map__1_System_Func__0___0__" data-uid="WicalWare.Components.ResultCs.Result`2.Map``1(System.Func{`0,``0})">
+  Map&lt;TOut&gt;(Func&lt;TOk, TOut&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L547"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Maps a <code>Result{TOk, TErr}</code> to <code>Result{TOut, TErr}</code> by applying a function to a
+contained <code>Ok</code> value, leaving an <code>Err</code> value untouched.</p>
+<p>This function can be used to compose the results of two functions.</p>
+<p>Examples</p>
+<p>Print the numbers on each line of a string multiplied by two.</p>
+<pre><code class="lang-csharp">var lines = "1\n2\n3\n4\nbad_num";
+
+foreach(var line in lines.Split('\n'))
+{
+  var result = int.TryParse(line, out var num) ? Result{int, string}.Ok(num)  = Result{int, string}.Err($"Could not parse: {line}");
+
+  var mapped = result.Map(i = i * 2);
+
+  switch (mapped.Kind)
+  {
+   case ResultKind.Ok:
+      Assert.Equal(num * 2, mapped.Unwrap());
+      break;
+    case ResultKind.Err:
+      Assert.Contains(line, mapped.UnwrapErr());
+      break;
+  };
+}</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Result&lt;TOut, TErr&gt; Map&lt;TOut&gt;(Func&lt;TOk, TOut&gt; op)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;TOk, TOut&gt;</dt>
+    <dd><p>The function to be applied to the value if <code>this</code> is <code>ResultKind.Ok</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOut, TErr&gt;</dt>
+    <dd><p>A <code>Result</code> that's the output of applying <code>op</code> to the current <code>Result</code>'s <code>Ok</code> value.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOut</code></dt>
+    <dd><p>The output type of <code>op</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Ok_" data-uid="WicalWare.Components.ResultCs.Result`2.Ok*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Ok" data-uid="WicalWare.Components.ResultCs.Result`2.Ok">
+  Ok()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L742"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Converts from <code>Result{TOk, TErr}</code> to <code>Option{TOk}</code>.</p>
+<p>Converts <code>self</code> into an <code>Option{TOk}</code>, consuming <code>self</code>,
+and discarding the error, if any.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(2);
+Assert.Equal(x.Ok(), Option{int}.Some(2));
+
+var x = Result{int, string}.Err("Nothing here");
+Assert.Equal(x.Ok(), Option{int}.None());</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Option&lt;TOk&gt; Ok()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Option-1.html">Option</a>&lt;TOk&gt;</dt>
+    <dd><p>An <code>Option</code> that contains a <code>Some</code> value if
+<code>this</code> is <code>ResultKind.Ok</code>; <code>None</code> otherwise.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Ok_" data-uid="WicalWare.Components.ResultCs.Result`2.Ok*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Ok__0_" data-uid="WicalWare.Components.ResultCs.Result`2.Ok(`0)">
+  Ok(TOk)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L108"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Generates a <code>Result</code> with a <code>ResultKind</code> of <a class="xref" href="WicalWare.Components.ResultCs.ResultKind.html#WicalWare_Components_ResultCs_ResultKind_Ok">Ok</a>.</p>
+<p>The value passed is not permitted to be <code>null</code>.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Result&lt;TOk, TErr&gt; Ok(TOk value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">TOk</span></dt>
+    <dd><p>The value to wrap in the <code>Result</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErr&gt;</dt>
+    <dd><p>The <code>Result</code> of kind <code>Ok</code> with the provided value wrapped.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_OrElse_" data-uid="WicalWare.Components.ResultCs.Result`2.OrElse*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_OrElse__1_System_Func__1_WicalWare_Components_ResultCs_Result__0___0___" data-uid="WicalWare.Components.ResultCs.Result`2.OrElse``1(System.Func{`1,WicalWare.Components.ResultCs.Result{`0,``0}})">
+  OrElse&lt;TErrOut&gt;(Func&lt;TErr, Result&lt;TOk, TErrOut&gt;&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L826"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Calls <code>op</code> if the result is <code>Err</code>, otherwise returns the <code>Ok</code> value of <code>self</code>.</p>
+<p>This function can be used for control flow based on result values.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">public Result{int, int} sq(int x)
+{
+  return Result{int, int}.Ok(x * x);
+}
+
+public Result{int, int} err(int x)
+{
+  return Result{int, int}.Err(x);
+}
+
+Assert.Equal(Result{int, int}.Ok(2).OrElse(sq).OrElse(sq), Result{int, int}.Ok(2));
+Assert.Equal(Result{int, int}.Ok(2).OrElse(err).OrElse(sq), Result{int, int}.Ok(2));
+Assert.Equal(Result{int, int}.Err(3).OrElse(sq).OrElse(err), Result{int, int}.Ok(9));
+Assert.Equal(Result{int, int}.Err(3).OrElse(err).OrElse(err), Result{int, int}.Err(3));</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Result&lt;TOk, TErrOut&gt; OrElse&lt;TErrOut&gt;(Func&lt;TErr, Result&lt;TOk, TErrOut&gt;&gt; op)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;TErr, <a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErrOut&gt;&gt;</dt>
+    <dd><p>The function to invoke when <code>this</code> is <code>Err</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErrOut&gt;</dt>
+    <dd><p>The <code>op</code> result if <code>this</code> is <code>Err</code>; otherwise
+the <code>Ok</code> value of <code>self</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TErrOut</code></dt>
+    <dd><p>The <code>Err</code> return type of <code>op</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Or_" data-uid="WicalWare.Components.ResultCs.Result`2.Or*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Or__1_WicalWare_Components_ResultCs_Result__0___0__" data-uid="WicalWare.Components.ResultCs.Result`2.Or``1(WicalWare.Components.ResultCs.Result{`0,``0})">
+  Or&lt;TErrOut&gt;(Result&lt;TOk, TErrOut&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L783"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns <code>res</code> if the result is <code>Err</code>, otherwise returns the <code>Ok</code> value of <code>self</code>.</p>
+<p>Arguments passed to <code>Or()</code> are eagerly evaluated; if you are passing the
+result of a function call, it is recommended to use <a class="xref" href="WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_OrElse__1_System_Func__1_WicalWare_Components_ResultCs_Result__0___0___">OrElse&lt;TErrOut&gt;(Func&lt;TErr, Result&lt;TOk, TErrOut&gt;&gt;)</a>, which is
+lazily evaluated.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(2);
+var y = Result{int, string}.Err("late error");
+Assert.Equal(x.Or(y), Result{int, string}.Ok(2));
+
+var x = Result{int, string}.Err("early error");
+var y = Result{int, string}.Ok(2);
+Assert.Equal(x.Or(y), Result{int, string}.Ok(2));
+
+var x = Result{int, string}.Err("not a 2");
+var y = Result{int, string}.Err("late error");
+Assert.Equal(x.Or(y), Result{int, string}.Err("late error"));
+
+var x = Result{int, string}.Ok(2);
+var y = Result{int, string}.Ok(100);
+Assert.Equal(x.Or(y), Result{int, string}.Ok(2));</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Result&lt;TOk, TErrOut&gt; Or&lt;TErrOut&gt;(Result&lt;TOk, TErrOut&gt; res)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>res</code> <a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErrOut&gt;</dt>
+    <dd><p>The <code>Result</code> to return if <code>this</code> is <code>Err</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErrOut&gt;</dt>
+    <dd><p><code>res</code> if the result is <code>Err</code>, otherwise returns the
+<code>Ok</code> value of <code>self</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TErrOut</code></dt>
+    <dd><p>The <code>Err</code> type of the return <code>Result</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Transpose_" data-uid="WicalWare.Components.ResultCs.Result`2.Transpose*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Transpose__1" data-uid="WicalWare.Components.ResultCs.Result`2.Transpose``1">
+  Transpose&lt;TOkOut&gt;()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L864"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Transposes a <code>Result</code> of an <code>Option</code> into an <code>Option</code> of a <code>Result</code>.</p>
+<p><code>Ok(None)</code> will be mapped to <code>None</code>.
+<code>Ok(Some)</code> and <code>Err</code> will be mapped to <code>Some(Ok)</code> and <code>Some(Err)</code>.</p>
+<pre><code class="lang-csharp">var x = Result{Option{int}, string}.Ok(Option{int}.Some(5));
+var y = Option{Result{int, string}}.Some(Result{int, string}.Ok(5));
+Assert.Equal(x.Transpose(), y);</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Option&lt;Result&lt;TOkOut, TErr&gt;&gt; Transpose&lt;TOkOut&gt;()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WicalWare.Components.ResultCs.Option-1.html">Option</a>&lt;<a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOkOut, TErr&gt;&gt;</dt>
+    <dd><p>A <code>Result</code> of an <code>Option</code> into an <code>Option</code> of a <code>Result</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>TOkOut</code></dt>
+    <dd><p>The internal type of the <code>Result{Option{}}</code>. (Note: this is a
+deviation from the Rust signature because C# doesn't implement enum values the way
+Rust does.)</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_Unwrap_" data-uid="WicalWare.Components.ResultCs.Result`2.Unwrap*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_Unwrap" data-uid="WicalWare.Components.ResultCs.Result`2.Unwrap">
+  Unwrap()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L919"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the contained <code>Ok</code> value, consuming the <code>self</code> value.</p>
+<p>Because this function may panic, its use is generally discouraged.
+Instead, prefer to use pattern matching and handle the <code>Err</code>
+case explicitly, or call <code>UnwrapOr</code>, <code>UnwrapOrElse</code>, or
+<code>UnwrapOrDefault</code>.</p>
+<h1 id="panics">Panics</h1>
+<p>Panics if the value is an <code>Err</code>, with a panic message provided by the
+<code>Err</code>'s value.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(2);
+Assert.Equal(x.Unwrap(), 2);</code></pre>
+<pre><code class="lang-csharp">var x = Result{int, string}.Err("emergency failure");
+x.Unwrap(); // panics with emergency failure</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TOk Unwrap()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TOk</span></dt>
+    <dd><p>The wrapped <code>Ok</code> value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_UnwrapErr_" data-uid="WicalWare.Components.ResultCs.Result`2.UnwrapErr*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_UnwrapErr" data-uid="WicalWare.Components.ResultCs.Result`2.UnwrapErr">
+  UnwrapErr()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L949"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the contained <code>Err</code> value, consuming the <code>self</code> value.</p>
+<h1 id="panics">Panics</h1>
+<p>Panics if the value is an <code>Ok</code>, with a custom panic message provided
+by the <code>Ok</code>'s value.</p>
+<pre><code class="lang-csharp">var x = Result{int, string}.Ok(2);
+x.UnwrapErr(); // panics with 2</code></pre>
+<pre><code class="lang-csharp">var x = Result{int, string}.Err("emergency failure");
+Assert.Equal(x.UnwrapErr(), "emergency failure");</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TErr UnwrapErr()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TErr</span></dt>
+    <dd><p>The wrapped <code>Err</code> value.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_UnwrapOr_" data-uid="WicalWare.Components.ResultCs.Result`2.UnwrapOr*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_UnwrapOr__0_" data-uid="WicalWare.Components.ResultCs.Result`2.UnwrapOr(`0)">
+  UnwrapOr(TOk)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L980"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the contained <code>Ok</code> value or a provided default.</p>
+<p>Arguments passed to <code>UnwrapOr</code> are eagerly evaluated; if you are passing
+the result of a function call, it is recommended to use <code>UnwrapOrElse</code>,
+which is lazily evaluated.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">var def = 2;
+var x = Result{int, string}.Ok(9);
+Assert.Equal(9, x.UnwrapOr(def));
+
+var x = Result{int, string}.Err("error");
+Assert.Equal(def, x.UnwrapOr(def));</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TOk UnwrapOr(TOk def)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>def</code> <span class="xref">TOk</span></dt>
+    <dd><p>The default value to return if <code>this</code> is <code>Err</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TOk</span></dt>
+    <dd><p>The <code>Ok</code> value if <code>this</code> is <code>Ok</code>; <code>def</code> otherwise.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_UnwrapOrDefault_" data-uid="WicalWare.Components.ResultCs.Result`2.UnwrapOrDefault*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_UnwrapOrDefault" data-uid="WicalWare.Components.ResultCs.Result`2.UnwrapOrDefault">
+  UnwrapOrDefault()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L1019"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the contained <code>Ok</code> value or a default</p>
+<p>Consumes the <code>self</code> argument then, if <code>Ok</code>, returns the contained
+value, otherwise if <code>Err</code>, returns the default value for that
+type.</p>
+<p>Examples</p>
+<p>Converts a string to an integer, turning poorly-formed strings
+into 0 (the default value for integers). <code>Parse</code> converts
+a string to an <code>int</code>, returning an <code>Err</code> on error.</p>
+<pre><code class="lang-csharp">var goodYearFromInput = "1909";
+var badYearFromInput = "190blarg";
+var goodYear = Parse(goodYearFromInput).UnwrapOrDefault();
+var badYear = Parse(badYearFromInput).UnwrapOrDefault();
+
+Assert.Equal(1909, goodYear);
+Assert.Equal(0, badYear);</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TOk UnwrapOrDefault()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TOk</span></dt>
+    <dd><p>The <code>Ok</code> value if <code>this</code> is <code>Ok</code>; <code>default(T)</code> otherwise.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_UnwrapOrElse_" data-uid="WicalWare.Components.ResultCs.Result`2.UnwrapOrElse*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_UnwrapOrElse_System_Func__1__0__" data-uid="WicalWare.Components.ResultCs.Result`2.UnwrapOrElse(System.Func{`1,`0})">
+  UnwrapOrElse(Func&lt;TErr, TOk&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L1054"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Returns the contained <code>Ok</code> value or computes it from a closure.</p>
+<p>Basic usage:</p>
+<pre><code class="lang-csharp">public int Count(string x)
+{
+  return x.Length;
+}
+
+Assert.Equal(2, Result{int, string}.Ok(2).UnwrapOrElse(Count));
+Assert.Equal(3, Result{int, string}.Err("foo").UnwrapOrElse(Count));</code></pre>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public TOk UnwrapOrElse(Func&lt;TErr, TOk&gt; op)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>op</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;TErr, TOk&gt;</dt>
+    <dd><p>The function to be applied to the value if <code>this</code> is <code>ResultKind.Err</code>.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">TOk</span></dt>
+    <dd><p>The <code>Ok</code> value if <code>this</code> is <code>Ok</code>; otherwise the result of passing the
+<code>Err</code> value to <code>op</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="operators">Operators
+</h2>
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_op_Equality_" data-uid="WicalWare.Components.ResultCs.Result`2.op_Equality*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_op_Equality_WicalWare_Components_ResultCs_Result__0__1__WicalWare_Components_ResultCs_Result__0__1__" data-uid="WicalWare.Components.ResultCs.Result`2.op_Equality(WicalWare.Components.ResultCs.Result{`0,`1},WicalWare.Components.ResultCs.Result{`0,`1})">
+  operator ==(Result&lt;TOk, TErr&gt;, Result&lt;TOk, TErr&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L78"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Convenience override of the <code>==</code> operator.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator ==(Result&lt;TOk, TErr&gt; res1, Result&lt;TOk, TErr&gt; res2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>res1</code> <a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErr&gt;</dt>
+    <dd><p>The first <code>Result</code> to compare.</p>
+</dd>
+    <dt><code>res2</code> <a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErr&gt;</dt>
+    <dd><p>The second <code>Result</code> to compare.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>The result of <code>res1.Equals(res2)</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WicalWare_Components_ResultCs_Result_2_op_Inequality_" data-uid="WicalWare.Components.ResultCs.Result`2.op_Inequality*"></a>
+
+  <h3 id="WicalWare_Components_ResultCs_Result_2_op_Inequality_WicalWare_Components_ResultCs_Result__0__1__WicalWare_Components_ResultCs_Result__0__1__" data-uid="WicalWare.Components.ResultCs.Result`2.op_Inequality(WicalWare.Components.ResultCs.Result{`0,`1},WicalWare.Components.ResultCs.Result{`0,`1})">
+  operator !=(Result&lt;TOk, TErr&gt;, Result&lt;TOk, TErr&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L99"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Convenience override of the <code>!=</code> operator.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool operator !=(Result&lt;TOk, TErr&gt; res1, Result&lt;TOk, TErr&gt; res2)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>res1</code> <a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErr&gt;</dt>
+    <dd><p>The first <code>Result</code> to compare.</p>
+</dd>
+    <dt><code>res2</code> <a class="xref" href="WicalWare.Components.ResultCs.Result-2.html">Result</a>&lt;TOk, TErr&gt;</dt>
+    <dd><p>The second <code>Result</code> to compare.</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>The result of <code>!res1.Equals(res2)</code>.</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/MiloWical/Result-Cs/blob/DocFx-docs/src/ResultCs/Result.cs/#L25" class="edit-link">Edit this page</a>
+        </div>
+
+        
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+
+    <footer class="border-top">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
