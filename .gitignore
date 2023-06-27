@@ -350,3 +350,6 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 test/ResultCs.Tests.Unit/coverage.json
+
+# DocFx
+.docfx/docfx_project/
