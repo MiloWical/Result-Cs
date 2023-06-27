@@ -1,0 +1,79 @@
+name: 'Generate Docs'
+run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
+
+# on: 
+#   push:
+#     branches: ["**-docs"]
+
+on: workflow_dispatch
+
+permissions:
+  contents: write
+  pages: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add SSH key
+        env:
+            SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+            mkdir -p /home/runner/.ssh
+            # Replace example.com with the hostname of the machine
+            # you're SSH-ing into
+            # ssh-keyscan example.com >> /home/runner/.ssh/known_hosts
+            echo "${{ secrets.AUTOMATION_PRIVATE_KEY }}" > /home/runner/.ssh/github_actions
+            chmod 600 /home/runner/.ssh/github_actions
+            ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
+            ssh-add /home/runner/.ssh/github_actions
+
+      - name: Configure GitHub
+        env:
+            SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+            git config --global user.email "milo.wical@gmail.com"
+            git config --global user.name "J.A.R.V.I.S. [GitHub Actions]"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create Branch
+        run: | 
+          git fetch
+          git checkout '${{ github.ref_name }}-docs' 2>/dev/null || git checkout -b '${{ github.ref_name }}-docs' 
+          ls
+
+      - name: Clean up old docs
+        run: rm -rf '${{ github.workspace }}/docs'
+
+      - name: Copy Files
+        run: |
+          mkdir '${{ github.workspace }}/docs'
+          cp '${{ github.workspace }}/README.md' '${{ github.workspace }}/docs'
+
+      - name: Commit Docs
+        run: |
+          git add '${{ github.workspace }}/docs/'
+          git commit --allow-empty -m 'Generated documentation for ${{ github.ref_name }} (${{ github.sha }})'
+          git push -u origin '${{ github.ref_name }}-docs'
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr create --title "Automated Documentation Generation" --body "Created documentation for GitHub Pages."
+
+      - name: Approve Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr review --approve
+
+      - name: Merge Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge --admin --delete-branch --subject "Merge Automatically Generated Documentation" --body "Merging documentation generated for GitHub Pages."
