@@ -52,6 +52,7 @@
     "fileMetadataFiles": [],
     "template": [
       "default",
+      "material/material",
       "statictoc"
     ],
     "postProcessors": [],
