@@ -14,11 +14,11 @@ If you'd like to hear it in his own words:
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=YYkOWzrO3xg">
-    <img src="./.readme/billion-dollar-mistake.png" alt="Null References: The Billion Dollar Mistake">
+    <img src="./images/billion-dollar-mistake.png" alt="Null References: The Billion Dollar Mistake">
   </a>
 </p>
 
-The amount of code that I've written over my career led me to appreciate the insightfulness of the Rust language developers in avoiding `null`, so I decided to write this package in order to give .NET developers the same opportunity for goodness. :grin::zap::metal:
+The amount of code that I've written over my career led me to appreciate the insightfulness of the Rust language developers in avoiding `null`, so I decided to write this package in order to give .NET developers the same opportunity for goodness. :grin: :zap: :metal:
 
 ## Overview
 
