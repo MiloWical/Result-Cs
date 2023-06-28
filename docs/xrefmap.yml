@@ -3,13 +3,13 @@ sorted: true
 references:
 - uid: WicalWare.Components.ResultCs
   name: WicalWare.Components.ResultCs
-  href: api/WicalWare.Components.ResultCs.html
+  href: Result-Cs/api/WicalWare.Components.ResultCs.html
   commentId: N:WicalWare.Components.ResultCs
   fullName: WicalWare.Components.ResultCs
   nameWithType: WicalWare.Components.ResultCs
 - uid: WicalWare.Components.ResultCs.Option`1
   name: Option<TSome>
-  href: api/WicalWare.Components.ResultCs.Option-1.html
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html
   commentId: T:WicalWare.Components.ResultCs.Option`1
   name.vb: Option(Of TSome)
   fullName: WicalWare.Components.ResultCs.Option<TSome>
@@ -18,7 +18,7 @@ references:
   nameWithType.vb: Option(Of TSome)
 - uid: WicalWare.Components.ResultCs.Option`1.And*
   name: And
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_And_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_And_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.And
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.And
@@ -27,7 +27,7 @@ references:
   nameWithType.vb: Option(Of TSome).And
 - uid: WicalWare.Components.ResultCs.Option`1.And``1(WicalWare.Components.ResultCs.Option{``0})
   name: And<TOut>(Option<TOut>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_And__1_WicalWare_Components_ResultCs_Option___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_And__1_WicalWare_Components_ResultCs_Option___0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.And``1(WicalWare.Components.ResultCs.Option{``0})
   name.vb: And(Of TOut)(Option(Of TOut))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.And<TOut>(WicalWare.Components.ResultCs.Option<TOut>)
@@ -36,7 +36,7 @@ references:
   nameWithType.vb: Option(Of TSome).And(Of TOut)(Option(Of TOut))
 - uid: WicalWare.Components.ResultCs.Option`1.AndThen*
   name: AndThen
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_AndThen_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_AndThen_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.AndThen
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.AndThen
@@ -45,7 +45,7 @@ references:
   nameWithType.vb: Option(Of TSome).AndThen
 - uid: WicalWare.Components.ResultCs.Option`1.AndThen``1(System.Func{`0,WicalWare.Components.ResultCs.Option{``0}})
   name: AndThen<TOut>(Func<TSome, Option<TOut>>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_AndThen__1_System_Func__0_WicalWare_Components_ResultCs_Option___0___
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_AndThen__1_System_Func__0_WicalWare_Components_ResultCs_Option___0___
   commentId: M:WicalWare.Components.ResultCs.Option`1.AndThen``1(System.Func{`0,WicalWare.Components.ResultCs.Option{``0}})
   name.vb: AndThen(Of TOut)(Func(Of TSome, Option(Of TOut)))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.AndThen<TOut>(System.Func<TSome, WicalWare.Components.ResultCs.Option<TOut>>)
@@ -54,7 +54,7 @@ references:
   nameWithType.vb: Option(Of TSome).AndThen(Of TOut)(Func(Of TSome, Option(Of TOut)))
 - uid: WicalWare.Components.ResultCs.Option`1.Equals(System.Object)
   name: Equals(object?)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Equals_System_Object_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Equals_System_Object_
   commentId: M:WicalWare.Components.ResultCs.Option`1.Equals(System.Object)
   name.vb: Equals(Object)
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Equals(object?)
@@ -63,7 +63,7 @@ references:
   nameWithType.vb: Option(Of TSome).Equals(Object)
 - uid: WicalWare.Components.ResultCs.Option`1.Equals*
   name: Equals
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Equals_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Equals_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Equals
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Equals
@@ -72,7 +72,7 @@ references:
   nameWithType.vb: Option(Of TSome).Equals
 - uid: WicalWare.Components.ResultCs.Option`1.Expect(System.String)
   name: Expect(string)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Expect_System_String_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Expect_System_String_
   commentId: M:WicalWare.Components.ResultCs.Option`1.Expect(System.String)
   name.vb: Expect(String)
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Expect(string)
@@ -81,7 +81,7 @@ references:
   nameWithType.vb: Option(Of TSome).Expect(String)
 - uid: WicalWare.Components.ResultCs.Option`1.Expect*
   name: Expect
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Expect_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Expect_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Expect
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Expect
@@ -90,7 +90,7 @@ references:
   nameWithType.vb: Option(Of TSome).Expect
 - uid: WicalWare.Components.ResultCs.Option`1.Filter(System.Func{`0,System.Boolean})
   name: Filter(Func<TSome, bool>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Filter_System_Func__0_System_Boolean__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Filter_System_Func__0_System_Boolean__
   commentId: M:WicalWare.Components.ResultCs.Option`1.Filter(System.Func{`0,System.Boolean})
   name.vb: Filter(Func(Of TSome, Boolean))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Filter(System.Func<TSome, bool>)
@@ -99,7 +99,7 @@ references:
   nameWithType.vb: Option(Of TSome).Filter(Func(Of TSome, Boolean))
 - uid: WicalWare.Components.ResultCs.Option`1.Filter*
   name: Filter
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Filter_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Filter_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Filter
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Filter
@@ -108,7 +108,7 @@ references:
   nameWithType.vb: Option(Of TSome).Filter
 - uid: WicalWare.Components.ResultCs.Option`1.Flatten
   name: Flatten()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Flatten
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Flatten
   commentId: M:WicalWare.Components.ResultCs.Option`1.Flatten
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Flatten()
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).Flatten()
@@ -116,7 +116,7 @@ references:
   nameWithType.vb: Option(Of TSome).Flatten()
 - uid: WicalWare.Components.ResultCs.Option`1.Flatten*
   name: Flatten
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Flatten_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Flatten_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Flatten
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Flatten
@@ -125,7 +125,7 @@ references:
   nameWithType.vb: Option(Of TSome).Flatten
 - uid: WicalWare.Components.ResultCs.Option`1.GetHashCode
   name: GetHashCode()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetHashCode
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetHashCode
   commentId: M:WicalWare.Components.ResultCs.Option`1.GetHashCode
   fullName: WicalWare.Components.ResultCs.Option<TSome>.GetHashCode()
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).GetHashCode()
@@ -133,7 +133,7 @@ references:
   nameWithType.vb: Option(Of TSome).GetHashCode()
 - uid: WicalWare.Components.ResultCs.Option`1.GetHashCode*
   name: GetHashCode
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetHashCode_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetHashCode_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.GetHashCode
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.GetHashCode
@@ -142,7 +142,7 @@ references:
   nameWithType.vb: Option(Of TSome).GetHashCode
 - uid: WicalWare.Components.ResultCs.Option`1.GetOrInsert(`0)
   name: GetOrInsert(TSome)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetOrInsert__0_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetOrInsert__0_
   commentId: M:WicalWare.Components.ResultCs.Option`1.GetOrInsert(`0)
   fullName: WicalWare.Components.ResultCs.Option<TSome>.GetOrInsert(TSome)
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).GetOrInsert(TSome)
@@ -150,7 +150,7 @@ references:
   nameWithType.vb: Option(Of TSome).GetOrInsert(TSome)
 - uid: WicalWare.Components.ResultCs.Option`1.GetOrInsert*
   name: GetOrInsert
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetOrInsert_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetOrInsert_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.GetOrInsert
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.GetOrInsert
@@ -159,7 +159,7 @@ references:
   nameWithType.vb: Option(Of TSome).GetOrInsert
 - uid: WicalWare.Components.ResultCs.Option`1.GetOrInsertWith(System.Func{`0})
   name: GetOrInsertWith(Func<TSome>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetOrInsertWith_System_Func__0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetOrInsertWith_System_Func__0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.GetOrInsertWith(System.Func{`0})
   name.vb: GetOrInsertWith(Func(Of TSome))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.GetOrInsertWith(System.Func<TSome>)
@@ -168,7 +168,7 @@ references:
   nameWithType.vb: Option(Of TSome).GetOrInsertWith(Func(Of TSome))
 - uid: WicalWare.Components.ResultCs.Option`1.GetOrInsertWith*
   name: GetOrInsertWith
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetOrInsertWith_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_GetOrInsertWith_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.GetOrInsertWith
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.GetOrInsertWith
@@ -177,7 +177,7 @@ references:
   nameWithType.vb: Option(Of TSome).GetOrInsertWith
 - uid: WicalWare.Components.ResultCs.Option`1.Insert(`0)
   name: Insert(TSome)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Insert__0_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Insert__0_
   commentId: M:WicalWare.Components.ResultCs.Option`1.Insert(`0)
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Insert(TSome)
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).Insert(TSome)
@@ -185,7 +185,7 @@ references:
   nameWithType.vb: Option(Of TSome).Insert(TSome)
 - uid: WicalWare.Components.ResultCs.Option`1.Insert*
   name: Insert
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Insert_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Insert_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Insert
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Insert
@@ -194,7 +194,7 @@ references:
   nameWithType.vb: Option(Of TSome).Insert
 - uid: WicalWare.Components.ResultCs.Option`1.IsNone
   name: IsNone()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsNone
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsNone
   commentId: M:WicalWare.Components.ResultCs.Option`1.IsNone
   fullName: WicalWare.Components.ResultCs.Option<TSome>.IsNone()
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).IsNone()
@@ -202,7 +202,7 @@ references:
   nameWithType.vb: Option(Of TSome).IsNone()
 - uid: WicalWare.Components.ResultCs.Option`1.IsNone*
   name: IsNone
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsNone_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsNone_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.IsNone
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.IsNone
@@ -211,7 +211,7 @@ references:
   nameWithType.vb: Option(Of TSome).IsNone
 - uid: WicalWare.Components.ResultCs.Option`1.IsSome
   name: IsSome()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsSome
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsSome
   commentId: M:WicalWare.Components.ResultCs.Option`1.IsSome
   fullName: WicalWare.Components.ResultCs.Option<TSome>.IsSome()
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).IsSome()
@@ -219,7 +219,7 @@ references:
   nameWithType.vb: Option(Of TSome).IsSome()
 - uid: WicalWare.Components.ResultCs.Option`1.IsSome*
   name: IsSome
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsSome_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsSome_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.IsSome
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.IsSome
@@ -228,7 +228,7 @@ references:
   nameWithType.vb: Option(Of TSome).IsSome
 - uid: WicalWare.Components.ResultCs.Option`1.IsSomeAnd(System.Func{`0,System.Boolean})
   name: IsSomeAnd(Func<TSome, bool>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsSomeAnd_System_Func__0_System_Boolean__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsSomeAnd_System_Func__0_System_Boolean__
   commentId: M:WicalWare.Components.ResultCs.Option`1.IsSomeAnd(System.Func{`0,System.Boolean})
   name.vb: IsSomeAnd(Func(Of TSome, Boolean))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.IsSomeAnd(System.Func<TSome, bool>)
@@ -237,7 +237,7 @@ references:
   nameWithType.vb: Option(Of TSome).IsSomeAnd(Func(Of TSome, Boolean))
 - uid: WicalWare.Components.ResultCs.Option`1.IsSomeAnd*
   name: IsSomeAnd
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsSomeAnd_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_IsSomeAnd_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.IsSomeAnd
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.IsSomeAnd
@@ -246,7 +246,7 @@ references:
   nameWithType.vb: Option(Of TSome).IsSomeAnd
 - uid: WicalWare.Components.ResultCs.Option`1.Iter
   name: Iter()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Iter
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Iter
   commentId: M:WicalWare.Components.ResultCs.Option`1.Iter
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Iter()
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).Iter()
@@ -254,7 +254,7 @@ references:
   nameWithType.vb: Option(Of TSome).Iter()
 - uid: WicalWare.Components.ResultCs.Option`1.Iter*
   name: Iter
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Iter_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Iter_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Iter
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Iter
@@ -263,7 +263,7 @@ references:
   nameWithType.vb: Option(Of TSome).Iter
 - uid: WicalWare.Components.ResultCs.Option`1.Kind
   name: Kind
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Kind
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Kind
   commentId: P:WicalWare.Components.ResultCs.Option`1.Kind
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Kind
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).Kind
@@ -271,7 +271,7 @@ references:
   nameWithType.vb: Option(Of TSome).Kind
 - uid: WicalWare.Components.ResultCs.Option`1.Kind*
   name: Kind
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Kind_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Kind_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Kind
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Kind
@@ -280,7 +280,7 @@ references:
   nameWithType.vb: Option(Of TSome).Kind
 - uid: WicalWare.Components.ResultCs.Option`1.Map*
   name: Map
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Map_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Map_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Map
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Map
@@ -289,7 +289,7 @@ references:
   nameWithType.vb: Option(Of TSome).Map
 - uid: WicalWare.Components.ResultCs.Option`1.Map``1(System.Func{`0,``0})
   name: Map<TOut>(Func<TSome, TOut>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Map__1_System_Func__0___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Map__1_System_Func__0___0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.Map``1(System.Func{`0,``0})
   name.vb: Map(Of TOut)(Func(Of TSome, TOut))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Map<TOut>(System.Func<TSome, TOut>)
@@ -298,7 +298,7 @@ references:
   nameWithType.vb: Option(Of TSome).Map(Of TOut)(Func(Of TSome, TOut))
 - uid: WicalWare.Components.ResultCs.Option`1.MapOr*
   name: MapOr
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_MapOr_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_MapOr_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.MapOr
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.MapOr
@@ -307,7 +307,7 @@ references:
   nameWithType.vb: Option(Of TSome).MapOr
 - uid: WicalWare.Components.ResultCs.Option`1.MapOr``1(``0,System.Func{`0,``0})
   name: MapOr<TOut>(TOut, Func<TSome, TOut>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_MapOr__1___0_System_Func__0___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_MapOr__1___0_System_Func__0___0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.MapOr``1(``0,System.Func{`0,``0})
   name.vb: MapOr(Of TOut)(TOut, Func(Of TSome, TOut))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.MapOr<TOut>(TOut, System.Func<TSome, TOut>)
@@ -316,7 +316,7 @@ references:
   nameWithType.vb: Option(Of TSome).MapOr(Of TOut)(TOut, Func(Of TSome, TOut))
 - uid: WicalWare.Components.ResultCs.Option`1.MapOrElse*
   name: MapOrElse
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_MapOrElse_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_MapOrElse_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.MapOrElse
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.MapOrElse
@@ -325,7 +325,7 @@ references:
   nameWithType.vb: Option(Of TSome).MapOrElse
 - uid: WicalWare.Components.ResultCs.Option`1.MapOrElse``1(System.Func{``0},System.Func{`0,``0})
   name: MapOrElse<TOut>(Func<TOut>, Func<TSome, TOut>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_MapOrElse__1_System_Func___0__System_Func__0___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_MapOrElse__1_System_Func___0__System_Func__0___0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.MapOrElse``1(System.Func{``0},System.Func{`0,``0})
   name.vb: MapOrElse(Of TOut)(Func(Of TOut), Func(Of TSome, TOut))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.MapOrElse<TOut>(System.Func<TOut>, System.Func<TSome, TOut>)
@@ -334,7 +334,7 @@ references:
   nameWithType.vb: Option(Of TSome).MapOrElse(Of TOut)(Func(Of TOut), Func(Of TSome, TOut))
 - uid: WicalWare.Components.ResultCs.Option`1.None
   name: None()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_None
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_None
   commentId: M:WicalWare.Components.ResultCs.Option`1.None
   fullName: WicalWare.Components.ResultCs.Option<TSome>.None()
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).None()
@@ -342,7 +342,7 @@ references:
   nameWithType.vb: Option(Of TSome).None()
 - uid: WicalWare.Components.ResultCs.Option`1.None*
   name: None
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_None_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_None_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.None
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.None
@@ -351,7 +351,7 @@ references:
   nameWithType.vb: Option(Of TSome).None
 - uid: WicalWare.Components.ResultCs.Option`1.OkOr*
   name: OkOr
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OkOr_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OkOr_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.OkOr
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.OkOr
@@ -360,7 +360,7 @@ references:
   nameWithType.vb: Option(Of TSome).OkOr
 - uid: WicalWare.Components.ResultCs.Option`1.OkOr``1(``0)
   name: OkOr<TErr>(TErr)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OkOr__1___0_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OkOr__1___0_
   commentId: M:WicalWare.Components.ResultCs.Option`1.OkOr``1(``0)
   name.vb: OkOr(Of TErr)(TErr)
   fullName: WicalWare.Components.ResultCs.Option<TSome>.OkOr<TErr>(TErr)
@@ -369,7 +369,7 @@ references:
   nameWithType.vb: Option(Of TSome).OkOr(Of TErr)(TErr)
 - uid: WicalWare.Components.ResultCs.Option`1.OkOrElse*
   name: OkOrElse
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OkOrElse_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OkOrElse_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.OkOrElse
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.OkOrElse
@@ -378,7 +378,7 @@ references:
   nameWithType.vb: Option(Of TSome).OkOrElse
 - uid: WicalWare.Components.ResultCs.Option`1.OkOrElse``1(System.Func{``0})
   name: OkOrElse<TErr>(Func<TErr>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OkOrElse__1_System_Func___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OkOrElse__1_System_Func___0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.OkOrElse``1(System.Func{``0})
   name.vb: OkOrElse(Of TErr)(Func(Of TErr))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.OkOrElse<TErr>(System.Func<TErr>)
@@ -387,7 +387,7 @@ references:
   nameWithType.vb: Option(Of TSome).OkOrElse(Of TErr)(Func(Of TErr))
 - uid: WicalWare.Components.ResultCs.Option`1.op_Equality(WicalWare.Components.ResultCs.Option{`0},WicalWare.Components.ResultCs.Option{`0})
   name: operator ==(Option<TSome>, Option<TSome>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_op_Equality_WicalWare_Components_ResultCs_Option__0__WicalWare_Components_ResultCs_Option__0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_op_Equality_WicalWare_Components_ResultCs_Option__0__WicalWare_Components_ResultCs_Option__0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.op_Equality(WicalWare.Components.ResultCs.Option{`0},WicalWare.Components.ResultCs.Option{`0})
   name.vb: =(Option(Of TSome), Option(Of TSome))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.operator ==(WicalWare.Components.ResultCs.Option<TSome>, WicalWare.Components.ResultCs.Option<TSome>)
@@ -396,7 +396,7 @@ references:
   nameWithType.vb: Option(Of TSome).=(Option(Of TSome), Option(Of TSome))
 - uid: WicalWare.Components.ResultCs.Option`1.op_Equality*
   name: operator ==
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_op_Equality_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_op_Equality_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.op_Equality
   isSpec: "True"
   name.vb: =
@@ -406,7 +406,7 @@ references:
   nameWithType.vb: Option(Of TSome).=
 - uid: WicalWare.Components.ResultCs.Option`1.op_Inequality(WicalWare.Components.ResultCs.Option{`0},WicalWare.Components.ResultCs.Option{`0})
   name: operator !=(Option<TSome>, Option<TSome>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_op_Inequality_WicalWare_Components_ResultCs_Option__0__WicalWare_Components_ResultCs_Option__0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_op_Inequality_WicalWare_Components_ResultCs_Option__0__WicalWare_Components_ResultCs_Option__0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.op_Inequality(WicalWare.Components.ResultCs.Option{`0},WicalWare.Components.ResultCs.Option{`0})
   name.vb: <>(Option(Of TSome), Option(Of TSome))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.operator !=(WicalWare.Components.ResultCs.Option<TSome>, WicalWare.Components.ResultCs.Option<TSome>)
@@ -415,7 +415,7 @@ references:
   nameWithType.vb: Option(Of TSome).<>(Option(Of TSome), Option(Of TSome))
 - uid: WicalWare.Components.ResultCs.Option`1.op_Inequality*
   name: operator !=
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_op_Inequality_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_op_Inequality_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.op_Inequality
   isSpec: "True"
   name.vb: <>
@@ -425,7 +425,7 @@ references:
   nameWithType.vb: Option(Of TSome).<>
 - uid: WicalWare.Components.ResultCs.Option`1.Or(WicalWare.Components.ResultCs.Option{`0})
   name: Or(Option<TSome>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Or_WicalWare_Components_ResultCs_Option__0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Or_WicalWare_Components_ResultCs_Option__0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.Or(WicalWare.Components.ResultCs.Option{`0})
   name.vb: Or(Option(Of TSome))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Or(WicalWare.Components.ResultCs.Option<TSome>)
@@ -434,7 +434,7 @@ references:
   nameWithType.vb: Option(Of TSome).Or(Option(Of TSome))
 - uid: WicalWare.Components.ResultCs.Option`1.Or*
   name: Or
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Or_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Or_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Or
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Or
@@ -443,7 +443,7 @@ references:
   nameWithType.vb: Option(Of TSome).Or
 - uid: WicalWare.Components.ResultCs.Option`1.OrElse(System.Func{WicalWare.Components.ResultCs.Option{`0}})
   name: OrElse(Func<Option<TSome>>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OrElse_System_Func_WicalWare_Components_ResultCs_Option__0___
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OrElse_System_Func_WicalWare_Components_ResultCs_Option__0___
   commentId: M:WicalWare.Components.ResultCs.Option`1.OrElse(System.Func{WicalWare.Components.ResultCs.Option{`0}})
   name.vb: OrElse(Func(Of Option(Of TSome)))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.OrElse(System.Func<WicalWare.Components.ResultCs.Option<TSome>>)
@@ -452,7 +452,7 @@ references:
   nameWithType.vb: Option(Of TSome).OrElse(Func(Of Option(Of TSome)))
 - uid: WicalWare.Components.ResultCs.Option`1.OrElse*
   name: OrElse
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OrElse_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_OrElse_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.OrElse
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.OrElse
@@ -461,7 +461,7 @@ references:
   nameWithType.vb: Option(Of TSome).OrElse
 - uid: WicalWare.Components.ResultCs.Option`1.Replace(`0)
   name: Replace(TSome)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Replace__0_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Replace__0_
   commentId: M:WicalWare.Components.ResultCs.Option`1.Replace(`0)
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Replace(TSome)
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).Replace(TSome)
@@ -469,7 +469,7 @@ references:
   nameWithType.vb: Option(Of TSome).Replace(TSome)
 - uid: WicalWare.Components.ResultCs.Option`1.Replace*
   name: Replace
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Replace_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Replace_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Replace
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Replace
@@ -478,7 +478,7 @@ references:
   nameWithType.vb: Option(Of TSome).Replace
 - uid: WicalWare.Components.ResultCs.Option`1.Some(`0)
   name: Some(TSome)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Some__0_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Some__0_
   commentId: M:WicalWare.Components.ResultCs.Option`1.Some(`0)
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Some(TSome)
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).Some(TSome)
@@ -486,7 +486,7 @@ references:
   nameWithType.vb: Option(Of TSome).Some(TSome)
 - uid: WicalWare.Components.ResultCs.Option`1.Some*
   name: Some
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Some_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Some_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Some
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Some
@@ -495,7 +495,7 @@ references:
   nameWithType.vb: Option(Of TSome).Some
 - uid: WicalWare.Components.ResultCs.Option`1.Take
   name: Take()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Take
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Take
   commentId: M:WicalWare.Components.ResultCs.Option`1.Take
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Take()
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).Take()
@@ -503,7 +503,7 @@ references:
   nameWithType.vb: Option(Of TSome).Take()
 - uid: WicalWare.Components.ResultCs.Option`1.Take*
   name: Take
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Take_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Take_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Take
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Take
@@ -512,7 +512,7 @@ references:
   nameWithType.vb: Option(Of TSome).Take
 - uid: WicalWare.Components.ResultCs.Option`1.Transpose*
   name: Transpose
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Transpose_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Transpose_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Transpose
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Transpose
@@ -521,7 +521,7 @@ references:
   nameWithType.vb: Option(Of TSome).Transpose
 - uid: WicalWare.Components.ResultCs.Option`1.Transpose``2
   name: Transpose<TOut, TErr>()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Transpose__2
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Transpose__2
   commentId: M:WicalWare.Components.ResultCs.Option`1.Transpose``2
   name.vb: Transpose(Of TOut, TErr)()
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Transpose<TOut, TErr>()
@@ -530,7 +530,7 @@ references:
   nameWithType.vb: Option(Of TSome).Transpose(Of TOut, TErr)()
 - uid: WicalWare.Components.ResultCs.Option`1.Unwrap
   name: Unwrap()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Unwrap
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Unwrap
   commentId: M:WicalWare.Components.ResultCs.Option`1.Unwrap
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Unwrap()
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).Unwrap()
@@ -538,7 +538,7 @@ references:
   nameWithType.vb: Option(Of TSome).Unwrap()
 - uid: WicalWare.Components.ResultCs.Option`1.Unwrap*
   name: Unwrap
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Unwrap_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Unwrap_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Unwrap
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Unwrap
@@ -547,7 +547,7 @@ references:
   nameWithType.vb: Option(Of TSome).Unwrap
 - uid: WicalWare.Components.ResultCs.Option`1.UnwrapOr(`0)
   name: UnwrapOr(TSome)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOr__0_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOr__0_
   commentId: M:WicalWare.Components.ResultCs.Option`1.UnwrapOr(`0)
   fullName: WicalWare.Components.ResultCs.Option<TSome>.UnwrapOr(TSome)
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).UnwrapOr(TSome)
@@ -555,7 +555,7 @@ references:
   nameWithType.vb: Option(Of TSome).UnwrapOr(TSome)
 - uid: WicalWare.Components.ResultCs.Option`1.UnwrapOr*
   name: UnwrapOr
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOr_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOr_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.UnwrapOr
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.UnwrapOr
@@ -564,7 +564,7 @@ references:
   nameWithType.vb: Option(Of TSome).UnwrapOr
 - uid: WicalWare.Components.ResultCs.Option`1.UnwrapOrDefault
   name: UnwrapOrDefault()
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOrDefault
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOrDefault
   commentId: M:WicalWare.Components.ResultCs.Option`1.UnwrapOrDefault
   fullName: WicalWare.Components.ResultCs.Option<TSome>.UnwrapOrDefault()
   fullName.vb: WicalWare.Components.ResultCs.Option(Of TSome).UnwrapOrDefault()
@@ -572,7 +572,7 @@ references:
   nameWithType.vb: Option(Of TSome).UnwrapOrDefault()
 - uid: WicalWare.Components.ResultCs.Option`1.UnwrapOrDefault*
   name: UnwrapOrDefault
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOrDefault_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOrDefault_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.UnwrapOrDefault
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.UnwrapOrDefault
@@ -581,7 +581,7 @@ references:
   nameWithType.vb: Option(Of TSome).UnwrapOrDefault
 - uid: WicalWare.Components.ResultCs.Option`1.UnwrapOrElse(System.Func{`0})
   name: UnwrapOrElse(Func<TSome>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOrElse_System_Func__0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOrElse_System_Func__0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.UnwrapOrElse(System.Func{`0})
   name.vb: UnwrapOrElse(Func(Of TSome))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.UnwrapOrElse(System.Func<TSome>)
@@ -590,7 +590,7 @@ references:
   nameWithType.vb: Option(Of TSome).UnwrapOrElse(Func(Of TSome))
 - uid: WicalWare.Components.ResultCs.Option`1.UnwrapOrElse*
   name: UnwrapOrElse
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOrElse_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_UnwrapOrElse_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.UnwrapOrElse
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.UnwrapOrElse
@@ -599,7 +599,7 @@ references:
   nameWithType.vb: Option(Of TSome).UnwrapOrElse
 - uid: WicalWare.Components.ResultCs.Option`1.Xor(WicalWare.Components.ResultCs.Option{`0})
   name: Xor(Option<TSome>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Xor_WicalWare_Components_ResultCs_Option__0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Xor_WicalWare_Components_ResultCs_Option__0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.Xor(WicalWare.Components.ResultCs.Option{`0})
   name.vb: Xor(Option(Of TSome))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Xor(WicalWare.Components.ResultCs.Option<TSome>)
@@ -608,7 +608,7 @@ references:
   nameWithType.vb: Option(Of TSome).Xor(Option(Of TSome))
 - uid: WicalWare.Components.ResultCs.Option`1.Xor*
   name: Xor
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Xor_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Xor_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Xor
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Xor
@@ -617,7 +617,7 @@ references:
   nameWithType.vb: Option(Of TSome).Xor
 - uid: WicalWare.Components.ResultCs.Option`1.Zip*
   name: Zip
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Zip_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Zip_
   commentId: Overload:WicalWare.Components.ResultCs.Option`1.Zip
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Zip
@@ -626,7 +626,7 @@ references:
   nameWithType.vb: Option(Of TSome).Zip
 - uid: WicalWare.Components.ResultCs.Option`1.Zip``1(WicalWare.Components.ResultCs.Option{``0})
   name: Zip<TOut>(Option<TOut>)
-  href: api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Zip__1_WicalWare_Components_ResultCs_Option___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html#WicalWare_Components_ResultCs_Option_1_Zip__1_WicalWare_Components_ResultCs_Option___0__
   commentId: M:WicalWare.Components.ResultCs.Option`1.Zip``1(WicalWare.Components.ResultCs.Option{``0})
   name.vb: Zip(Of TOut)(Option(Of TOut))
   fullName: WicalWare.Components.ResultCs.Option<TSome>.Zip<TOut>(WicalWare.Components.ResultCs.Option<TOut>)
@@ -635,44 +635,44 @@ references:
   nameWithType.vb: Option(Of TSome).Zip(Of TOut)(Option(Of TOut))
 - uid: WicalWare.Components.ResultCs.OptionKind
   name: OptionKind
-  href: api/WicalWare.Components.ResultCs.OptionKind.html
+  href: Result-Cs/api/WicalWare.Components.ResultCs.OptionKind.html
   commentId: T:WicalWare.Components.ResultCs.OptionKind
   fullName: WicalWare.Components.ResultCs.OptionKind
   nameWithType: OptionKind
 - uid: WicalWare.Components.ResultCs.OptionKind.None
   name: None
-  href: api/WicalWare.Components.ResultCs.OptionKind.html#WicalWare_Components_ResultCs_OptionKind_None
+  href: Result-Cs/api/WicalWare.Components.ResultCs.OptionKind.html#WicalWare_Components_ResultCs_OptionKind_None
   commentId: F:WicalWare.Components.ResultCs.OptionKind.None
   fullName: WicalWare.Components.ResultCs.OptionKind.None
   nameWithType: OptionKind.None
 - uid: WicalWare.Components.ResultCs.OptionKind.Some
   name: Some
-  href: api/WicalWare.Components.ResultCs.OptionKind.html#WicalWare_Components_ResultCs_OptionKind_Some
+  href: Result-Cs/api/WicalWare.Components.ResultCs.OptionKind.html#WicalWare_Components_ResultCs_OptionKind_Some
   commentId: F:WicalWare.Components.ResultCs.OptionKind.Some
   fullName: WicalWare.Components.ResultCs.OptionKind.Some
   nameWithType: OptionKind.Some
 - uid: WicalWare.Components.ResultCs.PanicException
   name: PanicException
-  href: api/WicalWare.Components.ResultCs.PanicException.html
+  href: Result-Cs/api/WicalWare.Components.ResultCs.PanicException.html
   commentId: T:WicalWare.Components.ResultCs.PanicException
   fullName: WicalWare.Components.ResultCs.PanicException
   nameWithType: PanicException
 - uid: WicalWare.Components.ResultCs.PanicException.Message
   name: Message
-  href: api/WicalWare.Components.ResultCs.PanicException.html#WicalWare_Components_ResultCs_PanicException_Message
+  href: Result-Cs/api/WicalWare.Components.ResultCs.PanicException.html#WicalWare_Components_ResultCs_PanicException_Message
   commentId: P:WicalWare.Components.ResultCs.PanicException.Message
   fullName: WicalWare.Components.ResultCs.PanicException.Message
   nameWithType: PanicException.Message
 - uid: WicalWare.Components.ResultCs.PanicException.Message*
   name: Message
-  href: api/WicalWare.Components.ResultCs.PanicException.html#WicalWare_Components_ResultCs_PanicException_Message_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.PanicException.html#WicalWare_Components_ResultCs_PanicException_Message_
   commentId: Overload:WicalWare.Components.ResultCs.PanicException.Message
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.PanicException.Message
   nameWithType: PanicException.Message
 - uid: WicalWare.Components.ResultCs.Result`2
   name: Result<TOk, TErr>
-  href: api/WicalWare.Components.ResultCs.Result-2.html
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html
   commentId: T:WicalWare.Components.ResultCs.Result`2
   name.vb: Result(Of TOk, TErr)
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>
@@ -681,7 +681,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr)
 - uid: WicalWare.Components.ResultCs.Result`2.And*
   name: And
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_And_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_And_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.And
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.And
@@ -690,7 +690,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).And
 - uid: WicalWare.Components.ResultCs.Result`2.And``1(WicalWare.Components.ResultCs.Result{``0,`1})
   name: And<TOkOut>(Result<TOkOut, TErr>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_And__1_WicalWare_Components_ResultCs_Result___0__1__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_And__1_WicalWare_Components_ResultCs_Result___0__1__
   commentId: M:WicalWare.Components.ResultCs.Result`2.And``1(WicalWare.Components.ResultCs.Result{``0,`1})
   name.vb: And(Of TOkOut)(Result(Of TOkOut, TErr))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.And<TOkOut>(WicalWare.Components.ResultCs.Result<TOkOut, TErr>)
@@ -699,7 +699,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).And(Of TOkOut)(Result(Of TOkOut, TErr))
 - uid: WicalWare.Components.ResultCs.Result`2.AndThen*
   name: AndThen
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_AndThen_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_AndThen_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.AndThen
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.AndThen
@@ -708,7 +708,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).AndThen
 - uid: WicalWare.Components.ResultCs.Result`2.AndThen``1(System.Func{`0,WicalWare.Components.ResultCs.Result{``0,`1}})
   name: AndThen<TOut>(Func<TOk, Result<TOut, TErr>>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_AndThen__1_System_Func__0_WicalWare_Components_ResultCs_Result___0__1___
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_AndThen__1_System_Func__0_WicalWare_Components_ResultCs_Result___0__1___
   commentId: M:WicalWare.Components.ResultCs.Result`2.AndThen``1(System.Func{`0,WicalWare.Components.ResultCs.Result{``0,`1}})
   name.vb: AndThen(Of TOut)(Func(Of TOk, Result(Of TOut, TErr)))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.AndThen<TOut>(System.Func<TOk, WicalWare.Components.ResultCs.Result<TOut, TErr>>)
@@ -717,7 +717,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).AndThen(Of TOut)(Func(Of TOk, Result(Of TOut, TErr)))
 - uid: WicalWare.Components.ResultCs.Result`2.Equals(System.Object)
   name: Equals(object?)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Equals_System_Object_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Equals_System_Object_
   commentId: M:WicalWare.Components.ResultCs.Result`2.Equals(System.Object)
   name.vb: Equals(Object)
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Equals(object?)
@@ -726,7 +726,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Equals(Object)
 - uid: WicalWare.Components.ResultCs.Result`2.Equals*
   name: Equals
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Equals_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Equals_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Equals
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Equals
@@ -735,7 +735,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Equals
 - uid: WicalWare.Components.ResultCs.Result`2.Err
   name: Err()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Err
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Err
   commentId: M:WicalWare.Components.ResultCs.Result`2.Err
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Err()
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).Err()
@@ -743,7 +743,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Err()
 - uid: WicalWare.Components.ResultCs.Result`2.Err(`1)
   name: Err(TErr)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Err__1_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Err__1_
   commentId: M:WicalWare.Components.ResultCs.Result`2.Err(`1)
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Err(TErr)
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).Err(TErr)
@@ -751,7 +751,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Err(TErr)
 - uid: WicalWare.Components.ResultCs.Result`2.Err*
   name: Err
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Err_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Err_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Err
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Err
@@ -760,7 +760,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Err
 - uid: WicalWare.Components.ResultCs.Result`2.Expect(System.String)
   name: Expect(string)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Expect_System_String_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Expect_System_String_
   commentId: M:WicalWare.Components.ResultCs.Result`2.Expect(System.String)
   name.vb: Expect(String)
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Expect(string)
@@ -769,7 +769,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Expect(String)
 - uid: WicalWare.Components.ResultCs.Result`2.Expect*
   name: Expect
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Expect_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Expect_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Expect
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Expect
@@ -778,7 +778,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Expect
 - uid: WicalWare.Components.ResultCs.Result`2.ExpectErr(System.String)
   name: ExpectErr(string)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_ExpectErr_System_String_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_ExpectErr_System_String_
   commentId: M:WicalWare.Components.ResultCs.Result`2.ExpectErr(System.String)
   name.vb: ExpectErr(String)
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.ExpectErr(string)
@@ -787,7 +787,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).ExpectErr(String)
 - uid: WicalWare.Components.ResultCs.Result`2.ExpectErr*
   name: ExpectErr
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_ExpectErr_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_ExpectErr_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.ExpectErr
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.ExpectErr
@@ -796,7 +796,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).ExpectErr
 - uid: WicalWare.Components.ResultCs.Result`2.GetHashCode
   name: GetHashCode()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_GetHashCode
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_GetHashCode
   commentId: M:WicalWare.Components.ResultCs.Result`2.GetHashCode
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.GetHashCode()
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).GetHashCode()
@@ -804,7 +804,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).GetHashCode()
 - uid: WicalWare.Components.ResultCs.Result`2.GetHashCode*
   name: GetHashCode
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_GetHashCode_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_GetHashCode_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.GetHashCode
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.GetHashCode
@@ -813,7 +813,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).GetHashCode
 - uid: WicalWare.Components.ResultCs.Result`2.IsErr
   name: IsErr()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_IsErr
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_IsErr
   commentId: M:WicalWare.Components.ResultCs.Result`2.IsErr
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.IsErr()
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).IsErr()
@@ -821,7 +821,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).IsErr()
 - uid: WicalWare.Components.ResultCs.Result`2.IsErr*
   name: IsErr
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_IsErr_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_IsErr_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.IsErr
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.IsErr
@@ -830,7 +830,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).IsErr
 - uid: WicalWare.Components.ResultCs.Result`2.IsOk
   name: IsOk()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_IsOk
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_IsOk
   commentId: M:WicalWare.Components.ResultCs.Result`2.IsOk
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.IsOk()
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).IsOk()
@@ -838,7 +838,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).IsOk()
 - uid: WicalWare.Components.ResultCs.Result`2.IsOk*
   name: IsOk
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_IsOk_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_IsOk_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.IsOk
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.IsOk
@@ -847,7 +847,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).IsOk
 - uid: WicalWare.Components.ResultCs.Result`2.Iter
   name: Iter()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Iter
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Iter
   commentId: M:WicalWare.Components.ResultCs.Result`2.Iter
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Iter()
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).Iter()
@@ -855,7 +855,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Iter()
 - uid: WicalWare.Components.ResultCs.Result`2.Iter*
   name: Iter
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Iter_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Iter_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Iter
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Iter
@@ -864,7 +864,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Iter
 - uid: WicalWare.Components.ResultCs.Result`2.Kind
   name: Kind
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Kind
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Kind
   commentId: P:WicalWare.Components.ResultCs.Result`2.Kind
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Kind
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).Kind
@@ -872,7 +872,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Kind
 - uid: WicalWare.Components.ResultCs.Result`2.Kind*
   name: Kind
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Kind_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Kind_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Kind
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Kind
@@ -881,7 +881,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Kind
 - uid: WicalWare.Components.ResultCs.Result`2.Map*
   name: Map
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Map_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Map_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Map
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Map
@@ -890,7 +890,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Map
 - uid: WicalWare.Components.ResultCs.Result`2.Map``1(System.Func{`0,``0})
   name: Map<TOut>(Func<TOk, TOut>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Map__1_System_Func__0___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Map__1_System_Func__0___0__
   commentId: M:WicalWare.Components.ResultCs.Result`2.Map``1(System.Func{`0,``0})
   name.vb: Map(Of TOut)(Func(Of TOk, TOut))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Map<TOut>(System.Func<TOk, TOut>)
@@ -899,7 +899,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Map(Of TOut)(Func(Of TOk, TOut))
 - uid: WicalWare.Components.ResultCs.Result`2.MapErr*
   name: MapErr
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapErr_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapErr_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.MapErr
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.MapErr
@@ -908,7 +908,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).MapErr
 - uid: WicalWare.Components.ResultCs.Result`2.MapErr``1(System.Func{`1,``0})
   name: MapErr<TOut>(Func<TErr, TOut>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapErr__1_System_Func__1___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapErr__1_System_Func__1___0__
   commentId: M:WicalWare.Components.ResultCs.Result`2.MapErr``1(System.Func{`1,``0})
   name.vb: MapErr(Of TOut)(Func(Of TErr, TOut))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.MapErr<TOut>(System.Func<TErr, TOut>)
@@ -917,7 +917,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).MapErr(Of TOut)(Func(Of TErr, TOut))
 - uid: WicalWare.Components.ResultCs.Result`2.MapOr*
   name: MapOr
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapOr_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapOr_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.MapOr
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.MapOr
@@ -926,7 +926,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).MapOr
 - uid: WicalWare.Components.ResultCs.Result`2.MapOr``1(``0,System.Func{`0,``0})
   name: MapOr<TOut>(TOut, Func<TOk, TOut>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapOr__1___0_System_Func__0___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapOr__1___0_System_Func__0___0__
   commentId: M:WicalWare.Components.ResultCs.Result`2.MapOr``1(``0,System.Func{`0,``0})
   name.vb: MapOr(Of TOut)(TOut, Func(Of TOk, TOut))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.MapOr<TOut>(TOut, System.Func<TOk, TOut>)
@@ -935,7 +935,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).MapOr(Of TOut)(TOut, Func(Of TOk, TOut))
 - uid: WicalWare.Components.ResultCs.Result`2.MapOrElse*
   name: MapOrElse
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapOrElse_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapOrElse_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.MapOrElse
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.MapOrElse
@@ -944,7 +944,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).MapOrElse
 - uid: WicalWare.Components.ResultCs.Result`2.MapOrElse``1(System.Func{`1,``0},System.Func{`0,``0})
   name: MapOrElse<TOut>(Func<TErr, TOut>, Func<TOk, TOut>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapOrElse__1_System_Func__1___0__System_Func__0___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_MapOrElse__1_System_Func__1___0__System_Func__0___0__
   commentId: M:WicalWare.Components.ResultCs.Result`2.MapOrElse``1(System.Func{`1,``0},System.Func{`0,``0})
   name.vb: MapOrElse(Of TOut)(Func(Of TErr, TOut), Func(Of TOk, TOut))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.MapOrElse<TOut>(System.Func<TErr, TOut>, System.Func<TOk, TOut>)
@@ -953,7 +953,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).MapOrElse(Of TOut)(Func(Of TErr, TOut), Func(Of TOk, TOut))
 - uid: WicalWare.Components.ResultCs.Result`2.Ok
   name: Ok()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Ok
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Ok
   commentId: M:WicalWare.Components.ResultCs.Result`2.Ok
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Ok()
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).Ok()
@@ -961,7 +961,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Ok()
 - uid: WicalWare.Components.ResultCs.Result`2.Ok(`0)
   name: Ok(TOk)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Ok__0_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Ok__0_
   commentId: M:WicalWare.Components.ResultCs.Result`2.Ok(`0)
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Ok(TOk)
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).Ok(TOk)
@@ -969,7 +969,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Ok(TOk)
 - uid: WicalWare.Components.ResultCs.Result`2.Ok*
   name: Ok
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Ok_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Ok_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Ok
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Ok
@@ -978,7 +978,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Ok
 - uid: WicalWare.Components.ResultCs.Result`2.op_Equality(WicalWare.Components.ResultCs.Result{`0,`1},WicalWare.Components.ResultCs.Result{`0,`1})
   name: operator ==(Result<TOk, TErr>, Result<TOk, TErr>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_op_Equality_WicalWare_Components_ResultCs_Result__0__1__WicalWare_Components_ResultCs_Result__0__1__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_op_Equality_WicalWare_Components_ResultCs_Result__0__1__WicalWare_Components_ResultCs_Result__0__1__
   commentId: M:WicalWare.Components.ResultCs.Result`2.op_Equality(WicalWare.Components.ResultCs.Result{`0,`1},WicalWare.Components.ResultCs.Result{`0,`1})
   name.vb: =(Result(Of TOk, TErr), Result(Of TOk, TErr))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.operator ==(WicalWare.Components.ResultCs.Result<TOk, TErr>, WicalWare.Components.ResultCs.Result<TOk, TErr>)
@@ -987,7 +987,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).=(Result(Of TOk, TErr), Result(Of TOk, TErr))
 - uid: WicalWare.Components.ResultCs.Result`2.op_Equality*
   name: operator ==
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_op_Equality_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_op_Equality_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.op_Equality
   isSpec: "True"
   name.vb: =
@@ -997,7 +997,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).=
 - uid: WicalWare.Components.ResultCs.Result`2.op_Inequality(WicalWare.Components.ResultCs.Result{`0,`1},WicalWare.Components.ResultCs.Result{`0,`1})
   name: operator !=(Result<TOk, TErr>, Result<TOk, TErr>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_op_Inequality_WicalWare_Components_ResultCs_Result__0__1__WicalWare_Components_ResultCs_Result__0__1__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_op_Inequality_WicalWare_Components_ResultCs_Result__0__1__WicalWare_Components_ResultCs_Result__0__1__
   commentId: M:WicalWare.Components.ResultCs.Result`2.op_Inequality(WicalWare.Components.ResultCs.Result{`0,`1},WicalWare.Components.ResultCs.Result{`0,`1})
   name.vb: <>(Result(Of TOk, TErr), Result(Of TOk, TErr))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.operator !=(WicalWare.Components.ResultCs.Result<TOk, TErr>, WicalWare.Components.ResultCs.Result<TOk, TErr>)
@@ -1006,7 +1006,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).<>(Result(Of TOk, TErr), Result(Of TOk, TErr))
 - uid: WicalWare.Components.ResultCs.Result`2.op_Inequality*
   name: operator !=
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_op_Inequality_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_op_Inequality_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.op_Inequality
   isSpec: "True"
   name.vb: <>
@@ -1016,7 +1016,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).<>
 - uid: WicalWare.Components.ResultCs.Result`2.Or*
   name: Or
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Or_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Or_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Or
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Or
@@ -1025,7 +1025,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Or
 - uid: WicalWare.Components.ResultCs.Result`2.Or``1(WicalWare.Components.ResultCs.Result{`0,``0})
   name: Or<TErrOut>(Result<TOk, TErrOut>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Or__1_WicalWare_Components_ResultCs_Result__0___0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Or__1_WicalWare_Components_ResultCs_Result__0___0__
   commentId: M:WicalWare.Components.ResultCs.Result`2.Or``1(WicalWare.Components.ResultCs.Result{`0,``0})
   name.vb: Or(Of TErrOut)(Result(Of TOk, TErrOut))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Or<TErrOut>(WicalWare.Components.ResultCs.Result<TOk, TErrOut>)
@@ -1034,7 +1034,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Or(Of TErrOut)(Result(Of TOk, TErrOut))
 - uid: WicalWare.Components.ResultCs.Result`2.OrElse*
   name: OrElse
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_OrElse_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_OrElse_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.OrElse
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.OrElse
@@ -1043,7 +1043,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).OrElse
 - uid: WicalWare.Components.ResultCs.Result`2.OrElse``1(System.Func{`1,WicalWare.Components.ResultCs.Result{`0,``0}})
   name: OrElse<TErrOut>(Func<TErr, Result<TOk, TErrOut>>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_OrElse__1_System_Func__1_WicalWare_Components_ResultCs_Result__0___0___
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_OrElse__1_System_Func__1_WicalWare_Components_ResultCs_Result__0___0___
   commentId: M:WicalWare.Components.ResultCs.Result`2.OrElse``1(System.Func{`1,WicalWare.Components.ResultCs.Result{`0,``0}})
   name.vb: OrElse(Of TErrOut)(Func(Of TErr, Result(Of TOk, TErrOut)))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.OrElse<TErrOut>(System.Func<TErr, WicalWare.Components.ResultCs.Result<TOk, TErrOut>>)
@@ -1052,7 +1052,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).OrElse(Of TErrOut)(Func(Of TErr, Result(Of TOk, TErrOut)))
 - uid: WicalWare.Components.ResultCs.Result`2.Transpose*
   name: Transpose
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Transpose_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Transpose_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Transpose
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Transpose
@@ -1061,7 +1061,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Transpose
 - uid: WicalWare.Components.ResultCs.Result`2.Transpose``1
   name: Transpose<TOkOut>()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Transpose__1
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Transpose__1
   commentId: M:WicalWare.Components.ResultCs.Result`2.Transpose``1
   name.vb: Transpose(Of TOkOut)()
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Transpose<TOkOut>()
@@ -1070,7 +1070,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Transpose(Of TOkOut)()
 - uid: WicalWare.Components.ResultCs.Result`2.Unwrap
   name: Unwrap()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Unwrap
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Unwrap
   commentId: M:WicalWare.Components.ResultCs.Result`2.Unwrap
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Unwrap()
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).Unwrap()
@@ -1078,7 +1078,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Unwrap()
 - uid: WicalWare.Components.ResultCs.Result`2.Unwrap*
   name: Unwrap
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Unwrap_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_Unwrap_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.Unwrap
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.Unwrap
@@ -1087,7 +1087,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).Unwrap
 - uid: WicalWare.Components.ResultCs.Result`2.UnwrapErr
   name: UnwrapErr()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapErr
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapErr
   commentId: M:WicalWare.Components.ResultCs.Result`2.UnwrapErr
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.UnwrapErr()
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).UnwrapErr()
@@ -1095,7 +1095,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).UnwrapErr()
 - uid: WicalWare.Components.ResultCs.Result`2.UnwrapErr*
   name: UnwrapErr
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapErr_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapErr_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.UnwrapErr
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.UnwrapErr
@@ -1104,7 +1104,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).UnwrapErr
 - uid: WicalWare.Components.ResultCs.Result`2.UnwrapOr(`0)
   name: UnwrapOr(TOk)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOr__0_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOr__0_
   commentId: M:WicalWare.Components.ResultCs.Result`2.UnwrapOr(`0)
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.UnwrapOr(TOk)
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).UnwrapOr(TOk)
@@ -1112,7 +1112,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).UnwrapOr(TOk)
 - uid: WicalWare.Components.ResultCs.Result`2.UnwrapOr*
   name: UnwrapOr
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOr_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOr_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.UnwrapOr
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.UnwrapOr
@@ -1121,7 +1121,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).UnwrapOr
 - uid: WicalWare.Components.ResultCs.Result`2.UnwrapOrDefault
   name: UnwrapOrDefault()
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrDefault
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrDefault
   commentId: M:WicalWare.Components.ResultCs.Result`2.UnwrapOrDefault
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.UnwrapOrDefault()
   fullName.vb: WicalWare.Components.ResultCs.Result(Of TOk, TErr).UnwrapOrDefault()
@@ -1129,7 +1129,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).UnwrapOrDefault()
 - uid: WicalWare.Components.ResultCs.Result`2.UnwrapOrDefault*
   name: UnwrapOrDefault
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrDefault_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrDefault_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.UnwrapOrDefault
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.UnwrapOrDefault
@@ -1138,7 +1138,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).UnwrapOrDefault
 - uid: WicalWare.Components.ResultCs.Result`2.UnwrapOrElse(System.Func{`1,`0})
   name: UnwrapOrElse(Func<TErr, TOk>)
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrElse_System_Func__1__0__
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrElse_System_Func__1__0__
   commentId: M:WicalWare.Components.ResultCs.Result`2.UnwrapOrElse(System.Func{`1,`0})
   name.vb: UnwrapOrElse(Func(Of TErr, TOk))
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.UnwrapOrElse(System.Func<TErr, TOk>)
@@ -1147,7 +1147,7 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).UnwrapOrElse(Func(Of TErr, TOk))
 - uid: WicalWare.Components.ResultCs.Result`2.UnwrapOrElse*
   name: UnwrapOrElse
-  href: api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrElse_
+  href: Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html#WicalWare_Components_ResultCs_Result_2_UnwrapOrElse_
   commentId: Overload:WicalWare.Components.ResultCs.Result`2.UnwrapOrElse
   isSpec: "True"
   fullName: WicalWare.Components.ResultCs.Result<TOk, TErr>.UnwrapOrElse
@@ -1156,19 +1156,19 @@ references:
   nameWithType.vb: Result(Of TOk, TErr).UnwrapOrElse
 - uid: WicalWare.Components.ResultCs.ResultKind
   name: ResultKind
-  href: api/WicalWare.Components.ResultCs.ResultKind.html
+  href: Result-Cs/api/WicalWare.Components.ResultCs.ResultKind.html
   commentId: T:WicalWare.Components.ResultCs.ResultKind
   fullName: WicalWare.Components.ResultCs.ResultKind
   nameWithType: ResultKind
 - uid: WicalWare.Components.ResultCs.ResultKind.Err
   name: Err
-  href: api/WicalWare.Components.ResultCs.ResultKind.html#WicalWare_Components_ResultCs_ResultKind_Err
+  href: Result-Cs/api/WicalWare.Components.ResultCs.ResultKind.html#WicalWare_Components_ResultCs_ResultKind_Err
   commentId: F:WicalWare.Components.ResultCs.ResultKind.Err
   fullName: WicalWare.Components.ResultCs.ResultKind.Err
   nameWithType: ResultKind.Err
 - uid: WicalWare.Components.ResultCs.ResultKind.Ok
   name: Ok
-  href: api/WicalWare.Components.ResultCs.ResultKind.html#WicalWare_Components_ResultCs_ResultKind_Ok
+  href: Result-Cs/api/WicalWare.Components.ResultCs.ResultKind.html#WicalWare_Components_ResultCs_ResultKind_Ok
   commentId: F:WicalWare.Components.ResultCs.ResultKind.Ok
   fullName: WicalWare.Components.ResultCs.ResultKind.Ok
   nameWithType: ResultKind.Ok

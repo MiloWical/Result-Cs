@@ -11,7 +11,7 @@
       "source_relative_path": "api/WicalWare.Components.ResultCs.Option-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/WicalWare.Components.ResultCs.Option-1.html"
+          "relative_path": "Result-Cs/api/WicalWare.Components.ResultCs.Option-1.html"
         }
       },
       "version": ""
@@ -21,7 +21,7 @@
       "source_relative_path": "api/WicalWare.Components.ResultCs.OptionKind.yml",
       "output": {
         ".html": {
-          "relative_path": "api/WicalWare.Components.ResultCs.OptionKind.html"
+          "relative_path": "Result-Cs/api/WicalWare.Components.ResultCs.OptionKind.html"
         }
       },
       "version": ""
@@ -31,7 +31,7 @@
       "source_relative_path": "api/WicalWare.Components.ResultCs.PanicException.yml",
       "output": {
         ".html": {
-          "relative_path": "api/WicalWare.Components.ResultCs.PanicException.html"
+          "relative_path": "Result-Cs/api/WicalWare.Components.ResultCs.PanicException.html"
         }
       },
       "version": ""
@@ -41,7 +41,7 @@
       "source_relative_path": "api/WicalWare.Components.ResultCs.Result-2.yml",
       "output": {
         ".html": {
-          "relative_path": "api/WicalWare.Components.ResultCs.Result-2.html"
+          "relative_path": "Result-Cs/api/WicalWare.Components.ResultCs.Result-2.html"
         }
       },
       "version": ""
@@ -51,7 +51,7 @@
       "source_relative_path": "api/WicalWare.Components.ResultCs.ResultKind.yml",
       "output": {
         ".html": {
-          "relative_path": "api/WicalWare.Components.ResultCs.ResultKind.html"
+          "relative_path": "Result-Cs/api/WicalWare.Components.ResultCs.ResultKind.html"
         }
       },
       "version": ""
@@ -61,7 +61,7 @@
       "source_relative_path": "api/WicalWare.Components.ResultCs.yml",
       "output": {
         ".html": {
-          "relative_path": "api/WicalWare.Components.ResultCs.html"
+          "relative_path": "Result-Cs/api/WicalWare.Components.ResultCs.html"
         }
       },
       "version": ""
@@ -71,30 +71,7 @@
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
-          "relative_path": "api/index.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Conceptual",
-      "source_relative_path": "articles/intro.md",
-      "output": {
-        ".html": {
-          "relative_path": "articles/intro.html"
-        }
-      },
-      "version": ""
-    },
-    {
-      "type": "Toc",
-      "source_relative_path": "articles/toc.yml",
-      "output": {
-        ".html": {
-          "relative_path": "articles/toc.html"
-        },
-        ".json": {
-          "relative_path": "articles/toc.json"
+          "relative_path": "Result-Cs/api/index.html"
         }
       },
       "version": ""
@@ -104,7 +81,7 @@
       "source_relative_path": "images/images/billion-dollar-mistake.png",
       "output": {
         "resource": {
-          "relative_path": "images/images/billion-dollar-mistake.png"
+          "relative_path": "Result-Cs/images/images/billion-dollar-mistake.png"
         }
       },
       "version": ""
