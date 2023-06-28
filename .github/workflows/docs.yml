@@ -73,9 +73,9 @@ jobs:
       - name: Copy Site Files
         run: |
           find '${{ github.workspace }}/.docfx/docfx_project/_site' -type f -exec cp {} '${{ github.workspace }}/docs/' \;
-          cp '${{ github.workspace }}/.docfx/docfx_project/_site/Result-Cs/api/*' '${{ github.workspace }}/docs/api/'
-          cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/Result-Cs/images/*' '${{ github.workspace }}/docs/images/'
-          cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/public/*' '${{ github.workspace }}/docs/public/'
+          find '${{ github.workspace }}/.docfx/docfx_project/_site/Result-Cs/api' -type f -exec cp {} '${{ github.workspace }}/docs/api/' \;
+          find '${{ github.workspace }}/.docfx/docfx_project/_site/Result-Cs/images' -type f -exec cp {} '${{ github.workspace }}/docs/images/' \;
+          find '${{ github.workspace }}/.docfx/docfx_project/_site/Result-Cs/public' -type f -exec cp {} '${{ github.workspace }}/docs/public/' \;
 
       - name: Commit Docs
         run: |
