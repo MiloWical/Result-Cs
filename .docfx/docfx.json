@@ -29,12 +29,11 @@
         "files": [
           "api/**.yml",
           "api/index.md"
-        ]
+        ],
+        "dest": "Result-Cs"
       },
       {
         "files": [
-          "articles/**.md",
-          "articles/**/toc.yml",
           "toc.yml",
           "*.md"
         ]
@@ -44,7 +43,8 @@
       {
         "files": [
           "images/**"
-        ]
+        ],
+        "dest": "Result-Cs"
       }
     ],
     "output": "_site",
@@ -52,8 +52,8 @@
     "fileMetadataFiles": [],
     "template": [
       "default",
-      "modern",
-      "statictoc"
+      "statictoc",
+      "modern"
     ],
     "postProcessors": [],
     "keepFileLink": false,
