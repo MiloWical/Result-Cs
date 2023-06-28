@@ -81,7 +81,6 @@ jobs:
           git add '${{ github.workspace }}/docs/'
           git commit --allow-empty -m 'Generated documentation for ${{ github.ref_name }} (${{ github.sha }})'
           git push -u origin '${{ github.ref_name }}-docs'
-          git merge -X ours origin/main
 
       - name: Create Pull Request
         env:
