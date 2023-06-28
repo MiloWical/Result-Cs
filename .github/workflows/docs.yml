@@ -75,7 +75,6 @@ jobs:
           find '${{ github.workspace }}/.docfx/docfx_project/_site' -type f -exec cp {} '${{ github.workspace }}/docs/' \;
           cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/Result-Cs/api' '${{ github.workspace }}/docs/api'
           cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/Result-Cs/images' '${{ github.workspace }}/docs/images'
-          cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/styles' '${{ github.workspace }}/docs/styles'
           cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/public' '${{ github.workspace }}/docs/public'
 
       - name: Commit Docs
