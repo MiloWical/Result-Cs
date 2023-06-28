@@ -63,6 +63,7 @@ jobs:
         run: |
           cp -f '${{ github.workspace }}/README.md' '${{ github.workspace }}/.docfx/docfx_project/index.md'
           cp -f '${{ github.workspace }}/.docfx/toc.yml' '${{ github.workspace }}/.docfx/docfx_project/toc.yml'
+          cp -Rf '${{ github.workspace }}/images' '${{ github.workspace }}/.docfx/docfx_project/images'
 
       - name: Run DocFx
         run: |
