@@ -2,25 +2,25 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Result C# </title>
+      <title>PLACEHOLDER </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Result C# ">
+      <meta name="title" content="PLACEHOLDER ">
       
-      <link rel="icon" href="favicon.ico">
-      <link rel="stylesheet" href="public/docfx.min.css">
-      <link rel="stylesheet" href="public/main.css">
-      <meta name="docfx:navrel" content="toc.html">
-      <meta name="docfx:tocrel" content="toc.html">
-      
-      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="../../toc.html">
+      <meta name="docfx:tocrel" content="../../toc.html">
       
       
-      <meta name="docfx:docurl" content="https://github.com/MiloWical/Result-Cs/blob/main-docs/.docfx/docfx_project/index.md/#L1">
+      
+      
+      <meta name="docfx:docurl" content="https://github.com/MiloWical/Result-Cs/blob/main-docs/docfx_project/api/index.md/#L1">
   </head>
 
   <script type="module">
-    import options from './public/main.js'
-    import { init } from './public/docfx.min.js'
+    import options from './../../public/main.js'
+    import { init } from './../../public/docfx.min.js'
     init(options)
   </script>
 
@@ -34,8 +34,8 @@
     <header class="bg-body border-bottom">
       <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
         <div class="container-xxl flex-nowrap">
-          <a class="navbar-brand" href="index.html">
-            <img id="logo" class="svg" src="logo.svg" alt="">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../logo.svg" alt="">
             
           </a>
           <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,139 +72,13 @@
         </div>
 
         <article data-uid="">
-<h1 id="result-c">Result C#</h1>
+<h1 id="placeholder">PLACEHOLDER</h1>
 
-<h2 id="motivation">Motivation</h2>
-<p><code>null</code> is a problematic value for many developers, and in the Rust language a conscious decision to NOT include <code>null</code> was made to prevent a whole class of problems. As stated in <a href="https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=null#the-option-enum-and-its-advantages-over-null-values">The Rust Programming Language</a>:</p>
-<blockquote>
-<p>Programming language design is often thought of in terms of which features you include, but the features you exclude are important too. Rust doesn’t have the null feature that many other languages have. Null is a value that means there is no value there. In languages with null, variables can always be in one of two states: null or not-null.</p>
-<p>In his 2009 presentation “Null References: The Billion Dollar Mistake,” Tony Hoare, the inventor of null, has this to say:</p>
-<p>&quot;I call it my billion-dollar mistake. At that time, I was designing the first comprehensive type system for references in an object-oriented language. My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn’t resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years.&quot;</p>
-</blockquote>
-<p>If you'd like to hear it in his own words:</p>
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=YYkOWzrO3xg">
-    <img src="./images/billion-dollar-mistake.png" alt="Null References: The Billion Dollar Mistake">
-  </a>
-</p>
-<p>The amount of code that I've written over my career led me to appreciate the insightfulness of the Rust language developers in avoiding <code>null</code>, so I decided to write this package in order to give .NET developers the same opportunity for goodness. 😁 ⚡ 🤘</p>
-<h2 id="overview">Overview</h2>
-<p>The Rust paradigm for avoiding <code>null</code> as a concept involves the use of using enumerations (&quot;enums&quot;) that wrap values against which typechecking can be performed.</p>
-<h3 id="enumerations">Enumerations</h3>
-<p>One of the distinctions between Rust and C# is that C# doesn't have the notion of enums that can optionally carry values. The implementation of this pattern still uses the concept of enums for defining the context that the underlying value represents, but has to implement it in the manner the C# language dictates.</p>
-<h3 id="memory-management">Memory Management</h3>
-<p>Another distinction is that C# uses a garbage collector for memory management, so understanding the concepts of ownership and mutability are largely transparent to the C# developer; Rust developers, on the other hand, are acutely (and at times painfully) aware of them. Consequently, many of the Rust idioms for managing ownership and consumption of values don't apply, so the corresponding interfaces in the Rust API have been left out to simplify the C# API surface area.</p>
-<h3 id="experimental-functions">Experimental Functions</h3>
-<p>Additionally, there are many experimental API signatures that exist as optional in the Rust API and must be compiled in optionally when building a Rust solution. For now, the C# implementation has ignored the experimental signatures. It's possible that I might implement compiler flags for the experimental API functions, but it depends on the value gained by users. If implemented, that will probably be in a future minor release.</p>
-<h2 id="enum-types">Enum Types</h2>
-<p>It should be noted that for all of the enum types implemented in this library, <em><strong><code>null</code> parameters and return values are expressly DISALLOWED</strong></em> and will result in a <code>PanicException</code> to be thrown. (More about <a href="#panics">Panics</a> later.)</p>
-<p>Because these types implement enums as a &quot;kind&quot; of response, you can use pattern matching syntax on the enum values to help process the <code>Option</code> or <code>Result</code>; this is consistent with the Rust idioms for evaluating enums with wrapped values.</p>
-<h3 id="optiont"><code>Option&lt;T&gt;</code></h3>
-<p>The simplest value implemented in this library is the <code>Option&lt;T&gt;</code> type. It consists of 2 enum values:</p>
-<ul>
-<li><p><code>None</code>: Indicates that the <code>Option</code> has no usable value (closest to the intuitive notion of <code>null</code>)</p>
-</li>
-<li><p><code>Some</code>: Indicates that the <code>Option</code> has a value of type <code>T</code> that can be &quot;unwrapped&quot; (Rust idiom) to get to the internal value, which will never be <code>null</code>.</p>
-</li>
-</ul>
-<h4 id="option-example"><code>Option</code> Example</h4>
-<p>Below is an example of using <code>Option&lt;T&gt;</code> to introduce <code>null</code>-safety:</p>
-<pre><code class="lang-c#">string text = &quot;Bacon ipsum&quot;;
-
-var nullSafeLength = text.NullSafeLength();
-
-if (nullSafeLength.IsNone())
-{
-  Console.WriteLine(&quot;The length for the string doesn't exist.&quot;);
-}
-else if (nullSafeLength.IsSome())
-{
-  Console.WriteLine($&quot;The length of the string is: {nullSafeLength.Unwrap()}&quot;);
-}
-
-public static class NullSafeExtensions
-{
-  public static Option&lt;int&gt; NullSafeLength(this string s)
-  {
-    if (s is null)
-    {
-      return Option&lt;int&gt;.None();
-    }
-
-    return Option&lt;int&gt;.Some(s.Length);
-  }
-}
-</code></pre>
-<h3 id="resultt-e"><code>Result&lt;T, E&gt;</code></h3>
-<p>The <code>Result&lt;T, E&gt;</code> type is slightly more complex than the <code>Option&lt;T&gt;</code> type, though the general thought processes are directly applicable. The <code>Result</code> can wrap values of one of two types:</p>
-<ul>
-<li><p><code>T</code>: The wrapped type to return in the event the resulting value has semantic value.</p>
-</li>
-<li><p><code>E</code>: An error type that allows the implementer to return a value that indicates that the operation was unsuccessful <em>without</em> either:</p>
-<ul>
-<li>Returning <code>null</code></li>
-<li>Throwing an exception</li>
-</ul>
-</li>
-</ul>
-<p>The <code>Result</code> comes in two flavors:</p>
-<ul>
-<li><p><code>Ok</code>: Indicates that the output has validity for additional processing and can be safely unwrapped.</p>
-</li>
-<li><p><code>Err</code>: Indicates that the result of the operation was unsuccessful and carries additional details important to the caller about the failure.</p>
-</li>
-</ul>
-<h4 id="result-example"><code>Result</code> Example</h4>
-<p>A basic application that uses the <code>Result&lt;T, E&gt;</code> type might look like this:</p>
-<pre><code class="lang-c#">Console.Write(&quot;Enter a numerator: &quot;);
-
-var numeratorStr = Console.ReadLine();
-
-Console.Write(&quot;Enter a denominator: &quot;);
-
-var denominatorStr = Console.ReadLine();
-
-var result = ToDecimal(numeratorStr, denominatorStr);
-
-if (result.IsErr())
-{
-  Console.WriteLine(result.UnwrapErr());
-}
-else if (result.IsOk())
-{
-  Console.WriteLine($&quot;The resulting decimal is: {result.Unwrap()}&quot;);
-}
-
-public Result&lt;double, string&gt; ToDecimal(string numStr, string denStr)
-{
-  if (!double.TryParse(numStr, out var num))
-  {
-    return Result&lt;double, string&gt;.Err($&quot;The value '{numStr}' could not be parsed to a double.&quot;);
-  }
-
-  if (!double.TryParse(denStr, out var den))
-  {
-    return Result&lt;double, string&gt;.Err($&quot;The value '{denStr}' could not be parsed to a double.&quot;);
-  }
-
-  if (denStr == 0)
-  {
-    return Result&lt;double, string&gt;.Err(&quot;Cannot divide by zero.&quot;);
-  }
-
-  return Result&lt;double, string&gt;.Ok(num / den);
-}
-</code></pre>
-<h2 id="panics">Panics</h2>
-<p>The Rust idiom for dealing with exceptional cases is similar to the golang mechanism - panics. In many cases, it's superior (IMHO) than using exceptions to control execution flow, particularly when you're dealing with library code.</p>
-<p>To maintain a reasonable level of parity with the Rust mechanics of dealing with error conditions, this library contains a relatively generic <a href="./src/ResultCs/PanicException.cs"><code>PanicException</code></a> that attempts to provide a similar experience that in Rust. You'll see that the exception is intended to be used within the context of the library, hence <a href="./src/ResultCs/PanicException.cs#L14-L47">no public constructors</a>. It's expected that developers handle panics in the context of the <code>Option</code> and <code>Result</code> values and convert that into the local semantics for the consuming application.</p>
-<h2 id="parting-words">Parting Words</h2>
-<p>The entire notion of being able to program away a class of problems that has caused so much havoc in the computer science and software engineering worlds is alluring to me to say the least. I feel like those of us in the trenches have a great opportunity to further our craft and make the (software) world a better, safer place.</p>
-<p>Keep calm, code on, and rock out. 🤘</p>
+<p>TODO: Add .NET projects to the <em>src</em> folder and run <code>docfx</code> to generate <strong>REAL</strong> <em>API Documentation</em>!</p>
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/MiloWical/Result-Cs/blob/main-docs/.docfx/docfx_project/index.md/#L1" class="edit-link">Edit this page</a>
+          <a href="https://github.com/MiloWical/Result-Cs/blob/main-docs/docfx_project/api/index.md/#L1" class="edit-link">Edit this page</a>
         </div>
 
         <div class="next-article d-print-none border-top" id="nextArticle"></div>
