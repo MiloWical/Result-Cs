@@ -6,7 +6,7 @@
           "files": [
             "src/ResultCs/ResultCs.csproj"
           ],
-          "src": "../../",
+          "src": "../",
           "exclude": [
             "**/bin/**/",
             "**/obj/**/"

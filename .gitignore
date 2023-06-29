@@ -352,4 +352,4 @@ MigrationBackup/
 test/ResultCs.Tests.Unit/coverage.json
 
 # DocFx
-.docfx/docfx_project/
+**/docfx_project/
