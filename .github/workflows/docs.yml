@@ -70,9 +70,10 @@ jobs:
           cd '${{ github.workspace }}'
           docfx ./docfx_project/docfx.json
 
+      # find '${{ github.workspace }}/docfx_project/_site' -type f -exec cp {} '${{ github.workspace }}/docs/' \;
       - name: Copy Site Files
         run: |
-          cp -f '${{ github.workspace }}/docfx_project/_site/index.html' '${{ github.workspace }}/docs'
+          cp -f '${{ github.workspace }}/docfx_project/_site/'*.html '${{ github.workspace }}/docs'
           cp -R '${{ github.workspace }}/docfx_project/_site/api' '${{ github.workspace }}/docs/api'
           cp -R '${{ github.workspace }}/docfx_project/_site/images' '${{ github.workspace }}/docs/images'
           cp -R '${{ github.workspace }}/docfx_project/_site/public' '${{ github.workspace }}/docs/public'
