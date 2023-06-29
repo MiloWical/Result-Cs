@@ -55,11 +55,11 @@ jobs:
         run: |
           dotnet tool update -g docfx
           mkdir '${{ github.workspace }}/docs'
-          cd ''
           docfx init --quiet
 
       - name: Copy DocFx Files
         run: |
+          tree '${{ github.workspace }}'
           cp -f '${{ github.workspace }}/.docfx/docfx.json' '${{ github.workspace }}/docfx_project/docfx.json'
           cp -f '${{ github.workspace }}/README.md' '${{ github.workspace }}/docfx_project/index.md'
           cp -f '${{ github.workspace }}/.docfx/toc.yml' '${{ github.workspace }}/docfx_project/toc.yml'
