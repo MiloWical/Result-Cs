@@ -29,8 +29,7 @@
         "files": [
           "api/**.yml",
           "api/index.md"
-        ],
-        "dest": "Result-Cs"
+        ]
       },
       {
         "files": [
@@ -43,8 +42,7 @@
       {
         "files": [
           "images/**"
-        ],
-        "dest": "Result-Cs"
+        ]
       }
     ],
     "output": "_site",
