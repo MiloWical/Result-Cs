@@ -55,27 +55,27 @@ jobs:
         run: |
           dotnet tool update -g docfx
           mkdir '${{ github.workspace }}/docs'
-          cd '${{ github.workspace }}/.docfx'
+          cd ''
           docfx init --quiet
-          cp -f ./docfx.json ./docfx_project/docfx.json
 
       - name: Copy DocFx Files
         run: |
-          cp -f '${{ github.workspace }}/README.md' '${{ github.workspace }}/.docfx/docfx_project/index.md'
-          cp -f '${{ github.workspace }}/.docfx/toc.yml' '${{ github.workspace }}/.docfx/docfx_project/toc.yml'
-          cp -Rf '${{ github.workspace }}/images' '${{ github.workspace }}/.docfx/docfx_project/images'
+          cp -f '${{ github.workspace }}/.docfx/docfx.json' '${{ github.workspace }}/docfx_project/docfx.json'
+          cp -f '${{ github.workspace }}/README.md' '${{ github.workspace }}/docfx_project/index.md'
+          cp -f '${{ github.workspace }}/.docfx/toc.yml' '${{ github.workspace }}/docfx_project/toc.yml'
+          cp -Rf '${{ github.workspace }}/images' '${{ github.workspace }}/docfx_project/images'
 
       - name: Run DocFx
         run: |
-          cd '${{ github.workspace }}/.docfx'
+          cd '${{ github.workspace }}'
           docfx ./docfx_project/docfx.json
 
       - name: Copy Site Files
         run: |
-          find '${{ github.workspace }}/.docfx/docfx_project/_site' -type f -exec cp {} '${{ github.workspace }}/docs/' \;
-          cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/Result-Cs/api' '${{ github.workspace }}/docs/api'
-          cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/Result-Cs/images' '${{ github.workspace }}/docs'
-          cp -R '${{ github.workspace }}/.docfx/docfx_project/_site/public' '${{ github.workspace }}/docs/public'
+          find '${{ github.workspace }}/docfx_project/_site' -type f -exec cp {} '${{ github.workspace }}/docs/' \;
+          cp -R '${{ github.workspace }}/docfx_project/_site/Result-Cs/api' '${{ github.workspace }}/docs/api'
+          cp -R '${{ github.workspace }}/docfx_project/_site/Result-Cs/images' '${{ github.workspace }}/docs'
+          cp -R '${{ github.workspace }}/docfx_project/_site/public' '${{ github.workspace }}/docs/public'
 
       - name: Commit Docs
         run: |
