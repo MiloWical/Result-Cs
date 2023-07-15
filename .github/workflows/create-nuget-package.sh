@@ -156,7 +156,6 @@ fi
 
 VERSION=$(eval "$GENERATE_VERSION_CMD")
 
-
 NUGET_PACK_CMD="--project '$PROJECT'"
 NUGET_PACK_CMD="$NUGET_PACK_CMD --configuration '$BUILD_CONFIGURATION'"
 NUGET_PACK_CMD="$NUGET_PACK_CMD --output '$OUTPUT_PATH'"
@@ -172,4 +171,6 @@ then
   NUGET_PACK_CMD="$NUGET_PACK_CMD --sym"
 fi
 
-eval "./nuget-pack.sh $NUGET_PACK_CMD"
+SCRIPT_PATH=$(dirname "$0")
+
+eval "$SCRIPT_PATH/nuget-pack.sh $NUGET_PACK_CMD"
