@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 COVERAGE_TYPE=$1
 COVERAGE_FILE=$2
