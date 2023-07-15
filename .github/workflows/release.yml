@@ -4,7 +4,6 @@ run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 on:
   push:
     branches: [ "main" ]
-    branches-ignore: ["**-docs"]
 
 permissions:
   pull-requests: read
@@ -62,4 +61,24 @@ jobs:
       run: echo '![Branch Code Coverage]('$(${{ github.workspace }}/.github/workflows/badge-url.sh Branch ${{ github.workspace }}/CodeCoverage/SummaryGithub.md)')' >> $GITHUB_STEP_SUMMARY
 
     - name: Write Coverage Summary to Job Summary
-      run: cat ${{ github.workspace }}/CodeCoverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY      
+      run: cat ${{ github.workspace }}/CodeCoverage/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+
+  release-nuget-package:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '6.0.x', '7.0.x' ]
+    steps:
+    - name: Build NuGet package
+      run: |
+        TAG=$(${{ github.workspace }}/.github/workflows '${{ github.repository }}')
+        ${{ github.workspace }}/.github/workflows/nuget-pack.sh \
+          --project '${{ github.workspace }}' \
+          --sym
+          --configuration Release
+          --output '${{ github.workspace }}/pkg'
+          --version "$TAG"
+    - name: Create pre-release
+      run: |
+        echo "$TAG"
+        ls '${{ github.workspace }}/pkg'
