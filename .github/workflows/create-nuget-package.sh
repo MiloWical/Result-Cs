@@ -172,4 +172,4 @@ then
   NUGET_PACK_CMD="$NUGET_PACK_CMD --sym"
 fi
 
-echo "./nuget-pack.sh $NUGET_PACK_CMD"
+eval "./nuget-pack.sh $NUGET_PACK_CMD"

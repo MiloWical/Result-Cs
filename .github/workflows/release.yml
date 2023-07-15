@@ -116,7 +116,8 @@ jobs:
           --sym \
           --configuration Release \
           --output '${{ github.workspace }}/pkg' \
-          --force-version-update
+          --force-version-update \
+          --suffix rc
 
     - name: Create pre-release
       run: |
