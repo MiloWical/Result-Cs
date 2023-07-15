@@ -73,6 +73,7 @@ jobs:
     steps:
     - name: Build NuGet package
       run: |
+        ls ${{ github.workspace }}/.github/workflows
         TAG=$(${{ github.workspace }}/.github/workflows/read-github-release-tag.sh '${{ github.repository }}')
         ${{ github.workspace }}/.github/workflows/nuget-pack.sh \
           --project '${{ github.workspace }}' \
