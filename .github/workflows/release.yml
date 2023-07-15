@@ -8,7 +8,7 @@ on:
 
 permissions:
   pull-requests: read
-  contents: read
+  contents: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -71,9 +71,26 @@ jobs:
       matrix:
         dotnet-version: [ '6.0.x', '7.0.x' ]
     steps:
+    - name: Add SSH key
+      env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+          mkdir -p /home/runner/.ssh
+          echo "${{ secrets.AUTOMATION_PRIVATE_KEY }}" > /home/runner/.ssh/github_actions
+          chmod 600 /home/runner/.ssh/github_actions
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
+          ssh-add /home/runner/.ssh/github_actions
+    
+    - name: Configure GitHub
+      env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+          git config --global user.email "milo.wical@gmail.com"
+          git config --global user.name "J.A.R.V.I.S. [GitHub Actions]"
+
     - name: Build NuGet package
       run: |
-        ls ${{ github.workspace }}/.github/workflows
+        ls ${{ github.workspace }}/.github/workflows/
         TAG=$(${{ github.workspace }}/.github/workflows/read-github-release-tag.sh '${{ github.repository }}')
         ${{ github.workspace }}/.github/workflows/nuget-pack.sh \
           --project '${{ github.workspace }}' \
