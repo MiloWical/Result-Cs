@@ -119,6 +119,13 @@ jobs:
           --force-version-update \
           --suffix rc
 
-    - name: Create pre-release
+    - name: Create release candidate
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        ls '${{ github.workspace }}/pkg'
+        ${{ github.workspace }}/.github/workflows/create-github-release.sh \
+        '${{ github.repository }}' '${{ github.ref_name }}' \
+        --prerelease \
+        --force-version-update \
+        --suffix rc \
+        '${{ github.workspace }}/pkg/*'
