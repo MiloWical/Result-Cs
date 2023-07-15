@@ -111,9 +111,9 @@ jobs:
         TAG=$(${{ github.workspace }}/.github/workflows/read-github-release-tag.sh '${{ github.repository }}')
         ${{ github.workspace }}/.github/workflows/nuget-pack.sh \
           --project '${{ github.workspace }}' \
-          --sym
-          --configuration Release
-          --output '${{ github.workspace }}/pkg'
+          --sym \
+          --configuration Release \
+          --output '${{ github.workspace }}/pkg' \
           --version "$TAG"
     - name: Create pre-release
       run: |
