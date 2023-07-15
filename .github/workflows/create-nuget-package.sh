@@ -1,5 +1,15 @@
 #! /bin/bash
 
+# --- Flag defaults ---
+
+INCLUDE_SOURCE_FLAG=0
+INCLUDE_SYMBOLS_FLAG=0
+
+# --- Parameter defaults ---
+
+BUILD_CONFIGURATION="Release"
+OUTPUT_PATH="./pkg"
+
 # --- Process command-line arguments ---
 
 REPO=$1
@@ -7,9 +17,6 @@ BRANCH=$2
 
 shift
 shift
-
-PRERELEASE_FLAG=0
-RELEASE_FILES_ARR=()
 
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -49,8 +56,31 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
-    -pre|--prerelease)
-      PRERELEASE_FLAG=1
+    -p|--project)
+      PROJECT=$2
+      shift
+      shift
+      ;;
+
+    -o|--output)
+      OUTPUT_PATH=$2
+      shift
+      shift
+      ;;
+
+    -c|--configuration)
+      BUILD_CONFIGURATION=$2
+      shift
+      shift
+      ;;
+
+    --src)
+      INCLUDE_SOURCE_FLAG=1
+      shift
+      ;;
+
+    --sym)
+      INCLUDE_SYMBOLS_FLAG=1
       shift
       ;;
 
@@ -58,13 +88,16 @@ while [[ $# -gt 0 ]]; do
       echo "Unknown option $1"
       exit 1
       ;;
-      
-    *)
-      RELEASE_FILES_ARR+=("$1") # save positional arg
-      shift # past argument
-      ;;
   esac
 done
+
+# --- Validate command-line parameters ---
+
+if [ -z $PROJECT ]
+then
+  echo "Must specify a project to pack."
+  exit 1
+fi
 
 # --- Process commit comments for automated versioning ---
 
@@ -121,22 +154,22 @@ then
   GENERATE_VERSION_CMD="$GENERATE_VERSION_CMD  --force"
 fi
 
-VERSION_TAG=v$(eval "$GENERATE_VERSION_CMD")
+VERSION=$(eval "$GENERATE_VERSION_CMD")
 
-# --- Read additional release files ---
 
-RELEASE_FILES=$( IFS=' '; echo "${RELEASE_FILES_ARR[*]}" )
+NUGET_PACK_CMD="--project '$PROJECT'"
+NUGET_PACK_CMD="$NUGET_PACK_CMD --configuration '$BUILD_CONFIGURATION'"
+NUGET_PACK_CMD="$NUGET_PACK_CMD --output '$OUTPUT_PATH'"
+NUGET_PACK_CMD="$NUGET_PACK_CMD --version '$VERSION'"
 
-# --- Create the GitHub release ---
-
-GH_RELEASE_PARAMS="release create"
-GH_RELEASE_PARAMS="$GH_RELEASE_PARAMS $VERSION_TAG --generate-notes"
-
-if [ $PRERELEASE_FLAG -eq 1 ]
+if [ $INCLUDE_SOURCE_FLAG -eq 1 ]
 then
-  GH_RELEASE_PARAMS="$GH_RELEASE_PARAMS --prerelease"
+  DOTNET_PACK_CMD="$DOTNET_PACK_CMD --src"
 fi
 
-GH_RELEASE_PARAMS="$GH_RELEASE_PARAMS $RELEASE_FILES"
+if [ $INCLUDE_SYMBOLS_FLAG -eq 1 ]
+then
+  DOTNET_PACK_CMD="$DOTNET_PACK_CMD --sym"
+fi
 
-eval "gh $GH_RELEASE_PARAMS"
+eval "./nuget-pack.sh $DOTNET_PACK_CMD"

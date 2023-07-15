@@ -71,7 +71,7 @@ jobs:
       matrix:
         dotnet-version: [ '6.0.x', '7.0.x' ]
     steps:
-      
+
     - name: Add SSH key
       env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -108,16 +108,13 @@ jobs:
 
     - name: Build NuGet package
       run: |
-        ls ${{ github.workspace }}/.github/workflows/
-        TAG=$(${{ github.workspace }}/.github/workflows/read-github-release-tag.sh '${{ github.repository }}')
-        ${{ github.workspace }}/.github/workflows/nuget-pack.sh \
+        ${{ github.workspace }}/.github/workflows/create-nuget-package.sh \
           --project '${{ github.workspace }}' \
           --sym \
           --configuration Release \
           --output '${{ github.workspace }}/pkg' \
-          --version "$TAG"
+          --force-version-update
 
     - name: Create pre-release
       run: |
-        echo "$TAG"
         ls '${{ github.workspace }}/pkg'
