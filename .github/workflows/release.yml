@@ -111,6 +111,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         ${{ github.workspace }}/.github/workflows/create-nuget-package.sh \
+          '${{ github.repository }}' origin/main \
           --project '${{ github.workspace }}/src/ResultCs/ResultCs.csproj' \
           --sym \
           --configuration Release \
