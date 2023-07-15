@@ -164,12 +164,12 @@ NUGET_PACK_CMD="$NUGET_PACK_CMD --version '$VERSION'"
 
 if [ $INCLUDE_SOURCE_FLAG -eq 1 ]
 then
-  DOTNET_PACK_CMD="$DOTNET_PACK_CMD --src"
+  NUGET_PACK_CMD="$NUGET_PACK_CMD --src"
 fi
 
 if [ $INCLUDE_SYMBOLS_FLAG -eq 1 ]
 then
-  DOTNET_PACK_CMD="$DOTNET_PACK_CMD --sym"
+  NUGET_PACK_CMD="$NUGET_PACK_CMD --sym"
 fi
 
-echo "./nuget-pack.sh $DOTNET_PACK_CMD"
+echo "./nuget-pack.sh $NUGET_PACK_CMD"

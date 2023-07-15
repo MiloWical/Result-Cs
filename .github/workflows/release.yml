@@ -107,6 +107,8 @@ jobs:
           ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
 
     - name: Build NuGet package
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         ${{ github.workspace }}/.github/workflows/create-nuget-package.sh \
           --project '${{ github.workspace }}/src/ResultCs/ResultCs.csproj' \
