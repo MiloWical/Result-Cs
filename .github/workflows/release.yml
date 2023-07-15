@@ -87,6 +87,23 @@ jobs:
       run: |
           git config --global user.email "milo.wical@gmail.com"
           git config --global user.name "J.A.R.V.I.S. [GitHub Actions]"
+    
+    - name: Checkout
+      uses: actions/checkout@v3  
+
+    - name: Set Up .NET ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    
+    - name: Configure Dependency Cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.nuget/packages
+        # Look to see if there is a cache hit for the corresponding requirements file
+        key: ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
 
     - name: Build NuGet package
       run: |
