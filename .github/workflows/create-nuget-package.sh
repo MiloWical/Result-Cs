@@ -93,11 +93,11 @@ done
 
 # --- Validate command-line parameters ---
 
-if [ -z $PROJECT ]
-then
-  echo "Must specify a project to pack."
-  exit 1
-fi
+# if [ -z $PROJECT ]
+# then
+#   echo "Must specify a project to pack."
+#   exit 1
+# fi
 
 # --- Process commit comments for automated versioning ---
 
@@ -172,4 +172,4 @@ then
   DOTNET_PACK_CMD="$DOTNET_PACK_CMD --sym"
 fi
 
-eval "./nuget-pack.sh $DOTNET_PACK_CMD"
+echo "./nuget-pack.sh $DOTNET_PACK_CMD"
