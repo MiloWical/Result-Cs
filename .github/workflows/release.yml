@@ -71,6 +71,7 @@ jobs:
       matrix:
         dotnet-version: [ '6.0.x', '7.0.x' ]
     steps:
+      
     - name: Add SSH key
       env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -115,6 +116,7 @@ jobs:
           --configuration Release \
           --output '${{ github.workspace }}/pkg' \
           --version "$TAG"
+
     - name: Create pre-release
       run: |
         echo "$TAG"
