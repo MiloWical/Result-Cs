@@ -74,6 +74,12 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
+    -n|--name)
+      PACKAGE_NAME=$2
+      shift
+      shift
+      ;;
+
     --src)
       INCLUDE_SOURCE_FLAG=1
       shift
@@ -93,11 +99,11 @@ done
 
 # --- Validate command-line parameters ---
 
-# if [ -z $PROJECT ]
-# then
-#   echo "Must specify a project to pack."
-#   exit 1
-# fi
+if [ -z $PROJECT ]
+then
+  echo "Must specify a project to pack."
+  exit 1
+fi
 
 # --- Process commit comments for automated versioning ---
 
@@ -160,6 +166,11 @@ NUGET_PACK_CMD="--project '$PROJECT'"
 NUGET_PACK_CMD="$NUGET_PACK_CMD --configuration '$BUILD_CONFIGURATION'"
 NUGET_PACK_CMD="$NUGET_PACK_CMD --output '$OUTPUT_PATH'"
 NUGET_PACK_CMD="$NUGET_PACK_CMD --version '$VERSION'"
+
+if [ ! -z $PACKAGE_NAME ]
+then
+  NUGET_PACK_CMD="$NUGET_PACK_CMD --name '$PACKAGE_NAME'"
+fi
 
 if [ $INCLUDE_SOURCE_FLAG -eq 1 ]
 then

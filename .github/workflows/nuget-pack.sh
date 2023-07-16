@@ -38,6 +38,12 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
+    -n|--name)
+      PACKAGE_NAME=$2
+      shift
+      shift
+      ;;
+
     --src)
       INCLUDE_SOURCE_FLAG=1
       shift
@@ -61,7 +67,7 @@ then
   exit 1
 fi
 
-DOTNET_PACK_CMD="pack \"$PROJECT\""
+DOTNET_PACK_CMD="pack '$PROJECT'"
 
 DOTNET_PACK_CMD="$DOTNET_PACK_CMD --configuration $BUILD_CONFIGURATION"
 
@@ -75,8 +81,13 @@ then
   DOTNET_PACK_CMD="$DOTNET_PACK_CMD --include-symbols"
 fi
 
-DOTNET_PACK_CMD="$DOTNET_PACK_CMD --output \"$OUTPUT_PATH\""
+DOTNET_PACK_CMD="$DOTNET_PACK_CMD --output '$OUTPUT_PATH'"
 
-DOTNET_PACK_CMD="$DOTNET_PACK_CMD -p:PackageVersion=\"$VERSION\""
+DOTNET_PACK_CMD="$DOTNET_PACK_CMD -p:PackageVersion='$VERSION'"
+
+if [ ! -z $PACKAGE_NAME ]
+then
+  DOTNET_PACK_CMD="$DOTNET_PACK_CMD -p:PackageId=\"$PACKAGE_NAME\""
+fi
 
 eval "dotnet $DOTNET_PACK_CMD"
