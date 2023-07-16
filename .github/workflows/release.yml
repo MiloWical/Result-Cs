@@ -116,7 +116,7 @@ jobs:
           --sym \
           --configuration Release \
           --output '${{ github.workspace }}/pkg' \
-          --name 'WicalWare.ResultCs'
+          --name 'WicalWare.ResultCs' \
           --force-version-update \
           --suffix rc
 
