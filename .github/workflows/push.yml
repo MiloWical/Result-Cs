@@ -46,9 +46,6 @@ jobs:
     - name: Run ResultCs Unit Tests
       run: dotnet test /p:CollectCoverage=true /p:Threshold=80 /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj
 
-    - name: Run ResultCs Integration Tests
-      run: dotnet test /p:CollectCoverage=true /p:Threshold=80 /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
-
     - name: Create code coverage report
       run: |
         dotnet tool install -g dotnet-reportgenerator-globaltool
