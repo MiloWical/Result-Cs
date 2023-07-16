@@ -6,6 +6,11 @@ public class Reader
 {
   public static async Task<Result<Quadratic, string>> ReadInputFileAsync(string file)
   {
+    if(!File.Exists(file))
+    {
+      return Result<Quadratic, string>.Err(string.Format(ErrorStrings.FileNotFound, file));
+    }
+
     var lines = await File.ReadAllLinesAsync(file);
 
     if (lines.Length == 0)
@@ -18,7 +23,7 @@ public class Reader
       return Result<Quadratic, string>.Err(ErrorStrings.TooManyLines);
     }
 
-    var fields = lines[0].Split(' ');
+    var fields = lines[0].Trim().Split(' ');
 
     if (fields.Length < 3)
     {

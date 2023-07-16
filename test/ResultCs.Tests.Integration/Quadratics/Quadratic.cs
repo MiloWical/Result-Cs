@@ -48,7 +48,7 @@ public class Quadratic
       else
       {
         roots[0] = new Root(-1 * LinearCoefficient / (2 * QuadraticCoefficient), Math.Sqrt(Math.Abs(Discriminant)) / (2 * QuadraticCoefficient));
-        roots[0] = new Root(-1 * LinearCoefficient / (2 * QuadraticCoefficient), -1 * Math.Sqrt(Math.Abs(Discriminant)) / (2 * QuadraticCoefficient));
+        roots[1] = new Root(-1 * LinearCoefficient / (2 * QuadraticCoefficient), -1 * Math.Sqrt(Math.Abs(Discriminant)) / (2 * QuadraticCoefficient));
       }
     }
 
@@ -61,7 +61,7 @@ public class Quadratic
 
     if (roots.IsNone())
     {
-      return Result<string, string>.Ok(((char)157).ToString());
+      return Result<string, string>.Ok(((char)157).ToString()); // Null set symbol
     }
 
     var outputStrings = roots.Map(r =>
