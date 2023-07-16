@@ -87,7 +87,7 @@ DOTNET_PACK_CMD="$DOTNET_PACK_CMD -p:PackageVersion='$VERSION'"
 
 if [ ! -z $PACKAGE_NAME ]
 then
-  DOTNET_PACK_CMD="$DOTNET_PACK_CMD -p:PackageId=\"$PACKAGE_NAME\""
+  DOTNET_PACK_CMD="$DOTNET_PACK_CMD -p:PackageId='$PACKAGE_NAME'"
 fi
 
 eval "dotnet $DOTNET_PACK_CMD"
