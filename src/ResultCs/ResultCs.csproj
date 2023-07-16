@@ -22,10 +22,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>nuget.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-      <None Include="..\..\README.md" Pack="true" PackagePath=""/>
+      <None Include="..\..\.nuget\nuget.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 </Project>
