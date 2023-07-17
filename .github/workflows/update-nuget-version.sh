@@ -16,12 +16,12 @@ REVERSION_SYMBOLS_FLAG=0
 while [[ $# -gt 0 ]]; do
   case $1 in
 
-    -rem|--remove-suffix)
+    --rem|--remove-suffix)
       REMOVE_SUFFIX_FLAG=1
       shift
       ;;  
 
-    -rep|--replace-suffix)
+    --rep|--replace-suffix)
       REPLACE_SUFFIX_FLAG=1
       shift
       ;;
