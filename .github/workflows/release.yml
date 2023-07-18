@@ -147,8 +147,8 @@ jobs:
 
     - name: Test Integration Tests with RC Package
       run: |
-        dotnet restore ${{ github.workspace }}/test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj --source github
-        dotnet test ${{ github.workspace }}/test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj
+        dotnet restore ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj --source github
+        dotnet test ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
     - name: Create Release
       run: |
