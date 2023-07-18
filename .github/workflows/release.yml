@@ -129,9 +129,31 @@ jobs:
     #     --suffix rc \
     #     '${{ github.workspace }}/pkg/*'
 
-    - name: Push RC Package
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Push RC Package to GitHub
       run: |
-        echo ${{ github.actor }}
-      
+        dotnet nuget add source \
+          --username ${{ github.actor }} \
+          --password ${{ secrets.GITHUB_TOKEN }} \
+          --store-password-in-clear-text \
+          --name github "https://nuget.pkg.github.com/MiloWical/index.json"
+        dotnet nuget list source
+
+    - name: Test RC Package
+      run: |
+        dotnet nuget list source
+
+    - name: Create Release
+      run: |
+        echo "Hello, World!"
+
+    - name: Push Release Package to GitHub
+      run: |
+        dotnet nuget list source
+
+    - name: Push Release Package to NuGet
+      run: |
+        dotnet nuget list source
+
+    - name: Generate Docs
+      run: |
+        echo "Calling Docs"
