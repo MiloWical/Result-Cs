@@ -1,5 +1,13 @@
 # Result C#
 
+## Status
+
+[![Branch Build](https://github.com/MiloWical/Result-Cs/actions/workflows/push.yml/badge.svg)](https://github.com/MiloWical/Result-Cs/actions/workflows/push.yml)
+
+[![CodeQL](https://github.com/MiloWical/Result-Cs/actions/workflows/codeql.yml/badge.svg)](https://github.com/MiloWical/Result-Cs/actions/workflows/codeql.yml)
+
+[![Main CI/CD Pipeline](https://github.com/MiloWical/Result-Cs/actions/workflows/release.yml/badge.svg)](https://github.com/MiloWical/Result-Cs/actions/workflows/release.yml)
+
 ## Motivation
 
 `null` is a problematic value for many developers, and in the Rust language a conscious decision to NOT include `null` was made to prevent a whole class of problems. As stated in [The Rust Programming Language](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=null#the-option-enum-and-its-advantages-over-null-values):
