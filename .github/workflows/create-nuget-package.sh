@@ -80,6 +80,12 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
+    -u|--url)
+      PACKAGE_URL=$2
+      shift
+      shift
+      ;;
+
     --src)
       INCLUDE_SOURCE_FLAG=1
       shift
@@ -170,6 +176,11 @@ NUGET_PACK_CMD="$NUGET_PACK_CMD --version '$VERSION'"
 if [ ! -z $PACKAGE_NAME ]
 then
   NUGET_PACK_CMD="$NUGET_PACK_CMD --name '$PACKAGE_NAME'"
+fi
+
+if [ ! -z $PACKAGE_URL ]
+then
+  NUGET_PACK_CMD="$NUGET_PACK_CMD --url '$PACKAGE_URL'"
 fi
 
 if [ $INCLUDE_SOURCE_FLAG -eq 1 ]

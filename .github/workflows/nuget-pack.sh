@@ -44,6 +44,12 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
+    -u|--url)
+      PACKAGE_URL=$2
+      shift
+      shift
+      ;;
+
     --src)
       INCLUDE_SOURCE_FLAG=1
       shift
@@ -88,6 +94,11 @@ DOTNET_PACK_CMD="$DOTNET_PACK_CMD -p:PackageVersion='$VERSION'"
 if [ ! -z $PACKAGE_NAME ]
 then
   DOTNET_PACK_CMD="$DOTNET_PACK_CMD -p:PackageId='$PACKAGE_NAME'"
+fi
+
+if [ ! -z $PACKAGE_URL ]
+then
+  DOTNET_PACK_CMD="$DOTNET_PACK_CMD -p:PackageProjectUrl='$PACKAGE_URL'"
 fi
 
 eval "dotnet $DOTNET_PACK_CMD"
