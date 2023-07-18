@@ -85,5 +85,5 @@ eval "mv $FILENAME_ROOT.nupkg $OUTPUT_FILENAME_ROOT.nupkg"
 
 if [ $REVERSION_SYMBOLS_FLAG -eq 1 ]
 then
-  eval "mv $FILENAME_ROOT.symbols.nupkg  $OUTPUT_FILENAME_ROOT.symbols.nupkg"
+  eval "mv $FILENAME_ROOT.snupkg  $OUTPUT_FILENAME_ROOT.snupkg"
 fi

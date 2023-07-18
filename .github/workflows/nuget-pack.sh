@@ -78,7 +78,7 @@ fi
 
 if [ $INCLUDE_SYMBOLS_FLAG -eq 1 ]
 then
-  DOTNET_PACK_CMD="$DOTNET_PACK_CMD --include-symbols"
+  DOTNET_PACK_CMD="$DOTNET_PACK_CMD --include-symbols -p:SymbolPackageFormat=snupkg"
 fi
 
 DOTNET_PACK_CMD="$DOTNET_PACK_CMD --output '$OUTPUT_PATH'"
