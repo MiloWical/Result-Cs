@@ -136,10 +136,10 @@ jobs:
           --password ${{ secrets.GITHUB_TOKEN }} \
           --store-password-in-clear-text \
           --name github "https://nuget.pkg.github.com/MiloWical/index.json"
+          
         dotnet nuget push \
+          '${{ github.workspace }}/pkg/*.nupkg' \  
           --source github
-          '${{ github.workspace }}/pkg/*.nupkg'
-
 
     - name: Test RC Package
       run: |
