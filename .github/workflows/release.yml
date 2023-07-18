@@ -141,6 +141,10 @@ jobs:
           '${{ github.workspace }}/pkg/*.nupkg' \
           --source github
 
+        dotnet nuget push \
+          '${{ github.workspace }}/pkg/*.snupkg' \
+          --source github
+
     - name: Test RC Package
       run: |
         dotnet nuget list source
