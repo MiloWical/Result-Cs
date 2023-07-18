@@ -104,19 +104,19 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
 
-    - name: Build NuGet package
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        ${{ github.workspace }}/.github/workflows/create-nuget-package.sh \
-          '${{ github.repository }}' '${{ github.ref_name }}' \
-          --project '${{ github.workspace }}/src/ResultCs/ResultCs.csproj' \
-          --sym \
-          --configuration Release \
-          --output '${{ github.workspace }}/pkg' \
-          --name 'WicalWare.ResultCs' \
-          --force-version-update \
-          --suffix rc
+    # - name: Build NuGet package
+    #   env:
+    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   run: |
+    #     ${{ github.workspace }}/.github/workflows/create-nuget-package.sh \
+    #       '${{ github.repository }}' '${{ github.ref_name }}' \
+    #       --project '${{ github.workspace }}/src/ResultCs/ResultCs.csproj' \
+    #       --sym \
+    #       --configuration Release \
+    #       --output '${{ github.workspace }}/pkg' \
+    #       --name 'WicalWare.ResultCs' \
+    #       --force-version-update \
+    #       --suffix rc
 
     # - name: Create RC Release
     #   env:
@@ -129,41 +129,41 @@ jobs:
     #     --suffix rc \
     #     '${{ github.workspace }}/pkg/*'
 
-    - name: Push RC Package to GitHub
-      run: |
-        dotnet nuget add source \
-          --username ${{ github.actor }} \
-          --password ${{ secrets.GITHUB_TOKEN }} \
-          --store-password-in-clear-text \
-          --name github "https://nuget.pkg.github.com/MiloWical/index.json"
+    # - name: Push RC Package to GitHub
+    #   run: |
+    #     dotnet nuget add source \
+    #       --username ${{ github.actor }} \
+    #       --password ${{ secrets.GITHUB_TOKEN }} \
+    #       --store-password-in-clear-text \
+    #       --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
-        dotnet nuget push \
-          '${{ github.workspace }}/pkg/*.nupkg' \
-          --source github
+    #     dotnet nuget push \
+    #       '${{ github.workspace }}/pkg/*.nupkg' \
+    #       --source github
 
-        dotnet nuget push \
-          '${{ github.workspace }}/pkg/*.snupkg' \
-          --source github
+    #     dotnet nuget push \
+    #       '${{ github.workspace }}/pkg/*.snupkg' \
+    #       --source github
 
     - name: Test Integration Tests with RC Package
       run: |
         dotnet restore ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj \
-          --source "https://github.com/MiloWical/Result-Cs"
-          
+          --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+
         dotnet test ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
-    - name: Create Release
-      run: |
-        echo "Hello, World!"
+    # - name: Create Release
+    #   run: |
+    #     echo "Hello, World!"
 
-    - name: Push Release Package to GitHub
-      run: |
-        dotnet nuget list source
+    # - name: Push Release Package to GitHub
+    #   run: |
+    #     dotnet nuget list source
 
-    - name: Push Release Package to NuGet
-      run: |
-        dotnet nuget list source
+    # - name: Push Release Package to NuGet
+    #   run: |
+    #     dotnet nuget list source
 
-    - name: Generate Docs
-      run: |
-        echo "Calling Docs"
+    # - name: Generate Docs
+    #   run: |
+    #     echo "Calling Docs"
