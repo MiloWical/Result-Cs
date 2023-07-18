@@ -146,7 +146,7 @@ jobs:
     #       '${{ github.workspace }}/pkg/*.snupkg' \
     #       --source github
 
-    - name: Test Integration Tests with RC Package
+    - name: Run Integration Tests with RC Package
       run: |
         dotnet restore ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj \
           --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
