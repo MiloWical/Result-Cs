@@ -104,20 +104,20 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-nuget-${{ matrix.dotnet-version }}
 
-    # - name: Build NuGet package
-    #   env:
-    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   run: |
-    #     ${{ github.workspace }}/.github/workflows/create-nuget-package.sh \
-    #       '${{ github.repository }}' '${{ github.ref_name }}' \
-    #       --project '${{ github.workspace }}/src/ResultCs/ResultCs.csproj' \
-    #       --sym \
-    #       --configuration Release \
-    #       --output '${{ github.workspace }}/pkg' \
-    #       --name 'WicalWare.ResultCs' \
-    #       --url 'https://github.com/${{ github.repository }}' \
-    #       --force-version-update \
-    #       --suffix rc
+    - name: Build NuGet package
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        ${{ github.workspace }}/.github/workflows/create-nuget-package.sh \
+          '${{ github.repository }}' '${{ github.ref_name }}' \
+          --project '${{ github.workspace }}/src/ResultCs/ResultCs.csproj' \
+          --sym \
+          --configuration Release \
+          --output '${{ github.workspace }}/pkg' \
+          --name 'WicalWare.ResultCs' \
+          --url 'https://github.com/${{ github.repository }}' \
+          --force-version-update \
+          --suffix rc
 
     # - name: Create RC Release
     #   env:
@@ -153,17 +153,18 @@ jobs:
 
         dotnet test ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
-    # - name: Create Release
-    #   run: |
-    #     echo "Hello, World!"
-
-    - name: Push Release Package to GitHub
+    - name: Create Release
       run: |
         NUGET_PACKAGE=$(ls ${{ github.workspace }}/pkg/*.nupkg | head -n1)
         ${{ github.workspace }}/.github/workflows/update-nuget-version.sh "$NUGET_PACKAGE" --remove-suffix --sym
 
         # This needs to change from here:
         ls ${{ github.workspace }}/pkg/
+
+
+    - name: Push Release Package to GitHub
+      run: |
+        dotnet nuget list source
 
     # - name: Push Release Package to NuGet
     #   run: |
