@@ -1,4 +1,4 @@
-name: 'Main CI/CD Pipeline'
+name: 'Release Pipeline'
 run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 
 on:
@@ -153,18 +153,28 @@ jobs:
 
         dotnet test ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
-    - name: Create Release
+    - name: Reversion Package
       run: |
         NUGET_PACKAGE=$(ls ${{ github.workspace }}/pkg/*.nupkg | head -n1)
         ${{ github.workspace }}/.github/workflows/update-nuget-version.sh "$NUGET_PACKAGE" --remove-suffix --sym
 
-        # This needs to change from here:
-        ls ${{ github.workspace }}/pkg/
+    # - name: Create Release
+    #   env:
+    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   run: |
+    #     ${{ github.workspace }}/.github/workflows/create-github-release.sh \
+    #     '${{ github.repository }}' '${{ github.ref_name }}' \
+    #     '${{ github.workspace }}/pkg/*'
 
+    # - name: Push Release Package to GitHub
+    #   run: |
+    #     dotnet nuget push \
+    #       '${{ github.workspace }}/pkg/*.nupkg' \
+    #       --source github
 
-    - name: Push Release Package to GitHub
-      run: |
-        dotnet nuget list source
+    #     dotnet nuget push \
+    #       '${{ github.workspace }}/pkg/*.snupkg' \
+    #       --source github
 
     # - name: Push Release Package to NuGet
     #   run: |
