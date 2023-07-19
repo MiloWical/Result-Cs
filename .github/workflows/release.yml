@@ -146,11 +146,10 @@ jobs:
 
     - name: Push RC Package to NuGet
       run: |
-        cd '${{ github.workspace }}/pkg/'
         dotnet nuget push 
-          "*.nupkg" \
+          '${{ github.workspace }}/pkg/*.nupkg' \
           --api-key ${{ secrets.NUGET_API_KEY }} \
-          --source https://api.nuget.org/v3/index.json
+          --source 'https://api.nuget.org/v3/index.json'
 
     - name: Upload Package Artifact
       uses: actions/upload-artifact@v3
@@ -211,11 +210,10 @@ jobs:
 
       - name: Push Release Package to NuGet
         run: |
-          cd '${{ github.workspace }}/pkg/'
           dotnet nuget push 
-            "*.nupkg" \
+            '${{ github.workspace }}/pkg/*.nupkg' \
             --api-key ${{ secrets.NUGET_API_KEY }} \
-            --source https://api.nuget.org/v3/index.json
+            --source 'https://api.nuget.org/v3/index.json'
 
       - name: Generate Docs
         uses: ./.github/workflows/docs.yml
