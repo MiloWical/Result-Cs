@@ -138,15 +138,15 @@ jobs:
           --store-password-in-clear-text \
           --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
-    # - name: Push RC Package to GitHub
-    #   run: |
-    #     dotnet nuget push \
-    #       '${{ github.workspace }}/pkg/*.nupkg' \
-    #       --source github
+    - name: Push RC Package to GitHub
+      run: |
+        dotnet nuget push \
+          '${{ github.workspace }}/pkg/*.nupkg' \
+          --source github
 
-    #     dotnet nuget push \
-    #       '${{ github.workspace }}/pkg/*.snupkg' \
-    #       --source github
+        dotnet nuget push \
+          '${{ github.workspace }}/pkg/*.snupkg' \
+          --source github
 
     # - name: Run Integration Tests with RC Package
     #   run: |
@@ -163,6 +163,7 @@ jobs:
       run: |
         NUGET_PACKAGE=$(ls ${{ github.workspace }}/pkg/*.nupkg | head -n1)
         ${{ github.workspace }}/.github/workflows/update-nuget-version.sh "$NUGET_PACKAGE" --remove-suffix --sym
+        ls ${{ github.workspace }}/pkg/
 
     # - name: Create Release
     #   env:
