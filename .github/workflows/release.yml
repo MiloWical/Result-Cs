@@ -140,7 +140,9 @@ jobs:
 
     - name: Push RC Package to GitHub
       run: |
-        ls ${{ github.workspace }}/pkg/
+        # https://stackoverflow.com/a/70450362
+        dotnet nuget disable source github
+        dotnet nuget enable source github
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.nupkg' \
@@ -179,6 +181,10 @@ jobs:
 
     - name: Push Release Package to GitHub
       run: |
+        # https://stackoverflow.com/a/70450362
+        dotnet nuget disable source github
+        dotnet nuget enable source github
+        
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.nupkg' \
           --api-key '${{ secrets.GITHUB_TOKEN }}' \
