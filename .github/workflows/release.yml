@@ -138,21 +138,21 @@ jobs:
           --store-password-in-clear-text \
           --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
-    # - name: Push RC Package to GitHub
-    #   run: |
-    #     # https://stackoverflow.com/a/70450362
-    #     dotnet nuget disable source github
-    #     dotnet nuget enable source github
+    - name: Push RC Package to GitHub
+      run: |
+        # https://stackoverflow.com/a/70450362
+        dotnet nuget disable source github
+        dotnet nuget enable source github
 
-    #     dotnet nuget push \
-    #       '${{ github.workspace }}/pkg/*.nupkg' \
-    #       --api-key '${{ secrets.GITHUB_TOKEN }}' \
-    #       --source github
+        dotnet nuget push \
+          '${{ github.workspace }}/pkg/*.nupkg' \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
+          --source github
 
-    #     dotnet nuget push \
-    #       '${{ github.workspace }}/pkg/*.snupkg' \
-    #       --api-key '${{ secrets.GITHUB_TOKEN }}' \
-    #       --source github
+        dotnet nuget push \
+          '${{ github.workspace }}/pkg/*.snupkg' \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
+          --source github
 
     # - name: Run Integration Tests with RC Package
     #   run: |
