@@ -5,7 +5,7 @@ run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 #   push:
 #     branches: ["**-docs"]
 
-on: workflow_dispatch
+on: [ 'workflow_dispatch', 'workflow_call' ]
 
 permissions:
   contents: write
@@ -68,7 +68,6 @@ jobs:
           cd '${{ github.workspace }}'
           docfx ./docfx_project/docfx.json
 
-      # find '${{ github.workspace }}/docfx_project/_site' -type f -exec cp {} '${{ github.workspace }}/docs/' \;
       - name: Copy Site Files
         run: |
           cp -f '${{ github.workspace }}/docfx_project/_site/'*.{html,svg,ico,json} '${{ github.workspace }}/docs'
@@ -86,11 +85,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh pr create --title "Automated Documentation Generation" --body "Created documentation for GitHub Pages."
-
-      # - name: Approve Pull Request
-      #   env:
-      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: gh pr review --approve
 
       - name: Merge Pull Request
         env:

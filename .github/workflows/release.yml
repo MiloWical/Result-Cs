@@ -144,9 +144,12 @@ jobs:
 
         dotnet test ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
-    # - name: Push RC Package to NuGet
-    #   run: |
-    #     dotnet nuget list source
+    - name: Push RC Package to NuGet
+      run: |
+        dotnet nuget push 
+          "${{ github.workspace }}/pkg/*.nupkg" \
+          --api-key ${{ secrets.NUGET_API_KEY }} \
+          --source https://api.nuget.org/v3/index.json
 
     - name: Upload Package Artifact
       uses: actions/upload-artifact@v3
@@ -205,10 +208,12 @@ jobs:
             --api-key '${{ secrets.GITHUB_TOKEN }}' \
             --source github
 
-    # - name: Push Release Package to NuGet
-    #   run: |
-    #     dotnet nuget list source
+      - name: Push Release Package to NuGet
+        run: |
+          dotnet nuget push 
+            "${{ github.workspace }}/pkg/*.nupkg" \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json
 
-    # - name: Generate Docs
-    #   run: |
-    #     echo "Calling Docs"
+      - name: Generate Docs
+        uses: ./.github/workflows/docs.yml
