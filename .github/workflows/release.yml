@@ -188,11 +188,13 @@ jobs:
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.nupkg' \
           --api-key '${{ secrets.GITHUB_TOKEN }}' \
+          --skip-duplicate \
           --source github
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.snupkg' \
           --api-key '${{ secrets.GITHUB_TOKEN }}' \
+          --skip-duplicate \
           --source github
 
     # - name: Push Release Package to NuGet
