@@ -131,14 +131,11 @@ jobs:
     #     --suffix rc \
     #     '${{ github.workspace }}/pkg/*'
 
-    # - name: Add GitHub NuGet Source
-    #   run: |
-    #     dotnet nuget add source \
-    #       'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json' \
-    #       --username ${{ github.actor }} \
-    #       --password '${{ secrets.GITHUB_TOKEN }}' \
-    #       --store-password-in-clear-text \
-    #       --name github
+    - name: Add Local NuGet Source
+      run: |
+        dotnet nuget add source \
+          '${{ github.workspace }}/pkg' \
+          --name local
 
     # - name: Push RC Package to GitHub
     #   run: |
@@ -152,10 +149,10 @@ jobs:
     #       --api-key '${{ secrets.GITHUB_TOKEN }}' \
     #       --source github
 
+    # --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
     - name: Run Integration Tests with RC Package
       run: |
         dotnet restore ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj \
-          # --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
           --source '${{ github.workspace }}/pkg'
 
         dotnet test ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
