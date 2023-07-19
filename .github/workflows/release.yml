@@ -131,15 +131,19 @@ jobs:
     #     '${{ github.workspace }}/pkg/*'
 
     - name: Add GitHub NuGet Source
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         dotnet nuget add source \
           'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json' \
           --username ${{ github.actor }} \
-          --password ${{ secrets.GITHUB_TOKEN }} \
+          --password "$GH_TOKEN" \
           --store-password-in-clear-text \
           --name github
 
     - name: Push RC Package to GitHub
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # https://stackoverflow.com/a/70450362
         dotnet nuget disable source github
@@ -147,12 +151,12 @@ jobs:
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.nupkg' \
-          --api-key '${{ secrets.GITHUB_TOKEN }}' \
+          --api-key "$GH_TOKEN" \
           --source github
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.snupkg' \
-          --api-key '${{ secrets.GITHUB_TOKEN }}' \
+          --api-key "$GH_TOKEN" \
           --source github
 
     # - name: Run Integration Tests with RC Package
@@ -181,15 +185,19 @@ jobs:
     #     '${{ github.workspace }}/pkg/*'
 
     - name: Update GitHub NuGet Source
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         dotnet nuget update source \
           github \
           --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json' \
           --username ${{ github.actor }} \
-          --password ${{ secrets.GITHUB_TOKEN }} \
+          --password "$GH_TOKEN" \
           --store-password-in-clear-text
 
     - name: Push Release Package to GitHub
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # https://stackoverflow.com/a/70450362
         dotnet nuget disable source github
@@ -197,12 +205,12 @@ jobs:
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.nupkg' \
-          --api-key '${{ secrets.GITHUB_TOKEN }}' \
+          --api-key "$GH_TOKEN" \
           --source github
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.snupkg' \
-          --api-key '${{ secrets.GITHUB_TOKEN }}' \
+          --api-key "$GH_TOKEN" \
           --source github
 
     # - name: Push Release Package to NuGet
