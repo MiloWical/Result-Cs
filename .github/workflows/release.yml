@@ -146,8 +146,9 @@ jobs:
 
     - name: Push RC Package to NuGet
       run: |
+        cd '${{ github.workspace }}/pkg/'
         dotnet nuget push 
-          "${{ github.workspace }}/pkg/*.nupkg" \
+          "*.nupkg" \
           --api-key ${{ secrets.NUGET_API_KEY }} \
           --source https://api.nuget.org/v3/index.json
 
@@ -210,8 +211,9 @@ jobs:
 
       - name: Push Release Package to NuGet
         run: |
+          cd '${{ github.workspace }}/pkg/'
           dotnet nuget push 
-            "${{ github.workspace }}/pkg/*.nupkg" \
+            "*.nupkg" \
             --api-key ${{ secrets.NUGET_API_KEY }} \
             --source https://api.nuget.org/v3/index.json
 
