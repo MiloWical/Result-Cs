@@ -11,6 +11,7 @@ permissions:
   contents: write
   packages: write
 
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -131,32 +132,24 @@ jobs:
     #     '${{ github.workspace }}/pkg/*'
 
     - name: Add GitHub NuGet Source
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         dotnet nuget add source \
           'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json' \
           --username ${{ github.actor }} \
-          --password "$GH_TOKEN" \
+          --password '${{ secrets.GITHUB_TOKEN }}' \
           --store-password-in-clear-text \
           --name github
 
     - name: Push RC Package to GitHub
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # https://stackoverflow.com/a/70450362
-        dotnet nuget disable source github
-        dotnet nuget enable source github
-
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.nupkg' \
-          --api-key "$GH_TOKEN" \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
           --source github
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.snupkg' \
-          --api-key "$GH_TOKEN" \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
           --source github
 
     # - name: Run Integration Tests with RC Package
@@ -170,11 +163,29 @@ jobs:
     #   run: |
     #     dotnet nuget list source
 
-    - name: Reversion Package
+    - name: Clean package output
       run: |
-        NUGET_PACKAGE=$(ls ${{ github.workspace }}/pkg/*.nupkg | head -n1)
-        ${{ github.workspace }}/.github/workflows/update-nuget-version.sh "$NUGET_PACKAGE" --remove-suffix --sym
-        ls ${{ github.workspace }}/pkg/
+        rm -f '${{ github.workspace }}/pkg/*'
+
+    - name: Build NuGet package
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        ${{ github.workspace }}/.github/workflows/create-nuget-package.sh \
+          '${{ github.repository }}' '${{ github.ref_name }}' \
+          --project '${{ github.workspace }}/src/ResultCs/ResultCs.csproj' \
+          --sym \
+          --output '${{ github.workspace }}/pkg' \
+          --name 'WicalWare.ResultCs' \
+          --url 'https://github.com/${{ github.repository }}' \
+          --force-version-update \
+          --skip-build
+
+    # - name: Reversion Package
+    #   run: |
+    #     NUGET_PACKAGE=$(ls ${{ github.workspace }}/pkg/*.nupkg | head -n1)
+    #     ${{ github.workspace }}/.github/workflows/update-nuget-version.sh "$NUGET_PACKAGE" --remove-suffix --sym
+    #     ls ${{ github.workspace }}/pkg/
 
     # - name: Create Release
     #   env:
@@ -184,33 +195,16 @@ jobs:
     #     '${{ github.repository }}' '${{ github.ref_name }}' \
     #     '${{ github.workspace }}/pkg/*'
 
-    - name: Update GitHub NuGet Source
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        dotnet nuget update source \
-          github \
-          --source 'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json' \
-          --username ${{ github.actor }} \
-          --password "$GH_TOKEN" \
-          --store-password-in-clear-text
-
     - name: Push Release Package to GitHub
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # https://stackoverflow.com/a/70450362
-        dotnet nuget disable source github
-        dotnet nuget enable source github
-
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.nupkg' \
-          --api-key "$GH_TOKEN" \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
           --source github
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.snupkg' \
-          --api-key "$GH_TOKEN" \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
           --source github
 
     # - name: Push Release Package to NuGet

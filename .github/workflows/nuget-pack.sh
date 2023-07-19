@@ -4,6 +4,7 @@
 
 INCLUDE_SOURCE_FLAG=0
 INCLUDE_SYMBOLS_FLAG=0
+SKIP_BUILD_FLAG=0
 
 # --- Parameter defaults ---
 
@@ -60,6 +61,11 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
+    --sb|--skip-build)
+      SKIP_BUILD_FLAG=1
+      shift
+      ;;
+
     *)
       echo "Unknown argument: $1"
       exit 1
@@ -85,6 +91,11 @@ fi
 if [ $INCLUDE_SYMBOLS_FLAG -eq 1 ]
 then
   DOTNET_PACK_CMD="$DOTNET_PACK_CMD --include-symbols -p:SymbolPackageFormat=snupkg"
+fi
+
+if [ $SKIP_BUILD_FLAG -eq 1 ]
+then
+  DOTNET_PACK_CMD="$DOTNET_PACK_CMD --no-build"
 fi
 
 DOTNET_PACK_CMD="$DOTNET_PACK_CMD --output '$OUTPUT_PATH'"
