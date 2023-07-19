@@ -141,13 +141,15 @@ jobs:
     - name: Push RC Package to GitHub
       run: |
         ls ${{ github.workspace }}/pkg/
-                
+
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.nupkg' \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
           --source github
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.snupkg' \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
           --source github
 
     # - name: Run Integration Tests with RC Package
@@ -179,10 +181,12 @@ jobs:
       run: |
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.nupkg' \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
           --source github
 
         dotnet nuget push \
           '${{ github.workspace }}/pkg/*.snupkg' \
+          --api-key '${{ secrets.GITHUB_TOKEN }}' \
           --source github
 
     # - name: Push Release Package to NuGet
