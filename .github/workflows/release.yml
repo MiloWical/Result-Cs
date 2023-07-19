@@ -153,28 +153,32 @@ jobs:
 
         dotnet test ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
+    # - name: Push RC Package to NuGet
+    #   run: |
+    #     dotnet nuget list source
+
     - name: Reversion Package
       run: |
         NUGET_PACKAGE=$(ls ${{ github.workspace }}/pkg/*.nupkg | head -n1)
         ${{ github.workspace }}/.github/workflows/update-nuget-version.sh "$NUGET_PACKAGE" --remove-suffix --sym
 
-    # - name: Create Release
-    #   env:
-    #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   run: |
-    #     ${{ github.workspace }}/.github/workflows/create-github-release.sh \
-    #     '${{ github.repository }}' '${{ github.ref_name }}' \
-    #     '${{ github.workspace }}/pkg/*'
+    - name: Create Release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        ${{ github.workspace }}/.github/workflows/create-github-release.sh \
+        '${{ github.repository }}' '${{ github.ref_name }}' \
+        '${{ github.workspace }}/pkg/*'
 
-    # - name: Push Release Package to GitHub
-    #   run: |
-    #     dotnet nuget push \
-    #       '${{ github.workspace }}/pkg/*.nupkg' \
-    #       --source github
+    - name: Push Release Package to GitHub
+      run: |
+        dotnet nuget push \
+          '${{ github.workspace }}/pkg/*.nupkg' \
+          --source github
 
-    #     dotnet nuget push \
-    #       '${{ github.workspace }}/pkg/*.snupkg' \
-    #       --source github
+        dotnet nuget push \
+          '${{ github.workspace }}/pkg/*.snupkg' \
+          --source github
 
     # - name: Push Release Package to NuGet
     #   run: |
