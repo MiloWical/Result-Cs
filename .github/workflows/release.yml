@@ -232,5 +232,5 @@ jobs:
             --api-key ${{ secrets.NUGET_API_KEY }} \
             --source 'https://api.nuget.org/v3/index.json'
 
-      - name: Generate Docs
-        uses: ./.github/workflows/docs.yml
+  generate-docs:
+    uses: ./.github/workflows/docs.yml
