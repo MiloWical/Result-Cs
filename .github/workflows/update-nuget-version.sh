@@ -97,16 +97,20 @@ then
   fi
 fi
 
-eval  "unzip '$NUGET_FILE' -d '$NUGET_PATH/$FILENAME_ROOT'"
 NEW_VERSION=$(sed -rn 's/.*([0-9]+\.[0-9]+\.[0-9]+.*)/\1/p' <<< "$OUTPUT_FILENAME_ROOT")
-NUGET_PACKAGE=$(sed -rn 's/(.*).([0-9]+\.[0-9]+\.[0-9]+.*)/\1/p' <<< "$FILENAME_ROOT") 
-eval "sed -i 's/<version>.*<\/version>/<version>$NEW_VERSION<\/version>/' '$NUGET_PATH/$FILENAME_ROOT/$(basename "$NUGET_PACKAGE.nuspec")'"
+NUGET_PACKAGE=$(sed -rn 's/(.*).([0-9]+\.[0-9]+\.[0-9]+.*)/\1/p' <<< "$FILENAME_ROOT")
 
+eval "unzip '$NUGET_FILE' -d '$NUGET_PATH/$FILENAME_ROOT'"
+eval "sed -i 's/<version>.*<\/version>/<version>$NEW_VERSION<\/version>/' '$NUGET_PATH/$FILENAME_ROOT/$NUGET_PACKAGE.nuspec')'"
 eval "zip -r '$NUGET_PATH/$OUTPUT_FILENAME_ROOT.nupkg' '$NUGET_PATH/$FILENAME_ROOT/'"
-
 eval "rm '$NUGET_PATH/$FILENAME_ROOT.nupkg'"
+eval "rm -rf '$NUGET_PATH/$FILENAME_ROOT'"
 
 if [ $REVERSION_SYMBOLS_FLAG -eq 1 ]
 then
-  eval "mv $NUGET_PATH/$FILENAME_ROOT.snupkg  $NUGET_PATH/$OUTPUT_FILENAME_ROOT.snupkg"
+  eval "unzip '$NUGET_PATH/$FILENAME_ROOT.snupkg' -d '$NUGET_PATH/$FILENAME_ROOT-sym'"
+  eval "sed -i 's/<version>.*<\/version>/<version>$NEW_VERSION<\/version>/' '$NUGET_PATH/$FILENAME_ROOT-sym/$NUGET_PACKAGE.nuspec')'"
+  eval "zip -r '$NUGET_PATH/$OUTPUT_FILENAME_ROOT.snupkg' '$NUGET_PATH/$FILENAME_ROOT-sym/'"
+  eval "rm '$NUGET_PATH/$FILENAME_ROOT.snupkg'"
+  eval "rm -rf '$NUGET_PATH/$FILENAME_ROOT-sym'"
 fi
