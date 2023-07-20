@@ -116,7 +116,7 @@ then
   eval "sed -i 's/<version>.*<\/version>/<version>$NEW_VERSION<\/version>/' '$NUGET_PATH/$FILENAME_ROOT-sym/$NUGET_PACKAGE.nuspec'"
 
   pushd "$NUGET_PATH/$FILENAME_ROOT-sym/"
-  eval "zip -r '$NUGET_PATH/$OUTPUT_FILENAME_ROOT.snupkg' '$NUGET_PATH/$FILENAME_ROOT-sym/'"
+  eval "zip -r '$NUGET_PATH/$OUTPUT_FILENAME_ROOT.snupkg' *"
   popd
 
   eval "rm '$NUGET_PATH/$FILENAME_ROOT.snupkg'"
