@@ -4,6 +4,7 @@
 
 INCLUDE_SOURCE_FLAG=0
 INCLUDE_SYMBOLS_FLAG=0
+SKIP_BUILD_FLAG=0
 
 # --- Parameter defaults ---
 
@@ -80,6 +81,12 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
+    -u|--url)
+      PACKAGE_URL=$2
+      shift
+      shift
+      ;;
+
     --src)
       INCLUDE_SOURCE_FLAG=1
       shift
@@ -87,6 +94,11 @@ while [[ $# -gt 0 ]]; do
 
     --sym)
       INCLUDE_SYMBOLS_FLAG=1
+      shift
+      ;;
+
+    --sb|--skip-build)
+      SKIP_BUILD_FLAG=1
       shift
       ;;
 
@@ -172,6 +184,11 @@ then
   NUGET_PACK_CMD="$NUGET_PACK_CMD --name '$PACKAGE_NAME'"
 fi
 
+if [ ! -z $PACKAGE_URL ]
+then
+  NUGET_PACK_CMD="$NUGET_PACK_CMD --url '$PACKAGE_URL'"
+fi
+
 if [ $INCLUDE_SOURCE_FLAG -eq 1 ]
 then
   NUGET_PACK_CMD="$NUGET_PACK_CMD --src"
@@ -180,6 +197,11 @@ fi
 if [ $INCLUDE_SYMBOLS_FLAG -eq 1 ]
 then
   NUGET_PACK_CMD="$NUGET_PACK_CMD --sym"
+fi
+
+if [ $SKIP_BUILD_FLAG -eq 1 ]
+then
+  NUGET_PACK_CMD="$NUGET_PACK_CMD --skip-build"
 fi
 
 SCRIPT_PATH=$(dirname "$0")
