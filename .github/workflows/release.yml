@@ -7,9 +7,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  pull-requests: read
+  pull-requests: write
   contents: write
   packages: write
+  pages: write
 
 
 concurrency:
@@ -233,4 +234,5 @@ jobs:
             --source 'https://api.nuget.org/v3/index.json'
 
   generate-docs:
+    needs: [ 'release-nuget-package' ]
     uses: ./.github/workflows/docs.yml
