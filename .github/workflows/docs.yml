@@ -5,7 +5,12 @@ run-name: '${{ github.workflow }} for ${{ github.ref_name }}'
 #   push:
 #     branches: ["**-docs"]
 
-on: [ 'workflow_dispatch', 'workflow_call' ]
+on: 
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      SSH_KEY:
+        required: true
 
 permissions:
   contents: write
@@ -25,7 +30,7 @@ jobs:
             SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
             ssh-agent -a $SSH_AUTH_SOCK > /dev/null	
-            ssh-add - <<< "${{ secrets.AUTOMATION_PRIVATE_KEY }}"
+            ssh-add - <<< "${{ secrets.SSH_KEY }}"
 
       - name: Configure GitHub
         env:
