@@ -236,3 +236,5 @@ jobs:
   generate-docs:
     needs: [ 'release-nuget-package' ]
     uses: ./.github/workflows/docs.yml
+    secrets:
+      SSH_KEY: ${{ secrets.AUTOMATION_PRIVATE_KEY }}
