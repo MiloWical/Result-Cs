@@ -32,6 +32,12 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
 
+    -v|--version)
+      VERSION=$2
+      shift
+      shift
+      ;;
+
     --sym)
       REVERSION_SYMBOLS_FLAG=1
       shift
@@ -64,26 +70,43 @@ then
   exit 1
 fi
 
-FILENAME_ROOT="${NUGET_FILE%.nupkg}"
+NUGET_PATH=$(dirname "$NUGET_FILE")
+NUGET_FILENAME=$(basename "$NUGET_FILE")
+
+FILENAME_ROOT="${NUGET_FILENAME%.nupkg}"
+
+if [ ! -z $VERSION ]
+then
+  OUTPUT_FILENAME_ROOT="${NUGET_FILENAME%%.[0-9]*}.$VERSION"
+else
+  OUTPUT_FILENAME_ROOT="${NUGET_FILENAME%.nupkg}"
+fi
 
 if [ $REMOVE_SUFFIX_FLAG -eq 1 ]
 then
-  OUTPUT_FILENAME_ROOT="${FILENAME_ROOT%-*}"
+  OUTPUT_FILENAME_ROOT="${OUTPUT_FILENAME_ROOT%-*}"
 fi
 
 if [ ! -z $SUFFIX ]
 then
   if [ $REPLACE_SUFFIX_FLAG -eq 1 ]
   then
-    OUTPUT_FILENAME_ROOT="${FILENAME_ROOT%-*}-$SUFFIX"
+    OUTPUT_FILENAME_ROOT="${OUTPUT_FILENAME_ROOT%-*}-$SUFFIX"
   else
-    OUTPUT_FILENAME_ROOT="$FILENAME_ROOT-$SUFFIX"
+    OUTPUT_FILENAME_ROOT="$OUTPUT_FILENAME_ROOT-$SUFFIX"
   fi
 fi
 
-eval "mv $FILENAME_ROOT.nupkg $OUTPUT_FILENAME_ROOT.nupkg"
+eval  "unzip '$NUGET_FILE' -d '$NUGET_PATH/$FILENAME_ROOT'"
+NEW_VERSION=$(sed -rn 's/.*([0-9]+\.[0-9]+\.[0-9]+.*)/\1/p' <<< "$OUTPUT_FILENAME_ROOT")
+NUGET_PACKAGE=$(sed -rn 's/(.*).([0-9]+\.[0-9]+\.[0-9]+.*)/\1/p' <<< "$FILENAME_ROOT") 
+eval "sed -i 's/<version>.*<\/version>/<version>$NEW_VERSION<\/version>/' '$NUGET_PATH/$FILENAME_ROOT/$(basename "$NUGET_PACKAGE.nuspec")'"
+
+eval "zip -r '$NUGET_PATH/$OUTPUT_FILENAME_ROOT.nupkg' '$NUGET_PATH/$FILENAME_ROOT/'"
+
+eval "rm '$NUGET_PATH/$FILENAME_ROOT.nupkg'"
 
 if [ $REVERSION_SYMBOLS_FLAG -eq 1 ]
 then
-  eval "mv $FILENAME_ROOT.snupkg  $OUTPUT_FILENAME_ROOT.snupkg"
+  eval "mv $NUGET_PATH/$FILENAME_ROOT.snupkg  $NUGET_PATH/$OUTPUT_FILENAME_ROOT.snupkg"
 fi
