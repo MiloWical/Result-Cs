@@ -1,5 +1,15 @@
 # Result C#
 
+## Status
+
+[![Branch Build](https://github.com/MiloWical/Result-Cs/actions/workflows/push.yml/badge.svg)](https://github.com/MiloWical/Result-Cs/actions/workflows/push.yml)
+
+[![Release Pipeline](https://github.com/MiloWical/Result-Cs/actions/workflows/release.yml/badge.svg)](https://github.com/MiloWical/Result-Cs/actions/workflows/release.yml)
+
+[![GitHub Release](https://img.shields.io/github/v/release/MiloWical/Result-Cs?label=GitHub%20Release&color=darkolivegreen)](https://github.com/MiloWical/Result-Cs/releases)
+
+[![Nuget](https://img.shields.io/nuget/v/WicalWare.ResultCs?label=NuGet&color=mediumblue)](https://www.nuget.org/packages/WicalWare.ResultCs)
+
 ## Additional Information
 
 If you'd like to explore the package more and see in-depth details about this package, please go here: https://milowical.github.io/Result-Cs/
@@ -15,10 +25,6 @@ If you'd like to explore the package more and see in-depth details about this pa
   > "I call it my billion-dollar mistake. At that time, I was designing the first comprehensive type system for references in an object-oriented language. My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But I couldn’t resist the temptation to put in a null reference, simply because it was so easy to implement. This has led to innumerable errors, vulnerabilities, and system crashes, which have probably caused a billion dollars of pain and damage in the last forty years."
 
 If you'd like to hear it in his own words: [Null References: The Billion Dollar Mistake](https://www.youtube.com/watch?v=YYkOWzrO3xg)
-  <a href="">
-    <img src="./images/billion-dollar-mistake.png" alt="">
-  </a>
-</p>
 
 The amount of code that I've written over my career led me to appreciate the insightfulness of the Rust language developers in avoiding `null`, so I decided to write this package in order to give .NET developers the same opportunity for goodness. :grin: :zap: :metal:
 

@@ -4,9 +4,11 @@
 
 [![Branch Build](https://github.com/MiloWical/Result-Cs/actions/workflows/push.yml/badge.svg)](https://github.com/MiloWical/Result-Cs/actions/workflows/push.yml)
 
-[![CodeQL](https://github.com/MiloWical/Result-Cs/actions/workflows/codeql.yml/badge.svg)](https://github.com/MiloWical/Result-Cs/actions/workflows/codeql.yml)
+[![Release Pipeline](https://github.com/MiloWical/Result-Cs/actions/workflows/release.yml/badge.svg)](https://github.com/MiloWical/Result-Cs/actions/workflows/release.yml)
 
-[![Main CI/CD Pipeline](https://github.com/MiloWical/Result-Cs/actions/workflows/release.yml/badge.svg)](https://github.com/MiloWical/Result-Cs/actions/workflows/release.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/MiloWical/Result-Cs?label=GitHub%20Release&color=darkolivegreen)](https://github.com/MiloWical/Result-Cs/releases)
+
+[![Nuget](https://img.shields.io/nuget/v/WicalWare.ResultCs?label=NuGet&color=mediumblue)](https://www.nuget.org/packages/WicalWare.ResultCs)
 
 ## Motivation
 
