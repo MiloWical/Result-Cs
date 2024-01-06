@@ -7,16 +7,16 @@ namespace WicalWare.Components.ResultCs.Serialization.SystemTextJson;
 
 /// <summary>
 /// A converter for System.Text.Json that handles serializing
-/// Option{T} values.
+/// Option{TSome} values.
 /// </summary>
-/// <typeparam name="T">The underlying type of the Option.</typeparam>
-public class OptionConverter<T> : JsonConverter<Option<T>>
+/// <typeparam name="TSome">The underlying Some type of the Option.</typeparam>
+public class OptionConverter<TSome> : JsonConverter<Option<TSome>>
 {
   /// <inheritdoc />
-  public override Option<T>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+  public override Option<TSome>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
   {
     OptionKind kind = (OptionKind)(-1);
-    T? val = default;
+    TSome? val = default;
 
     if (reader.TokenType != JsonTokenType.StartObject)
     {
@@ -40,7 +40,7 @@ public class OptionConverter<T> : JsonConverter<Option<T>>
       else if (reader.ValueTextEquals("Some"))
       {
         reader.Skip();
-        val = JsonSerializer.Deserialize<T>(ref reader, options) !;
+        val = JsonSerializer.Deserialize<TSome>(ref reader, options) !;
       }
 
       reader.Read();
@@ -48,7 +48,7 @@ public class OptionConverter<T> : JsonConverter<Option<T>>
 
     if (kind == OptionKind.None)
     {
-      return Option<T>.None();
+      return Option<TSome>.None();
     }
     else if (kind == OptionKind.Some)
     {
@@ -57,14 +57,14 @@ public class OptionConverter<T> : JsonConverter<Option<T>>
         throw new JsonException("Cannot create an Option.Some with a null value.");
       }
 
-      return Option<T>.Some(val);
+      return Option<TSome>.Some(val);
     }
 
     throw new JsonException($"Could not deserialize an Option with kind '{kind}'.");
   }
 
   /// <inheritdoc />
-  public override void Write(Utf8JsonWriter writer, Option<T> option, JsonSerializerOptions options)
+  public override void Write(Utf8JsonWriter writer, Option<TSome> option, JsonSerializerOptions options)
   {
     if (option is null)
     {
