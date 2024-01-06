@@ -41,12 +41,18 @@ public class ResultConverter<TOk, TErr> : JsonConverter<Result<TOk, TErr>>
       }
       else if (reader.ValueTextEquals("Ok"))
       {
+        #if NO_DESERIALIZER_AUTOSKIP
         reader.Skip();
+        #endif
+
         val = JsonSerializer.Deserialize<TOk>(ref reader, options) !;
       }
       else if (reader.ValueTextEquals("Err"))
       {
+        #if NO_DESERIALIZER_AUTOSKIP
         reader.Skip();
+        #endif
+
         err = JsonSerializer.Deserialize<TErr>(ref reader, options) !;
       }
 

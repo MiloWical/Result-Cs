@@ -27,6 +27,10 @@
     <PackageReadmeFile>nuget.md</PackageReadmeFile>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <DefineConstants Condition="'$(TargetFramework)'=='net8.0'">NO_DESERIALIZER_AUTOSKIP</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
       <None Include="..\..\.nuget\nuget.md" Pack="true" PackagePath=""/>
   </ItemGroup>
