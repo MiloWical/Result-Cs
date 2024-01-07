@@ -39,10 +39,6 @@ public class OptionConverter<TSome> : JsonConverter<Option<TSome>>
       }
       else if (reader.ValueTextEquals("Some"))
       {
-        #if NO_DESERIALIZER_AUTOSKIP
-        reader.Skip();
-        #endif
-
         val = JsonSerializer.Deserialize<TSome>(ref reader, options) !;
       }
 

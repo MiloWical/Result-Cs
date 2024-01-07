@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Authors>Milo Wical</Authors>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>WicalWare.Components.ResultCs</RootNamespace>
@@ -27,9 +27,9 @@
     <PackageReadmeFile>nuget.md</PackageReadmeFile>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <!-- <PropertyGroup>
     <DefineConstants Condition="'$(TargetFramework)'=='net8.0'">NO_DESERIALIZER_AUTOSKIP</DefineConstants>
-  </PropertyGroup>
+  </PropertyGroup> -->
 
   <ItemGroup>
       <None Include="..\..\.nuget\nuget.md" Pack="true" PackagePath=""/>
