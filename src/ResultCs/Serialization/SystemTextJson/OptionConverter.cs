@@ -20,7 +20,7 @@ public class OptionConverter<TSome> : JsonConverter<Option<TSome>>
 
     if (reader.TokenType != JsonTokenType.StartObject)
     {
-      throw new JsonException();
+      throw new JsonException(DeserializationExceptionMessages.ExpectingStartObjectToken);
     }
 
     reader.Read();
@@ -29,7 +29,7 @@ public class OptionConverter<TSome> : JsonConverter<Option<TSome>>
     {
       if (reader.TokenType != JsonTokenType.PropertyName)
       {
-        throw new JsonException();
+        throw new JsonException(DeserializationExceptionMessages.IllegalKindValue);
       }
 
       if (reader.ValueTextEquals("Kind"))
@@ -53,13 +53,13 @@ public class OptionConverter<TSome> : JsonConverter<Option<TSome>>
     {
       if (val is null)
       {
-        throw new JsonException("Cannot create an Option.Some with a null value.");
+        throw new JsonException(DeserializationExceptionMessages.NullOptionSomeValue);
       }
 
       return Option<TSome>.Some(val);
     }
 
-    throw new JsonException($"Could not deserialize an Option with kind '{kind}'.");
+    throw new JsonException($"{DeserializationExceptionMessages.IllegalKindValue} ('{kind}')");
   }
 
   /// <inheritdoc />
