@@ -147,4 +147,14 @@ public class SystemTextJsonSerializationTests : IClassFixture<SystemTextJsonSeri
 
     Assert.Equal(expectedJson, serializedOption);
   }
+
+  [Fact]
+  public void NullOptionSerializationTest()
+  {
+    Option<int> option = null !;
+
+    var serializedOption = JsonSerializer.Serialize(option, fixture.JsonSerializerOptions);
+
+    Assert.Equal("null", serializedOption);
+  }
 }

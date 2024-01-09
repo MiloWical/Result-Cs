@@ -13,11 +13,6 @@ public class DeserializationExceptionMessages
   public const string ExpectingStartObjectToken = "Expecting start object token.";
 
   /// <summary>
-  /// Exception message thrown when the string doesn't have a property name when expected.
-  /// </summary>
-  public const string ExpectingPropertyNameToken = "Expecting property name token.";
-
-  /// <summary>
   /// Exception message thrown when deserializing an Option.Some with a null value.
   /// </summary>
   public const string NullOptionSomeValue = "Cannot create an Option.Some with a null value.";

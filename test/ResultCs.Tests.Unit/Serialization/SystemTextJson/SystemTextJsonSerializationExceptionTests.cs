@@ -19,6 +19,26 @@ public class SystemTextJsonSerializationExceptionTests : IClassFixture<SystemTex
 
     var thrownException = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Option<int>>(json, fixture.JsonSerializerOptions));
 
-    Assert.Equal(DeserializationExceptionMessages.ExpectingStartObjectToken, thrownException.Message);
+    Assert.Contains(DeserializationExceptionMessages.ExpectingStartObjectToken, thrownException.Message);
+  }
+
+  [Fact]
+  public void NullOptionSomeValueTest()
+  {
+    var json = @"{""Kind"":""Some"",""Some"":null}";
+
+    var thrownException = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Option<int?>>(json, fixture.JsonSerializerOptions));
+
+    Assert.Contains(DeserializationExceptionMessages.NullOptionSomeValue, thrownException.Message);
+  }
+
+  [Fact]
+  public void IllegalKindValueTest()
+  {
+    var json = @"{""Kind"":""Other"",""Other"":1}";
+
+    var thrownException = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Option<int>>(json, fixture.JsonSerializerOptions));
+
+    Assert.Contains(DeserializationExceptionMessages.IllegalKindValue, thrownException.Message);
   }
 }

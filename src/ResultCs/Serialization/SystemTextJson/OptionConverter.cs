@@ -27,19 +27,21 @@ public class OptionConverter<TSome> : JsonConverter<Option<TSome>>
 
     while (reader.TokenType != JsonTokenType.EndObject)
     {
-      if (reader.TokenType != JsonTokenType.PropertyName)
-      {
-        throw new JsonException(DeserializationExceptionMessages.IllegalKindValue);
-      }
-
       if (reader.ValueTextEquals("Kind"))
       {
         reader.Skip();
-        kind = Enum.Parse<OptionKind>(reader.GetString() !);
+        try
+        {
+          kind = Enum.Parse<OptionKind>(reader.GetString() !);
+        }
+        catch (ArgumentException)
+        {
+          throw new JsonException($"{DeserializationExceptionMessages.IllegalKindValue} ('{reader.GetString() !}')");
+        }
       }
       else if (reader.ValueTextEquals("Some"))
       {
-        val = JsonSerializer.Deserialize<TSome>(ref reader, options) !;
+        val = JsonSerializer.Deserialize<TSome?>(ref reader, options) !;
       }
 
       reader.Read();
@@ -49,27 +51,18 @@ public class OptionConverter<TSome> : JsonConverter<Option<TSome>>
     {
       return Option<TSome>.None();
     }
-    else if (kind == OptionKind.Some)
-    {
-      if (val is null)
-      {
-        throw new JsonException(DeserializationExceptionMessages.NullOptionSomeValue);
-      }
 
-      return Option<TSome>.Some(val);
+    if (val is null)
+    {
+      throw new JsonException(DeserializationExceptionMessages.NullOptionSomeValue);
     }
 
-    throw new JsonException($"{DeserializationExceptionMessages.IllegalKindValue} ('{kind}')");
+    return Option<TSome>.Some(val);
   }
 
   /// <inheritdoc />
   public override void Write(Utf8JsonWriter writer, Option<TSome> option, JsonSerializerOptions options)
   {
-    if (option is null)
-    {
-      return;
-    }
-
     writer.WriteStartObject();
 
     writer.WriteString("Kind", option.Kind.ToString());
