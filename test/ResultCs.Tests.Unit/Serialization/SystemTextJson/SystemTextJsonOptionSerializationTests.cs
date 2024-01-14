@@ -2,23 +2,17 @@ using System.Text.Json;
 
 namespace ResultCs.Tests.Unit.Serialization.SystemTextJson;
 
-public class SystemTextJsonSerializationTests : IClassFixture<SystemTextJsonSerializationFixture>
+public class SystemTextJsonOptionSerializationTests : IClassFixture<SerializationTestFixture>
 {
-  private readonly SystemTextJsonSerializationFixture fixture;
+  private readonly SerializationTestFixture fixture;
 
-  public SystemTextJsonSerializationTests(SystemTextJsonSerializationFixture systemTextJsonSerializationFixture)
+  public SystemTextJsonOptionSerializationTests(SerializationTestFixture systemTextJsonSerializationFixture)
   {
     fixture = systemTextJsonSerializationFixture;
   }
 
   [Theory]
-  [InlineData("test")]
-  [InlineData(true)]
-  [InlineData(1)]
-  [InlineData(1.0f)]
-  [InlineData(1.0d)]
-  [InlineData('a')]
-  [InlineData(null)]
+  [MemberData(nameof(SerializationTestFixture.OptionPrimitiveTestCases), MemberType = typeof(SerializationTestFixture))]
   public void OptionPrimitiveSerializationAndDeserializationTests<T>(T value)
   {
     Option<T> option;
@@ -34,80 +28,50 @@ public class SystemTextJsonSerializationTests : IClassFixture<SystemTextJsonSeri
   [Fact]
   public void OptionObjectSerializationAndDeserializationTest()
   {
-    var student = new Student()
-    {
-      FirstName = "Milo",
-      LastName = "Wical",
-      Grade = 100.0,
-    };
-
-    var option = Option<Student>.Some(student);
+    var option = Option<Student>.Some(fixture.TestStudent);
 
     var json = JsonSerializer.Serialize(option, fixture.JsonSerializerOptions);
     var deserializedOption = JsonSerializer.Deserialize<Option<Student>>(json, fixture.JsonSerializerOptions);
     var deserializedStudent = deserializedOption!.Unwrap();
 
-    Assert.Equal(student.FirstName, deserializedStudent.FirstName);
-    Assert.Equal(student.LastName, deserializedStudent.LastName);
-    Assert.Equal(student.Grade, deserializedStudent.Grade);
+    Assert.Equal(fixture.TestStudent.FirstName, deserializedStudent.FirstName);
+    Assert.Equal(fixture.TestStudent.LastName, deserializedStudent.LastName);
+    Assert.Equal(fixture.TestStudent.Grade, deserializedStudent.Grade);
   }
 
   [Fact]
   public void OptionCompositeObjectSerializationAndDeserializationTest()
   {
-    var classes = new[]
-    {
-      new Class
-      {
-        Students = new []
-        {
-          new Student("A", "A", 1.0),
-          new Student("B", "B", 2.0),
-          new Student("C", "C", 3.0),
-        },
-      },
-      new Class
-      {
-        Students = new []
-        {
-          new Student("X", "X", 4.0),
-          new Student("Y", "Y", 5.0),
-          new Student("Z", "Z", 6.0),
-        },
-      },
-    };
-
-    var option = Option<Class[]>.Some(classes);
+    var option = Option<Class[]>.Some(fixture.TestClassArray);
 
     var json = JsonSerializer.Serialize(option, fixture.JsonSerializerOptions);
     var deserializedOption = JsonSerializer.Deserialize<Option<Class[]>>(json, fixture.JsonSerializerOptions);
     var deserializedClasses = deserializedOption!.Unwrap();
 
     Assert.NotEmpty(deserializedClasses);
-    Assert.Equal(classes.Length, deserializedClasses.Length);
+    Assert.Equal(fixture.TestClassArray.Length, deserializedClasses.Length);
 
     for(var c = 0; c < deserializedClasses.Length; c++)
     {
       Assert.NotEmpty(deserializedClasses[c].Students);
-      Assert.Equal(classes[c].Students.Length, deserializedClasses[c].Students.Length);
+      Assert.Equal(fixture.TestClassArray[c].Students.Length, deserializedClasses[c].Students.Length);
 
       for(var s = 0; s < deserializedClasses[c].Students.Length; s++)
       {
-        Assert.Equal(classes[c].Students[s].FirstName, 
+        Assert.Equal(fixture.TestClassArray[c].Students[s].FirstName, 
           deserializedClasses[c].Students[s].FirstName);
 
-        Assert.Equal(classes[c].Students[s].LastName, 
+        Assert.Equal(fixture.TestClassArray[c].Students[s].LastName, 
           deserializedClasses[c].Students[s].LastName);
 
-        Assert.Equal(classes[c].Students[s].Grade, 
+        Assert.Equal(fixture.TestClassArray[c].Students[s].Grade, 
           deserializedClasses[c].Students[s].Grade);
       }
     }
   }
 
   [Theory]
-  [InlineData(1, @"{""Kind"":""Some"",""Some"":1}")]
-  [InlineData("test", @"{""Kind"":""Some"",""Some"":""test""}")]
+  [MemberData(nameof(SerializationTestFixture.OptionJsonSerializedPrimitiveTestCases), MemberType = typeof(SerializationTestFixture))]
   public void OptionPrimitiveSerializationTests<T>(T value, string expectedJson) 
   {
     var option = Option<T>.Some(value);
@@ -118,9 +82,8 @@ public class SystemTextJsonSerializationTests : IClassFixture<SystemTextJsonSeri
   }
 
   [Theory]
-  [InlineData(@"{""Kind"":""Some"",""Some"":1}", 1)]
-  [InlineData(@"{""Kind"":""Some"",""Some"":""test""}", "test")]
-  public void OptionPrimitiveDeserializationTests<T>(string json, T value) 
+  [MemberData(nameof(SerializationTestFixture.OptionJsonSerializedPrimitiveTestCases), MemberType = typeof(SerializationTestFixture))]
+  public void OptionPrimitiveDeserializationTests<T>(T value, string json) 
   {
     var expectedOption = Option<T>.Some(value);
 
@@ -130,8 +93,7 @@ public class SystemTextJsonSerializationTests : IClassFixture<SystemTextJsonSeri
   }
 
   [Theory]
-  [InlineData("Milo", "Wical", 100.0, @"{""Kind"":""Some"",""Some"":{""FirstName"":""Milo"",""LastName"":""Wical"",""Grade"":100}}")]
-  [InlineData("Anakin", "Skywalker", 0.0, @"{""Kind"":""Some"",""Some"":{""FirstName"":""Anakin"",""LastName"":""Skywalker"",""Grade"":0}}")]
+  [MemberData(nameof(SerializationTestFixture.OptionJsonSerializedStudentTestCases), MemberType = typeof(SerializationTestFixture))]
   public void OptionObjectSerializationTests<T>(string firstName, string lastName, double grade, string expectedJson) 
   {
     var student = new Student()

@@ -36,7 +36,7 @@ public class OptionConverter<TSome> : JsonConverter<Option<TSome>>
         }
         catch (ArgumentException)
         {
-          throw new JsonException($"{DeserializationExceptionMessages.IllegalKindValue} ('{reader.GetString() !}')");
+          throw new JsonException($"{DeserializationExceptionMessages.IllegalOptionKindValue} ('{reader.GetString() !}')");
         }
       }
       else if (reader.ValueTextEquals("Some"))

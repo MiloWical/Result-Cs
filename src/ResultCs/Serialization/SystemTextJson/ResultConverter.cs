@@ -22,34 +22,32 @@ public class ResultConverter<TOk, TErr> : JsonConverter<Result<TOk, TErr>>
 
     if (reader.TokenType != JsonTokenType.StartObject)
     {
-      throw new JsonException();
+      throw new JsonException(DeserializationExceptionMessages.ExpectingStartObjectToken);
     }
 
     reader.Read();
 
     while (reader.TokenType != JsonTokenType.EndObject)
     {
-      if (reader.TokenType != JsonTokenType.PropertyName)
-      {
-        throw new JsonException();
-      }
-
       if (reader.ValueTextEquals("Kind"))
       {
         reader.Skip();
-        kind = Enum.Parse<ResultKind>(reader.GetString() !);
+        try
+        {
+          kind = Enum.Parse<ResultKind>(reader.GetString() !);
+        }
+        catch (ArgumentException)
+        {
+          throw new JsonException($"{DeserializationExceptionMessages.IllegalResultKindValue} ('{reader.GetString() !}')");
+        }
       }
       else if (reader.ValueTextEquals("Ok"))
       {
-        val = JsonSerializer.Deserialize<TOk>(ref reader, options) !;
+        val = JsonSerializer.Deserialize<TOk?>(ref reader, options) !;
       }
       else if (reader.ValueTextEquals("Err"))
       {
-        #if NO_DESERIALIZER_AUTOSKIP
-        reader.Skip();
-        #endif
-
-        err = JsonSerializer.Deserialize<TErr>(ref reader, options) !;
+        err = JsonSerializer.Deserialize<TErr?>(ref reader, options) !;
       }
 
       reader.Read();
@@ -59,33 +57,23 @@ public class ResultConverter<TOk, TErr> : JsonConverter<Result<TOk, TErr>>
     {
       if (val is null)
       {
-        throw new JsonException("Cannot create an Result.Ok with a null value.");
+        throw new JsonException(DeserializationExceptionMessages.NullResultOkValue);
       }
 
       return Result<TOk, TErr>.Ok(val);
     }
 
-    if (kind == ResultKind.Err)
+    if (err is null)
     {
-      if (err is null)
-      {
-        throw new JsonException("Cannot create an Result.Err with a null value.");
-      }
-
-      return Result<TOk, TErr>.Err(err);
+      throw new JsonException(DeserializationExceptionMessages.NullResultErrValue);
     }
 
-    throw new JsonException($"Could not deserialize a Result with kind '{kind}'.");
+    return Result<TOk, TErr>.Err(err);
   }
 
   /// <inheritdoc />
   public override void Write(Utf8JsonWriter writer, Result<TOk, TErr> result, JsonSerializerOptions options)
   {
-    if (result is null)
-    {
-      return;
-    }
-
     writer.WriteStartObject();
 
     writer.WriteString("Kind", result.Kind.ToString());

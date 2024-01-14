@@ -3,11 +3,11 @@ using WicalWare.Components.ResultCs.Serialization.SystemTextJson;
 
 namespace ResultCs.Tests.Unit.Serialization.SystemTextJson;
 
-public class SystemTextJsonSerializationExceptionTests : IClassFixture<SystemTextJsonSerializationFixture>
+public class SystemTextJsonOptionSerializationExceptionTests : IClassFixture<SerializationTestFixture>
 {
-  private readonly SystemTextJsonSerializationFixture fixture;
+  private readonly SerializationTestFixture fixture;
 
-  public SystemTextJsonSerializationExceptionTests(SystemTextJsonSerializationFixture systemTextJsonSerializationFixture)
+  public SystemTextJsonOptionSerializationExceptionTests(SerializationTestFixture systemTextJsonSerializationFixture)
   {
     fixture = systemTextJsonSerializationFixture;
   }
@@ -39,6 +39,6 @@ public class SystemTextJsonSerializationExceptionTests : IClassFixture<SystemTex
 
     var thrownException = Assert.Throws<JsonException>(() => JsonSerializer.Deserialize<Option<int>>(json, fixture.JsonSerializerOptions));
 
-    Assert.Contains(DeserializationExceptionMessages.IllegalKindValue, thrownException.Message);
+    Assert.Contains(DeserializationExceptionMessages.IllegalOptionKindValue, thrownException.Message);
   }
 }

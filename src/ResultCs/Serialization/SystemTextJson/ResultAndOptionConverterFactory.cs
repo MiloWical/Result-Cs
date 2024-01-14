@@ -41,7 +41,7 @@ public class ResultAndOptionConverterFactory : JsonConverterFactory
     }
     else
     {
-      throw new ArgumentException($"Could not generate converter for generic type {baseType} of type {typeToConvert}.", nameof(typeToConvert));
+      throw new ArgumentException($"Could not generate Option or Result converter for generic type {baseType} of type {typeToConvert}.", nameof(typeToConvert));
     }
 
     var genericTypes = typeToConvert.GenericTypeArguments;

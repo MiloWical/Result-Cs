@@ -18,7 +18,22 @@ public class DeserializationExceptionMessages
   public const string NullOptionSomeValue = "Cannot create an Option.Some with a null value.";
 
   /// <summary>
+  /// Exception message thrown when deserializing a Result.Ok with a null value.
+  /// </summary>
+  public const string NullResultOkValue = "Cannot create a Result.Ok with a null value.";
+
+  /// <summary>
+  /// Exception message thrown when deserializing a Result.Err with a null value.
+  /// </summary>
+  public const string NullResultErrValue = "Cannot create a Result.Err with a null value.";
+
+  /// <summary>
   /// Exception message thrown when deserializing an Option with an illegal kind type.
   /// </summary>
-  public const string IllegalKindValue = "Could not deserialize an Option with the specified kind.";
+  public const string IllegalOptionKindValue = "Could not deserialize an Option with the specified kind.";
+
+   /// <summary>
+  /// Exception message thrown when deserializing Result with an illegal kind type.
+  /// </summary>
+  public const string IllegalResultKindValue = "Could not deserialize a Result with the specified kind.";
 }
