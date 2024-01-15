@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <Authors>Milo Wical</Authors>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>WicalWare.Components.ResultCs</RootNamespace>
@@ -10,7 +9,6 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RepositoryUrl>https://github.com/MiloWical/Result-Cs</RepositoryUrl>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,16 +16,16 @@
     </PackageReference>
     <AdditionalFiles Include=".stylecop/stylecop.json" />
   </ItemGroup>
-
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DefineConstants>RELEASE</DefineConstants>
   </PropertyGroup>
-
   <PropertyGroup>
     <PackageReadmeFile>nuget.md</PackageReadmeFile>
   </PropertyGroup>
-
+  <!-- <PropertyGroup>
+    <DefineConstants Condition="'$(TargetFramework)'=='net8.0'">NO_DESERIALIZER_AUTOSKIP</DefineConstants>
+  </PropertyGroup> -->
   <ItemGroup>
-      <None Include="..\..\.nuget\nuget.md" Pack="true" PackagePath=""/>
+    <None Include="..\..\.nuget\nuget.md" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

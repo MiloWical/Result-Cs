@@ -1,0 +1,1 @@
+dotnet test /p:CollectCoverage=true /p:Threshold=80 /p:CoverletOutputFormat=lcov /p:CoverletOutput=./TestResults/lcov.info ./test/ResultCs.Tests.Unit/ResultCs.Tests.Unit.csproj
