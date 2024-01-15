@@ -157,8 +157,7 @@ jobs:
     - name: Run Integration Tests with RC Package
       run: |
         dotnet restore ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj \
-          --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-          --source "https://api.nuget.org/"
+          --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
         dotnet test ${{ github.workspace }}/test/ResultCs.Tests.Integration/ResultCs.Tests.Integration.csproj
 
