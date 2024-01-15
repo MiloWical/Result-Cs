@@ -54,7 +54,7 @@ jobs:
         run: |
           dotnet tool update -g docfx
           mkdir '${{ github.workspace }}/docs'
-          docfx init --yes --output './docfx_project'
+          docfx init --yes --output '${{ github.workspace }}/docfx_project'
 
       - name: Copy DocFx Files
         run: |
