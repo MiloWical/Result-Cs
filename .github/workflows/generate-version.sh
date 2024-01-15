@@ -83,7 +83,7 @@ fi
 
 # --- Process release tag ---
 
-V_NOW=$(sed -rn 's/v?([0-9]\.[0-9]\.[0-9]).*/\1/p' <<< "$CURRENT_RELEASE_TAG")
+V_NOW=$(sed -rn 's/v?([0-9]+\.[0-9]+\.[0-9]+).*/\1/p' <<< "$CURRENT_RELEASE_TAG")
 RELEASE_SUFFIX=$(sed -rn 's/[^-]+-(\S+).*/\1/p' <<< "$CURRENT_RELEASE_TAG")
 
 # --- Process version configurations ---
