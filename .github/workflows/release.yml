@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet-version: [ '6.0.x' ]
+        dotnet-version: [ '8.0.x' ]
     steps:
     - name: Checkout
       uses: actions/checkout@v3  
@@ -70,7 +70,7 @@ jobs:
     needs: [ 'ci-cd-build-and-test' ]
     strategy:
       matrix:
-        dotnet-version: [ '6.0.x' ]
+        dotnet-version: [ '8.0.x' ]
     steps:
 
     - name: Add SSH key
@@ -180,7 +180,7 @@ jobs:
     needs: [ 'build-and-test-nuget-package' ]
     strategy:
       matrix:
-        dotnet-version: [ '6.0.x' ]
+        dotnet-version: [ '8.0.x' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
